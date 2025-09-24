@@ -1,0 +1,37 @@
+name: Pull Request
+
+on:
+  ## プルリクエスト時にワークフローを実行する
+  pull_request:
+    types: [ opened, synchronize, reopened ]
+
+# 権限設定
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  # ビルドを実行するジョブ
+  build:
+    # 仮想マシンを指定
+    runs-on: ubuntu-latest
+    steps:
+      # チェックアウト
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      # Setup JDK
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: adopt
+          java-version: 17
+          # Gradleのキャッシュを有効化
+          cache: gradle
+      # Gradlewの環境設定
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      # debugビルド実行
+      - name: Build and Check With Gradle
+        run: ./gradlew assemble
