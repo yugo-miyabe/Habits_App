@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.compose_multiplatform
+import habits.composeapp.generated.resources.settings_24dp
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -24,7 +25,7 @@ fun HomeTemplate(
                 actions = {
                     IconButton(onClick = onSettingClick) {
                         Icon(
-                            painter = painterResource(Res.drawable.compose_multiplatform),
+                            painter = painterResource(Res.drawable.settings_24dp),
                             contentDescription = null,
                         )
                     }
