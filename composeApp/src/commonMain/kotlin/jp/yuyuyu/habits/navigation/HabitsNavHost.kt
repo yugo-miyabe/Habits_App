@@ -11,9 +11,7 @@ fun HabitsNavHost() {
         navController = navController,
         startDestination = HomeRoute
     ) {
-        homeNavGraph(navigationToSetting = {
-            navController::navigateToSetting
-        })
+        homeNavGraph(navigationToSetting = navController::navigateToSetting)
 
         settingNavGraph()
     }
