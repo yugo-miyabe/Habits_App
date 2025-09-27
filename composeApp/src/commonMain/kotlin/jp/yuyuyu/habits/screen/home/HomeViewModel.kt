@@ -5,6 +5,6 @@ import androidx.lifecycle.ViewModel
 class HomeViewModel : ViewModel() {
 
     init {
-        println("miyabe")
+        println("HomeViewModel")
     }
 }
