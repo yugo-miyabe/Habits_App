@@ -43,15 +43,13 @@ fun TopBar(
 @Preview
 @Composable
 private fun TopBar_Preview() {
-    TopBar(
-        actions = {
-            IconButton(onClick = { /* preview */ }) {
-                Icon(
-                    painter = painterResource(Res.drawable.compose_multiplatform),
-                    contentDescription = null,
-                )
-            }
+    TopBar(actions = {
+        IconButton(onClick = { /* preview */ }) {
+            Icon(
+                painter = painterResource(Res.drawable.compose_multiplatform),
+                contentDescription = null,
+            )
         }
-    )
+    })
 }
 
