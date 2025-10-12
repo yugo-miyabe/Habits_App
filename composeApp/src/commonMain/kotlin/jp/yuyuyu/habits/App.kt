@@ -1,14 +1,14 @@
 package jp.yuyuyu.habits
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import jp.yuyuyu.habits.navigation.HabitsNavHost
+import jp.yuyuyu.habits.theme.HabitsTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
 fun App() {
-    MaterialTheme(content = {
+    HabitsTheme(content = {
         HabitsNavHost()
         /*
         var showContent by remember { mutableStateOf(false) }
