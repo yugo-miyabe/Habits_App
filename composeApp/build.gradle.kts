@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.google.service)
 }
 
 kotlin {
@@ -30,6 +31,8 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
+            implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation("com.google.firebase:firebase-analytics")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -69,10 +72,24 @@ android {
         }
     }
     buildTypes {
-        getByName("release") {
+        debug {
+            isMinifyEnabled = false
+        }
+
+        release {
             isMinifyEnabled = true
         }
     }
+    flavorDimensions.add("enviroment")
+    productFlavors {
+        create("develop") {
+            applicationIdSuffix = ".develop"
+        }
+        create("product") {
+            // TODO
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
