@@ -32,7 +32,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
             implementation(project.dependencies.platform(libs.firebase.bom))
-            implementation("com.google.firebase:firebase-analytics")
+            implementation(libs.firebase.analytics)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
