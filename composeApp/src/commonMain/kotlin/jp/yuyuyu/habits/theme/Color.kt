@@ -3,19 +3,19 @@ package jp.yuyuyu.habits.theme
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-data class HabitsColor(
+data class HabitsColors(
     val white: Color = Color(0xFFFFFFFF),
     val textBaseFont: Color = Color(0xF8F8FF),
     val textBaseBackground: Color = Color(0xFFFFFFFF),
-    val textPinkFont: Color = Color(0xda85af),
-    val textPinkBackground: Color = Color(0xeab8e3),
-    val textBlueFont: Color = Color(0xa6b8e1),
-    val textBlueBackground: Color = Color(0xa6b8e1),
-    val textPurpleFont: Color = Color(0xae8fb1),
-    val textPurpleBackground: Color = Color(0xbedfff),
+    val textPinkFont: Color = Color(0xDA85AF),
+    val textPinkBackground: Color = Color(0xEAB8E3),
+    val textBlueFont: Color = Color(0xA6B8E1),
+    val textBlueBackground: Color = Color(0xA6B8E1),
+    val textPurpleFont: Color = Color(0xAE8FB1),
+    val textPurpleBackground: Color = Color(0xBEDFFF),
 )
 
-internal val LocaleColor = staticCompositionLocalOf { HabitsColor() }
+internal val LocaleColor = staticCompositionLocalOf { HabitsColors() }
 
 val primaryLight = Color(0xFF415F91)
 val onPrimaryLight = Color(0xFFFFFFFF)

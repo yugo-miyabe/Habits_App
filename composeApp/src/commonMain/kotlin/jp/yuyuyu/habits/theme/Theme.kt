@@ -5,6 +5,21 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ReadOnlyComposable
+
+object AppTheme {
+    val colors: HabitsColors
+        @Composable
+        @ReadOnlyComposable
+        get() = LocaleColor.current
+
+    val typography: Typography
+        @Composable
+        @ReadOnlyComposable
+        get() = LocaleTypography.current
+}
+
 
 private val lightColorScheme = lightColorScheme(
     primary = primaryLight,
@@ -67,10 +82,10 @@ fun HabitsTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    // TODO カラーの判定
-    MaterialTheme(
-        colorScheme = lightColorScheme,
-        typography = HabitsTypography,
-        content = content
-    )
+    CompositionLocalProvider(
+        LocaleColor provides AppTheme.colors,
+        LocaleTypography provides AppTheme.typography
+    ) {
+        content
+    }
 }

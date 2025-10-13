@@ -1,10 +1,51 @@
 package jp.yuyuyu.habits.theme
 
-import androidx.compose.material3.Typography
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+
+@Stable
+internal val LocaleTypography = staticCompositionLocalOf {
+    Typography(
+        displayLarge = HabitsTypography.displayLarge,
+        displayMedium = HabitsTypography.headlineMedium,
+        displaySmall = HabitsTypography.displaySmall,
+        headlineLarge = HabitsTypography.headlineLarge,
+        headlineMedium = HabitsTypography.headlineMedium,
+        headlineSmall = HabitsTypography.headlineSmall,
+        titleLarge = HabitsTypography.titleLarge,
+        titleMedium = HabitsTypography.titleMedium,
+        titleSmall = HabitsTypography.titleSmall,
+        labelLarge = HabitsTypography.labelLarge,
+        labelMedium = HabitsTypography.labelMedium,
+        labelSmall = HabitsTypography.labelSmall,
+        bodyLarge = HabitsTypography.bodyLarge,
+        bodyMedium = HabitsTypography.bodyMedium,
+        bodySmall = HabitsTypography.bodySmall
+    )
+}
+
+@Immutable
+class Typography(
+    val displayLarge: TextStyle,
+    val displayMedium: TextStyle,
+    val displaySmall: TextStyle,
+    val headlineLarge: TextStyle,
+    val headlineMedium: TextStyle,
+    val headlineSmall: TextStyle,
+    val titleLarge: TextStyle,
+    val titleMedium: TextStyle,
+    val titleSmall: TextStyle,
+    val bodyLarge: TextStyle,
+    val bodyMedium: TextStyle,
+    val bodySmall: TextStyle,
+    val labelLarge: TextStyle,
+    val labelMedium: TextStyle,
+    val labelSmall: TextStyle,
+)
 
 @Stable
 internal val HabitsTypography = Typography(
