@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.settings_24dp
 import jp.yuyuyu.habits.AdMobBanner
+import jp.yuyuyu.habits.theme.HabitsTheme
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -50,7 +51,7 @@ fun HomeTemplate(
 
 @Composable
 @Preview(showBackground = true)
-private fun HomeTemplatePreview() {
+private fun HomeTemplatePreview() = HabitsTheme {
     HomeTemplate(
         onSettingClick = { /* preview */ }
     )
