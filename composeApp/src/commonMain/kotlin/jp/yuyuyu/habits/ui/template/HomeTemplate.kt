@@ -11,9 +11,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.settings_24dp
+import jp.yuyuyu.habits.AdMobBanner
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -39,8 +41,8 @@ fun HomeTemplate(
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
-            Box(modifier = Modifier.fillMaxWidth()) {
-                //  BannerAd(adView, modifier)
+            Box(modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter)) {
+                AdMobBanner()
             }
         }
     }
