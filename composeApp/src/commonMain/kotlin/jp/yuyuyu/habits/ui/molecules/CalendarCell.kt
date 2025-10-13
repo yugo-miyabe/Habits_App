@@ -55,14 +55,14 @@ private fun CalendarCell_Preview() {
                 date = isToday,
                 isSelected = true,
             ),
-            modifier = Modifier.size(100.dp)
+            modifier = Modifier.size(50.dp)
         )
         CalendarCell(
             calendar = CalendarWeek.Calendar(
                 date = tomorrow,
                 isSelected = false
             ),
-            modifier = Modifier.size(100.dp)
+            modifier = Modifier.size(50.dp)
         )
     }
 }

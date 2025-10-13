@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.compose_multiplatform
+import jp.yuyuyu.habits.ui.model.DayWeek
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
