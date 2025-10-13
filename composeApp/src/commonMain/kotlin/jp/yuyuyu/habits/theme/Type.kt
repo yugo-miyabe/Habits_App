@@ -7,7 +7,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 @Stable
-internal val Typography = Typography(
+internal val HabitsTypography = Typography(
     displayLarge = TextStyle(
         fontWeight = FontWeight.Normal,
         fontSize = 57.sp,

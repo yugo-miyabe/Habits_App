@@ -65,15 +65,12 @@ private val darkColorScheme = darkColorScheme(
 @Composable
 fun HabitsTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     // TODO カラーの判定
-
     MaterialTheme(
         colorScheme = lightColorScheme,
-        typography = Typography,
+        typography = HabitsTypography,
         content = content
     )
 }
