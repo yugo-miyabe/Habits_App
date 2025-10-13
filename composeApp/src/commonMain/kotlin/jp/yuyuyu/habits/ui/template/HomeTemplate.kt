@@ -1,6 +1,10 @@
 package jp.yuyuyu.habits.ui.template
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -29,13 +33,20 @@ fun HomeTemplate(
             }
         })
     }) { innerPadding ->
-        Text(
-            modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxHeight(),
-            text = "Home",
-            style = MaterialTheme.typography.bodyLarge
-        )
+        Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
+            Column {
+                Text(
+                    modifier = Modifier
+                        .padding(innerPadding)
+                        .fillMaxHeight(),
+                    text = "Home",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+            Box(modifier = Modifier.fillMaxWidth()) {
+                //  BannerAd(adView, modifier)
+            }
+        }
     }
 }
 

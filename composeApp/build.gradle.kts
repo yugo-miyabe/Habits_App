@@ -81,17 +81,21 @@ android {
             isMinifyEnabled = true
         }
     }
-    val testAdAppMobID = "ca-app-pub-3940256099942544~3347511713"
+
     // TODO 本番用を追加
+    val testAdAppMobID = "\"ca-app-pub-3940256099942544~3347511713\""
+    val testBannerAdd = "\"ca-app-pub-3940256099942544/9214589741\""
 
     flavorDimensions.add("enviroment")
     productFlavors {
         create("develop") {
             applicationIdSuffix = ".develop"
             manifestPlaceholders["ADMOB_APP_ID"] = testAdAppMobID
+            buildConfigField("String","BANNER_AD_UNIT_ID" ,testBannerAdd)
         }
         create("product") {
             manifestPlaceholders["ADMOB_APP_ID"] = testAdAppMobID
+            buildConfigField("String","BANNER_AD_UNIT_ID" ,testBannerAdd)
         }
     }
 
