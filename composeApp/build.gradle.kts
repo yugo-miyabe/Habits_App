@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.google.service)
 }
 
 kotlin {
@@ -30,6 +31,9 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
+            implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation(libs.firebase.analytics)
+            implementation(libs.play.services.ads)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -69,13 +73,39 @@ android {
         }
     }
     buildTypes {
-        getByName("release") {
+        debug {
+            isMinifyEnabled = false
+        }
+
+        release {
             isMinifyEnabled = true
         }
     }
+
+    // TODO 本番用を追加
+    val testAdAppMobID = "ca-app-pub-3940256099942544~3347511713"
+    val testBannerAdd = "\"ca-app-pub-3940256099942544/9214589741\""
+
+    flavorDimensions.add("enviroment")
+    productFlavors {
+        create("develop") {
+            applicationIdSuffix = ".develop"
+            manifestPlaceholders["ADMOB_APP_ID"] = testAdAppMobID
+            buildConfigField("String", "BANNER_AD_UNIT_ID", testBannerAdd)
+        }
+        create("product") {
+            manifestPlaceholders["ADMOB_APP_ID"] = testAdAppMobID
+            buildConfigField("String", "BANNER_AD_UNIT_ID", testBannerAdd)
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 
