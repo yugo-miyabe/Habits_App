@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import jp.yuyuyu.habits.theme.AppTheme
-import jp.yuyuyu.habits.theme.HabitsTheme
 import jp.yuyuyu.habits.ui.model.CalendarWeek
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
@@ -30,13 +30,14 @@ fun CalendarCell(
 
     Box(
         modifier = modifier
-            .background(if (calendar.isSelected) AppTheme.colors.textPinkBackground else AppTheme.colors.textBaseBackground),
+            .background(if (calendar.isSelected) AppTheme.colors.textPinkBackground else AppTheme.colors.textBaseFont),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = day.toString(),
+            style = AppTheme.typography.labelMedium,
             color = if (calendar.isSelected) AppTheme.colors.textPinkFont else AppTheme.colors.textBaseBackground,
-            modifier = Modifier
+            modifier = Modifier.padding(16.dp)
         )
     }
 }
@@ -44,7 +45,7 @@ fun CalendarCell(
 @OptIn(ExperimentalTime::class)
 @Composable
 @Preview(showBackground = true)
-private fun CalendarCell_Preview() = HabitsTheme {
+private fun CalendarCell_Preview() {
     val timeZone = TimeZone.currentSystemDefault()
     val isToday = Clock.System.now().toLocalDateTime(timeZone)
     val tomorrow = (isToday.toInstant(timeZone) + 1.days).toLocalDateTime(timeZone)
