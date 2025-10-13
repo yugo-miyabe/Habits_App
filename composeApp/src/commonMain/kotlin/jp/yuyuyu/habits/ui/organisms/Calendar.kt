@@ -8,7 +8,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import jp.yuyuyu.habits.theme.AppTheme
+import jp.yuyuyu.habits.ui.model.CalendarWeek
 import jp.yuyuyu.habits.ui.model.DayWeek
+import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -18,11 +20,15 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class)
 @Composable
 fun Calendar(
-
+    modifier: Modifier = Modifier,
+    calendarWeekList: List<CalendarWeek> = emptyList()
 ) {
     val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
-    Column() {
+    val calendarList = CalendarUtil.createMonthUIModels()
+    Column(
+        modifier = modifier
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
@@ -35,7 +41,14 @@ fun Calendar(
                 )
             }
         }
-
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            calendarList.forEach { calendar ->
+                calendar.saturdayOfDay
+            }
+        }
     }
 }
 
