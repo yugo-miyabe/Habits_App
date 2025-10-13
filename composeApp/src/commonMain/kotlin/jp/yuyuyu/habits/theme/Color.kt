@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 
 data class HabitsColors(
     val white: Color = Color(0xFFFFFFFF),
-    val black: Color = Color(0xFF00000),
+    val black: Color = Color(0xFF000000),
     val textBaseFont: Color = Color(0xFFD3D3D3),
     val textBaseBackground: Color = Color(0xFFFFFFFF),
     val textPinkFont: Color = Color(0xFFDA85AF),
