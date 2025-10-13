@@ -15,6 +15,7 @@ junit = "4.13.2"
 kotlin = "2.2.20"
 navigationCompose = "2.9.0"
 koin-bom = "4.1.1"
+playServicesAds = "24.7.0"
 room = "2.8.1"
 sqlite = "2.6.1"
 ksp = "2.1.21-2.0.1"
@@ -41,6 +42,7 @@ koin-compose-viewmodel-nav = { module = "io.insert-koin:koin-compose-viewmodel-n
 androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
 
 
 [plugins]

@@ -33,6 +33,7 @@ kotlin {
             implementation(libs.koin.android)
             implementation(project.dependencies.platform(libs.firebase.bom))
             implementation(libs.firebase.analytics)
+            implementation(libs.play.services.ads)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -80,13 +81,17 @@ android {
             isMinifyEnabled = true
         }
     }
+    val testAdAppMobID = "ca-app-pub-3940256099942544~3347511713"
+    // TODO 本番用を追加
+
     flavorDimensions.add("enviroment")
     productFlavors {
         create("develop") {
             applicationIdSuffix = ".develop"
+            manifestPlaceholders["ADMOB_APP_ID"] = testAdAppMobID
         }
         create("product") {
-            // TODO
+            manifestPlaceholders["ADMOB_APP_ID"] = testAdAppMobID
         }
     }
 
