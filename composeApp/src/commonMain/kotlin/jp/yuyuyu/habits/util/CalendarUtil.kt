@@ -1,6 +1,6 @@
 package jp.yuyuyu.habits.util
 
-import jp.yuyuyu.habits.ui.model.CalenderUIModel
+import jp.yuyuyu.habits.ui.model.CalendarWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -10,7 +10,7 @@ import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
 object CalendarUtil {
-    fun createMonthUIModels(): List<CalenderUIModel> {
+    fun createMonthUIModels(): List<CalendarWeek> {
         val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
         val year = now.year
         val month = now.month
@@ -49,14 +49,35 @@ object CalendarUtil {
         if (week.any { it != null }) weeks.add(week.toList())
 
         return weeks.map { week ->
-            CalenderUIModel(
-                mondayOfDay = week[0]?.day?.toString(),
-                tuesdayOfDay = week[1]?.day?.toString(),
-                wednesdayOfDay = week[2]?.day?.toString(),
-                thursdayOfDay = week[3]?.day?.toString(),
-                fridayOfDay = week[4]?.day?.toString(),
-                saturdayOfDay = week[5]?.day?.toString(),
-                sundayOfDay = week[6]?.day?.toString()
+            CalendarWeek(
+                monday = CalendarWeek.Calendar(
+                    date = week[0]?.day?.toString(),
+                    isSelected = false
+                ),
+                tuesday = CalendarWeek.Calendar(
+                    date = week[1]?.day?.toString(),
+                    isSelected = false
+                ),
+                wednesday = CalendarWeek.Calendar(
+                    date = week[2]?.day?.toString(),
+                    isSelected = false
+                ),
+                thursday = CalendarWeek.Calendar(
+                    date = week[3]?.day?.toString(),
+                    isSelected = false
+                ),
+                friday = CalendarWeek.Calendar(
+                    date = week[4]?.day?.toString(),
+                    isSelected = false
+                ),
+                saturday = CalendarWeek.Calendar(
+                    date = week[5]?.day?.toString(),
+                    isSelected = false
+                ),
+                sunday = CalendarWeek.Calendar(
+                    date = week[6]?.day?.toString(),
+                    isSelected = false
+                ),
             )
         }
     }

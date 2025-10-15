@@ -26,15 +26,13 @@ fun CalendarCell(
     calendar: CalendarWeek.Calendar,
     modifier: Modifier = Modifier
 ) {
-    val day = calendar.date.day
-
     Box(
         modifier = modifier
             .background(if (calendar.isSelected) AppTheme.colors.textPinkBackground else AppTheme.colors.textBaseFont),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = day.toString(),
+            text = calendar.date ?: "",
             style = AppTheme.typography.labelMedium,
             color = if (calendar.isSelected) AppTheme.colors.textPinkFont else AppTheme.colors.textBaseBackground,
             modifier = Modifier.padding(16.dp)
@@ -52,14 +50,14 @@ private fun CalendarCell_Preview() {
     Row(horizontalArrangement = Arrangement.Center) {
         CalendarCell(
             calendar = CalendarWeek.Calendar(
-                date = isToday,
+                date = isToday.date.day.toString(),
                 isSelected = true,
             ),
             modifier = Modifier.size(50.dp)
         )
         CalendarCell(
             calendar = CalendarWeek.Calendar(
-                date = tomorrow,
+                date = tomorrow.date.day.toString(),
                 isSelected = false
             ),
             modifier = Modifier.size(50.dp)

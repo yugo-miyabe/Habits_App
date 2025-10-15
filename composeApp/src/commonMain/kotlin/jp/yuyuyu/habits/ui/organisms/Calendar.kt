@@ -4,12 +4,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import jp.yuyuyu.habits.theme.AppTheme
 import jp.yuyuyu.habits.ui.model.CalendarWeek
 import jp.yuyuyu.habits.ui.model.DayWeek
+import jp.yuyuyu.habits.ui.molecules.CalendarCell
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -37,16 +40,45 @@ fun Calendar(
                 Text(
                     text = dayWeek.label,
                     color = dayWeek.color,
-                    style = AppTheme.typography.labelMedium
+                    style = AppTheme.typography.labelMedium,
+                    modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
         }
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            calendarList.forEach { calendar ->
-                calendar.saturdayOfDay
+
+        calendarList.forEach { calendar ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                CalendarCell(
+                    calendar = calendar.monday,
+                    modifier = Modifier.weight(1f)
+                )
+                CalendarCell(
+                    calendar = calendar.tuesday,
+                    modifier = Modifier.weight(1f)
+                )
+                CalendarCell(
+                    calendar = calendar.wednesday,
+                    modifier = Modifier.weight(1f)
+                )
+                CalendarCell(
+                    calendar = calendar.thursday,
+                    modifier = Modifier.weight(1f)
+                )
+                CalendarCell(
+                    calendar = calendar.friday,
+                    modifier = Modifier.weight(1f)
+                )
+                CalendarCell(
+                    calendar = calendar.saturday,
+                    modifier = Modifier.weight(1f)
+                )
+                CalendarCell(
+                    calendar = calendar.sunday,
+                    modifier = Modifier.weight(1f)
+                )
             }
         }
     }
