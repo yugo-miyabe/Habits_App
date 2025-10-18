@@ -16,7 +16,9 @@ import androidx.compose.ui.Modifier
 import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.settings_24dp
 import jp.yuyuyu.habits.AdMobBanner
+import jp.yuyuyu.habits.ui.organisms.Calendar
 import jp.yuyuyu.habits.ui.organisms.TopBar
+import jp.yuyuyu.habits.util.CalendarUtil
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -36,6 +38,10 @@ fun HomeTemplate(
     }) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
             Column {
+                Calendar(
+                    calendarWeekList = CalendarUtil.createMonthUIModels(),
+                    modifier = Modifier.fillMaxWidth()
+                )
                 Text(
                     text = "Home",
                     style = MaterialTheme.typography.bodyLarge
