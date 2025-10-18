@@ -13,21 +13,15 @@ import jp.yuyuyu.habits.ui.model.CalendarWeek
 import jp.yuyuyu.habits.ui.model.DayWeek
 import jp.yuyuyu.habits.ui.molecules.CalendarCell
 import jp.yuyuyu.habits.util.CalendarUtil
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
 @Composable
 fun Calendar(
     modifier: Modifier = Modifier,
-    calendarWeekList: List<CalendarWeek> = emptyList()
+    calendarWeekList: List<CalendarWeek>
 ) {
-    val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-
-    val calendarList = CalendarUtil.createMonthUIModels()
     Column(
         modifier = modifier
     ) {
@@ -48,37 +42,37 @@ fun Calendar(
             }
         }
 
-        calendarList.forEach { calendar ->
+        calendarWeekList.forEach { calendarWeek ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 CalendarCell(
-                    calendar = calendar.monday,
+                    calendar = calendarWeek.monday,
                     modifier = Modifier.weight(1f)
                 )
                 CalendarCell(
-                    calendar = calendar.tuesday,
+                    calendar = calendarWeek.tuesday,
                     modifier = Modifier.weight(1f)
                 )
                 CalendarCell(
-                    calendar = calendar.wednesday,
+                    calendar = calendarWeek.wednesday,
                     modifier = Modifier.weight(1f)
                 )
                 CalendarCell(
-                    calendar = calendar.thursday,
+                    calendar = calendarWeek.thursday,
                     modifier = Modifier.weight(1f)
                 )
                 CalendarCell(
-                    calendar = calendar.friday,
+                    calendar = calendarWeek.friday,
                     modifier = Modifier.weight(1f)
                 )
                 CalendarCell(
-                    calendar = calendar.saturday,
+                    calendar = calendarWeek.saturday,
                     modifier = Modifier.weight(1f)
                 )
                 CalendarCell(
-                    calendar = calendar.sunday,
+                    calendar = calendarWeek.sunday,
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -89,5 +83,7 @@ fun Calendar(
 @Composable
 @Preview(showBackground = true)
 private fun Calendar_Preview() {
-    Calendar()
+    Calendar(
+        calendarWeekList = CalendarUtil.createMonthUIModels()
+    )
 }
