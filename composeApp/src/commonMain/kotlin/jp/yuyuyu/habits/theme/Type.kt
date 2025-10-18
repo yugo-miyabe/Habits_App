@@ -29,7 +29,7 @@ internal val LocaleTypography = staticCompositionLocalOf {
 }
 
 @Immutable
-class Typography(
+data class Typography(
     val displayLarge: TextStyle,
     val displayMedium: TextStyle,
     val displaySmall: TextStyle,
