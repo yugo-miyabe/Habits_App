@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.google.service)
+    alias(libs.plugins.firabase.crashlytics.plugins)
 }
 
 kotlin {
@@ -50,7 +51,7 @@ kotlin {
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
             implementation(libs.kotlinx.datetime)
-
+            implementation(libs.firebase.crashlytics)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -10,4 +10,5 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.androidx.room) apply false
     alias(libs.plugins.google.service) apply false
+    alias(libs.plugins.firabase.crashlytics.plugins) apply false
 }
