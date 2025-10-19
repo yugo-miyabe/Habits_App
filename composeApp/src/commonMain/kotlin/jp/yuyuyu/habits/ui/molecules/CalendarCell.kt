@@ -28,7 +28,13 @@ fun CalendarCell(
 ) {
     Box(
         modifier = modifier
-            .background(if (calendar.isSelected) AppTheme.colors.textPinkBackground else AppTheme.colors.textBaseFont),
+            .background(
+                when {
+                    calendar.isSelected -> AppTheme.colors.textPinkBackground
+                    calendar.date.isNullOrEmpty() -> AppTheme.colors.white
+                    else -> AppTheme.colors.textBaseFont
+                }
+            ),
         contentAlignment = Alignment.Center
     ) {
         Text(
