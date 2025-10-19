@@ -7,7 +7,8 @@ import androidx.room.PrimaryKey
 data class HabitDataEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val title: String,
-    val calendar: Calendar
+    // TODO
+    //val calendar: Calendar
 )
 
 data class Calendar(
