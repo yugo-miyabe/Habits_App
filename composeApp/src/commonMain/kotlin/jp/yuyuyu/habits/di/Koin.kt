@@ -16,6 +16,6 @@ fun initKoin(config: KoinAppDeclaration? = null) {
 }
 
 val appModule = module {
-    viewModel { HomeViewModel() }
+    viewModel { HomeViewModel(appDatabase = get()) }
     viewModel { SettingViewModel() }
 }
