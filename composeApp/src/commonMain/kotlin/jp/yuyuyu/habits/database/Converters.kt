@@ -5,37 +5,37 @@ import kotlinx.serialization.json.Json
 
 class CalendarListConverter {
     @TypeConverter
-    fun fromCalendar(calendar: Calendar?): String? =
+    fun fromCalendar(calendar: HabitDay?): String? =
         calendar?.let {
             Json.encodeToString(
-                Calendar.serializer(),
+                HabitDay.serializer(),
                 it
             )
         }
 
     @TypeConverter
-    fun toCalendar(value: String?): Calendar? =
+    fun toCalendar(value: String?): HabitDay? =
         value?.let {
             Json.decodeFromString(
-                Calendar.serializer(),
+                HabitDay.serializer(),
                 it
             )
         }
 
     @TypeConverter
-    fun fromCalendarList(calendar: List<Calendar>?): String? =
+    fun fromCalendarList(calendar: List<HabitDay>?): String? =
         calendar?.let {
             Json.encodeToString(
-                kotlinx.serialization.builtins.ListSerializer(Calendar.serializer()),
+                kotlinx.serialization.builtins.ListSerializer(HabitDay.serializer()),
                 it
             )
         }
 
     @TypeConverter
-    fun toCalendarList(value: String?): List<Calendar>? =
+    fun toCalendarList(value: String?): List<HabitDay>? =
         value?.let {
             Json.decodeFromString(
-                kotlinx.serialization.builtins.ListSerializer(Calendar.serializer()),
+                kotlinx.serialization.builtins.ListSerializer(HabitDay.serializer()),
                 it
             )
         }

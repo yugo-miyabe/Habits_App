@@ -8,11 +8,11 @@ import androidx.room.PrimaryKey
 data class HabitDataEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val title: String,
-    val calendar: List<Calendar> = emptyList()
+    val calendar: List<HabitDay> = emptyList()
 )
 
 @kotlinx.serialization.Serializable
-data class Calendar(
+data class HabitDay(
     val date: String,
     val isSelected: Boolean,
 )
