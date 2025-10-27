@@ -1,5 +1,6 @@
 package jp.yuyuyu.habits.screen.home
 
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import jp.yuyuyu.habits.ui.template.HomeTemplate
 import org.koin.compose.viewmodel.koinViewModel
@@ -10,5 +11,13 @@ fun HomeScreen(
     onSettingClick: () -> Unit,
     viewModel: HomeViewModel = koinViewModel()
 ) {
-    HomeTemplate(onSettingClick = onSettingClick)
+    val pager = rememberPagerState(
+        initialPage = 0,
+        pageCount = { 3 },
+    )
+
+    HomeTemplate(
+        calendarPagerState = pager,
+        onSettingClick = onSettingClick
+    )
 }
