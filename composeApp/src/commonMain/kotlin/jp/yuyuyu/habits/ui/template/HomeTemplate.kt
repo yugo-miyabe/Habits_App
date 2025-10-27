@@ -46,6 +46,7 @@ fun HomeTemplate(
                     state = calendarPagerState
                 ) { page ->
                     Calendar(
+                        month = CalendarUtil.getCurrentMonth(),
                         calendarWeekList = CalendarUtil.createMonthUIModels(),
                         modifier = Modifier.fillMaxWidth()
                     )
