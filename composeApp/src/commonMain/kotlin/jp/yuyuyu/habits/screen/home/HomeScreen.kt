@@ -12,8 +12,8 @@ fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel()
 ) {
     val pager = rememberPagerState(
-        initialPage = 0,
-        pageCount = { 3 },
+        initialPage = Int.MAX_VALUE / 2,
+        pageCount = { Int.MAX_VALUE },
     )
 
     HomeTemplate(

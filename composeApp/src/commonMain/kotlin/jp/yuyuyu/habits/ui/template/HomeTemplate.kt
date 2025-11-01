@@ -1,5 +1,6 @@
 package jp.yuyuyu.habits.ui.template
 
+import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.settings_24dp
 import jp.yuyuyu.habits.AdMobBanner
@@ -43,7 +45,9 @@ fun HomeTemplate(
         Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
             Column {
                 HorizontalPager(
-                    state = calendarPagerState
+                    state = calendarPagerState,
+                    pageSpacing = 8.dp,
+                    snapPosition = SnapPosition.Center,
                 ) { page ->
                     Calendar(
                         month = CalendarUtil.getCurrentMonth(),
