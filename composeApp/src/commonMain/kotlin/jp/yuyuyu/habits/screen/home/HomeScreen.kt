@@ -11,13 +11,27 @@ fun HomeScreen(
     onSettingClick: () -> Unit,
     viewModel: HomeViewModel = koinViewModel()
 ) {
+    val uiState = viewModel.uiState
+
     val pager = rememberPagerState(
         initialPage = Int.MAX_VALUE / 2,
         pageCount = { Int.MAX_VALUE },
     )
 
-    HomeTemplate(
-        calendarPagerState = pager,
-        onSettingClick = onSettingClick
-    )
+    uiState.value.let { state ->
+        when (state) {
+            is HomeUiState.Success -> {
+                state.currentDateTime
+                HomeTemplate(
+                    calendarPagerState = pager,
+                    currentDateTime = state.currentDateTime,
+                    onSettingClick = onSettingClick
+                )
+            }
+
+            else -> {
+                /* TODO */
+            }
+        }
+    }
 }

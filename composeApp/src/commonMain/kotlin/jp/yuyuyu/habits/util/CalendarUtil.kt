@@ -13,16 +13,16 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class)
 object CalendarUtil {
 
-    private val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+    val today: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
 
     fun getCurrentMonth(): String = today.month.number.toString()
 
     /**
      * 指定月のカレンダーを作成する
      */
-    fun createMonthUIModels(date: LocalDateTime = today): List<CalendarWeek> {
-        val year = date.year
-        val month = date.month
+    fun createMonthUIModels(dateTime: LocalDateTime = today): List<CalendarWeek> {
+        val year = dateTime.year
+        val month = dateTime.month
 
         // 今月の日付リストを作成
         val days = mutableListOf<LocalDate>()

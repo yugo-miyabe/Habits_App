@@ -24,12 +24,14 @@ import jp.yuyuyu.habits.AdMobBanner
 import jp.yuyuyu.habits.ui.organisms.Calendar
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import jp.yuyuyu.habits.util.CalendarUtil
+import kotlinx.datetime.LocalDateTime
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun HomeTemplate(
     calendarPagerState: PagerState,
+    currentDateTime: LocalDateTime,
     onSettingClick: () -> Unit,
 ) {
     Scaffold(topBar = {
@@ -51,7 +53,7 @@ fun HomeTemplate(
                 ) { page ->
                     Calendar(
                         month = CalendarUtil.getCurrentMonth(),
-                        calendarWeekList = CalendarUtil.createMonthUIModels(),
+                        calendarWeekList = CalendarUtil.createMonthUIModels(currentDateTime),
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -75,6 +77,7 @@ private fun HomeTemplatePreview() {
         calendarPagerState = rememberPagerState(
             pageCount = { 3 }
         ),
+        currentDateTime = CalendarUtil.today,
         onSettingClick = { /* preview */ }
     )
 }
