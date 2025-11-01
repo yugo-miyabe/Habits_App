@@ -13,7 +13,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -36,8 +37,23 @@ fun HomeTemplate(
     prevMoth: () -> Unit,
     onSettingClick: () -> Unit,
 ) {
-    var counter = remember { calendarPagerState.currentPage }
 
+    LaunchedEffect(calendarPagerState) {
+        var prev = calendarPagerState.currentPage
+        snapshotFlow { calendarPagerState.currentPage }.collect { newPage ->
+            when {
+                newPage > prev -> {
+                    nextMonth()
+                    prev = newPage
+                }
+
+                newPage < prev -> {
+                    prevMoth()
+                    prev = newPage
+                }
+            }
+        }
+    }
     Scaffold(topBar = {
         TopBar(actions = {
             IconButton(onClick = onSettingClick) {
@@ -55,16 +71,6 @@ fun HomeTemplate(
                     pageSpacing = 8.dp,
                     snapPosition = SnapPosition.Center,
                 ) { page ->
-                    when {
-                        page > counter -> {
-                            nextMonth()
-                        }
-
-                        page < counter -> {
-                            prevMoth()
-                        }
-                    }
-                    counter = page
                     Calendar(
                         month = currentDate.month.number.toString(),
                         calendarWeekList = CalendarUtil.createMonthUIModels(currentDate),

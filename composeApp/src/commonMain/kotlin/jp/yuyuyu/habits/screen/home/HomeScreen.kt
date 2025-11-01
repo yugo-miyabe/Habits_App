@@ -2,6 +2,7 @@ package jp.yuyuyu.habits.screen.home
 
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import jp.yuyuyu.habits.ui.template.HomeTemplate
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -11,7 +12,7 @@ fun HomeScreen(
     onSettingClick: () -> Unit,
     viewModel: HomeViewModel = koinViewModel()
 ) {
-    val uiState = viewModel.uiState
+    val uiState = viewModel.uiState.collectAsState()
 
     val pager = rememberPagerState(
         initialPage = Int.MAX_VALUE / 2,

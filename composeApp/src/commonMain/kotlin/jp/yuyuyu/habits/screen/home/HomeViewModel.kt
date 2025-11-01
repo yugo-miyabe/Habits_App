@@ -36,13 +36,11 @@ class HomeViewModel(
     }
 
     fun onNextMonth() {
-        _uiState.value.currentDate
         _uiState.update { uiState ->
             uiState.copy(
                 currentDate = CalendarUtil.plusOneMonth(uiState.currentDate),
             )
         }
-        _uiState.value.currentDate
     }
 
     fun onPrevMonth() {
