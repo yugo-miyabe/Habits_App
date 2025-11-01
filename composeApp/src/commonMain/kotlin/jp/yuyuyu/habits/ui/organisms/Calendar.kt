@@ -35,7 +35,7 @@ fun Calendar(
     ) {
         Text(
             text = stringResource(Res.string.month_format, month),
-            style = AppTheme.typography.titleMedium,
+            style = AppTheme.typography.titleMediumBold,
             modifier = Modifier
                 .fillMaxWidth().padding(vertical = 16.dp),
             textAlign = TextAlign.Center
@@ -50,7 +50,7 @@ fun Calendar(
                 Text(
                     text = dayWeek.label,
                     color = dayWeek.color,
-                    style = AppTheme.typography.labelMedium,
+                    style = AppTheme.typography.labelLarge,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .weight(1f)

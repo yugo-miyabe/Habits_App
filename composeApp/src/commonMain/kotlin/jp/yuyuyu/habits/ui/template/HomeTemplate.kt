@@ -23,6 +23,7 @@ import jp.yuyuyu.habits.ui.organisms.Calendar
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.number
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -50,7 +51,7 @@ fun HomeTemplate(
                     snapPosition = SnapPosition.Center,
                 ) { page ->
                     Calendar(
-                        month = CalendarUtil.getCurrentMonth(),
+                        month = currentDateTime.month.number.toString(),
                         calendarWeekList = CalendarUtil.createMonthUIModels(currentDateTime),
                         modifier = Modifier.fillMaxWidth()
                     )
