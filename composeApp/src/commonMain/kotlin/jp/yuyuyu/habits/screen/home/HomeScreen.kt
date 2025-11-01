@@ -21,7 +21,6 @@ fun HomeScreen(
     uiState.value.let { state ->
         when (state) {
             is HomeUiState.Success -> {
-                state.currentDateTime
                 HomeTemplate(
                     calendarPagerState = pager,
                     currentDateTime = state.currentDateTime,
@@ -29,8 +28,12 @@ fun HomeScreen(
                 )
             }
 
-            else -> {
-                /* TODO */
+            is HomeUiState.Error -> {
+                // TODO エラー表示
+            }
+
+            is HomeUiState.Loading -> {
+                // TODO ローディング表示
             }
         }
     }

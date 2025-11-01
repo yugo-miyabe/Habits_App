@@ -11,9 +11,7 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,11 +55,6 @@ fun HomeTemplate(
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
-
-                Text(
-                    text = "Home",
-                    style = MaterialTheme.typography.bodyLarge
-                )
             }
             Box(modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter)) {
                 AdMobBanner()
