@@ -10,8 +10,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalDate
 
 class HomeViewModel(
     appDatabase: AppDatabase
@@ -33,11 +34,29 @@ class HomeViewModel(
             )
         }
     }
+
+    fun onNextMonth() {
+        _uiState.value.currentDate
+        _uiState.update { uiState ->
+            uiState.copy(
+                currentDate = CalendarUtil.plusOneMonth(uiState.currentDate),
+            )
+        }
+        _uiState.value.currentDate
+    }
+
+    fun onPrevMonth() {
+        _uiState.update { uiState ->
+            uiState.copy(
+                currentDate = CalendarUtil.minusOneMonth(uiState.currentDate)
+            )
+        }
+    }
 }
 
 sealed class HomeUiState {
     data class Success(
-        val currentDateTime: LocalDateTime = CalendarUtil.today,
+        val currentDate: LocalDate = CalendarUtil.todayLocalDate,
         val habits: List<HabitDataEntity> = emptyList()
     ) : HomeUiState()
 

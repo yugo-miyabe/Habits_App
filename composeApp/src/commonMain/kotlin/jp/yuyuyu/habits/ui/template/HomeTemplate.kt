@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -22,7 +23,7 @@ import jp.yuyuyu.habits.AdMobBanner
 import jp.yuyuyu.habits.ui.organisms.Calendar
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import jp.yuyuyu.habits.util.CalendarUtil
-import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.number
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -30,9 +31,13 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun HomeTemplate(
     calendarPagerState: PagerState,
-    currentDateTime: LocalDateTime,
+    currentDate: LocalDate,
+    nextMonth: () -> Unit,
+    prevMoth: () -> Unit,
     onSettingClick: () -> Unit,
 ) {
+    var counter = remember { calendarPagerState.currentPage }
+
     Scaffold(topBar = {
         TopBar(actions = {
             IconButton(onClick = onSettingClick) {
@@ -50,9 +55,19 @@ fun HomeTemplate(
                     pageSpacing = 8.dp,
                     snapPosition = SnapPosition.Center,
                 ) { page ->
+                    when {
+                        page > counter -> {
+                            nextMonth()
+                        }
+
+                        page < counter -> {
+                            prevMoth()
+                        }
+                    }
+                    counter = page
                     Calendar(
-                        month = currentDateTime.month.number.toString(),
-                        calendarWeekList = CalendarUtil.createMonthUIModels(currentDateTime),
+                        month = currentDate.month.number.toString(),
+                        calendarWeekList = CalendarUtil.createMonthUIModels(currentDate),
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -71,7 +86,9 @@ private fun HomeTemplatePreview() {
         calendarPagerState = rememberPagerState(
             pageCount = { 3 }
         ),
-        currentDateTime = CalendarUtil.today,
+        nextMonth = { /* preview */ },
+        prevMoth = { /* preview */ },
+        currentDate = CalendarUtil.todayLocalDate,
         onSettingClick = { /* preview */ }
     )
 }

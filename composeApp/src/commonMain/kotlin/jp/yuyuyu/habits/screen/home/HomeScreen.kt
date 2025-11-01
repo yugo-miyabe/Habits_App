@@ -23,7 +23,13 @@ fun HomeScreen(
             is HomeUiState.Success -> {
                 HomeTemplate(
                     calendarPagerState = pager,
-                    currentDateTime = state.currentDateTime,
+                    currentDate = state.currentDate,
+                    nextMonth = {
+                        viewModel.onNextMonth()
+                    },
+                    prevMoth = {
+                        viewModel.onPrevMonth()
+                    },
                     onSettingClick = onSettingClick
                 )
             }
