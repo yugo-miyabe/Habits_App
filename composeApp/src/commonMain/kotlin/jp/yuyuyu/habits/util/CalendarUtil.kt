@@ -1,8 +1,12 @@
 package jp.yuyuyu.habits.util
 
 import jp.yuyuyu.habits.ui.model.CalendarWeek
+import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.number
+import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
@@ -10,10 +14,26 @@ import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
 object CalendarUtil {
-    fun createMonthUIModels(): List<CalendarWeek> {
-        val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-        val year = now.year
-        val month = now.month
+
+    val todayLocalDateTime: LocalDateTime =
+        Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+    val todayLocalDate: LocalDate = todayLocalDateTime.date
+
+
+    fun getCurrentMonth(): String = todayLocalDateTime.month.number.toString()
+
+
+    fun plusOneMonth(dateTime: LocalDate): LocalDate = dateTime.plus(1, DateTimeUnit.MONTH)
+
+    fun minusOneMonth(dateTime: LocalDate): LocalDate = dateTime.plus(-1, DateTimeUnit.MONTH)
+
+
+    /**
+     * 指定月のカレンダーを作成する
+     */
+    fun createMonthUIModels(dateTime: LocalDate = todayLocalDate): List<CalendarWeek> {
+        val year = dateTime.year
+        val month = dateTime.month
 
         // 今月の日付リストを作成
         val days = mutableListOf<LocalDate>()
