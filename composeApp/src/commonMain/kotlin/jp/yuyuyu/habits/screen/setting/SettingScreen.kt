@@ -6,7 +6,10 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun SettingScreen(
+    onLicenseInfoClick: () -> Unit,
     viewModel: SettingViewModel = koinViewModel()
 ) {
-    SettingTemplate()
+    SettingTemplate(
+        onLicenseInfoClick = onLicenseInfoClick,
+    )
 }

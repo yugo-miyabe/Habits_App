@@ -20,7 +20,9 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun SettingTemplate() {
+fun SettingTemplate(
+    onLicenseInfoClick: () -> Unit,
+) {
     Scaffold { innerPadding ->
         Column(
             modifier = Modifier
@@ -29,7 +31,8 @@ fun SettingTemplate() {
                 .padding(vertical = 16.dp),
         ) {
             ListItemCell(
-                title = stringResource(Res.string.licence)
+                title = stringResource(Res.string.licence),
+                onClick = onLicenseInfoClick
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -46,5 +49,7 @@ fun SettingTemplate() {
 @Composable
 @Preview(showBackground = true)
 private fun SettingTemplate_Preview() {
-    SettingTemplate()
+    SettingTemplate(
+        onLicenseInfoClick = { /* preview */ }
+    )
 }
