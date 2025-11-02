@@ -31,7 +31,10 @@ fun Calendar(
     calendarWeekList: List<CalendarWeek>
 ) {
     Column(
-        modifier = modifier.padding(all = 4.dp)
+        modifier = modifier.padding(
+            vertical = 8.dp,
+            horizontal = 16.dp
+        )
     ) {
         Text(
             text = stringResource(Res.string.month_format, month),
@@ -60,8 +63,9 @@ fun Calendar(
         }
         Column(
             modifier = Modifier.padding(vertical = 12.dp)
-                .clip(RoundedCornerShape(size = 4.dp))
-                .background(AppTheme.colors.backGround),
+                .clip(RoundedCornerShape(size = 8.dp))
+                .background(AppTheme.colors.backGround)
+                .padding(4.dp),
         ) {
             calendarWeekList.forEach { calendarWeek ->
                 Row(
