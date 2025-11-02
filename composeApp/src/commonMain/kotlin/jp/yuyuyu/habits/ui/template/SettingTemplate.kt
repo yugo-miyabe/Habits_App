@@ -1,10 +1,20 @@
 package jp.yuyuyu.habits.ui.template
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.licence
+import habits.composeapp.generated.resources.ver
+import jp.yuyuyu.habits.getPlatform
+import jp.yuyuyu.habits.theme.AppTheme
 import jp.yuyuyu.habits.ui.organisms.ListItemCell
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -12,9 +22,22 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun SettingTemplate() {
     Scaffold { innerPadding ->
-        Column {
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .padding(vertical = 16.dp),
+        ) {
             ListItemCell(
                 title = stringResource(Res.string.licence)
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Text(
+                text = stringResource(Res.string.ver, getPlatform().version),
+                style = AppTheme.typography.labelMediumBold,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
             )
         }
     }

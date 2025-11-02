@@ -19,13 +19,12 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun ListItemCell(
     title: String,
+    onClick: () -> Unit = {},
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(
-                onClick = {},
-            ),
+            .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
