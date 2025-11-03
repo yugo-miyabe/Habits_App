@@ -11,6 +11,7 @@ fun AddHabitScreen(
     viewModel: AddHabitViewModel = koinViewModel()
 ) {
     AddHabitTemplate(
-        onBackClick = onBackClick
+        onBackClick = onBackClick,
+        onAddHabitClick = viewModel::onAddHabit
     )
 }
