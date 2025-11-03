@@ -24,7 +24,10 @@ internal val LocaleTypography = staticCompositionLocalOf {
         titleSmallBold = HabitsTypography.titleSmallBold,
         labelLarge = HabitsTypography.labelLarge,
         labelMedium = HabitsTypography.labelMedium,
-        labelSmall = HabitsTypography.labelSmall,
+        labelSmall = HabitsTypography.labelSmallBold,
+        labelLargeBold = HabitsTypography.labelLargeBold,
+        labelMediumBold = HabitsTypography.labelMediumBold,
+        labelSmallBold = HabitsTypography.labelSmallBold,
         bodyLarge = HabitsTypography.bodyLarge,
         bodyMedium = HabitsTypography.bodyMedium,
         bodySmall = HabitsTypography.bodySmall
@@ -45,12 +48,15 @@ data class Typography(
     val titleLargeBold: TextStyle,
     val titleMediumBold: TextStyle,
     val titleSmallBold: TextStyle,
-    val bodyLarge: TextStyle,
-    val bodyMedium: TextStyle,
-    val bodySmall: TextStyle,
     val labelLarge: TextStyle,
     val labelMedium: TextStyle,
     val labelSmall: TextStyle,
+    val labelLargeBold: TextStyle,
+    val labelMediumBold: TextStyle,
+    val labelSmallBold: TextStyle,
+    val bodyLarge: TextStyle,
+    val bodyMedium: TextStyle,
+    val bodySmall: TextStyle,
 )
 
 @Stable
@@ -141,6 +147,24 @@ internal val HabitsTypography = Typography(
     ),
     labelSmall = TextStyle(
         fontWeight = FontWeight.Medium,
+        fontSize = 11.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.5.sp
+    ),
+    labelLargeBold = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.1.sp
+    ),
+    labelMediumBold = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.5.sp
+    ),
+    labelSmallBold = TextStyle(
+        fontWeight = FontWeight.Bold,
         fontSize = 11.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp

@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.compose_multiplatform
-import jp.yuyuyu.habits.ui.model.DayWeek
+import habits.composeapp.generated.resources.outline_arrow_back_24
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -21,6 +21,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun TopBar(
     modifier: Modifier = Modifier,
     title: String? = null,
+    onBackClick: (() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
 ) {
     TopAppBar(
@@ -29,13 +30,20 @@ fun TopBar(
                 Text(
                     text = title,
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.labelLarge
+                    style = MaterialTheme.typography.headlineSmall
                 )
             }
         },
         modifier = modifier,
-        navigationIcon = @Composable {
-            // TODO
+        navigationIcon = {
+            onBackClick?.let {
+                IconButton(onClick = onBackClick) {
+                    Icon(
+                        painter = painterResource(Res.drawable.outline_arrow_back_24),
+                        contentDescription = null
+                    )
+                }
+            }
         },
         actions = actions
     )
@@ -44,13 +52,14 @@ fun TopBar(
 @Preview
 @Composable
 private fun TopBar_Preview() {
-    TopBar(actions = {
-        IconButton(onClick = { /* preview */ }) {
-            Icon(
-                painter = painterResource(Res.drawable.compose_multiplatform),
-                contentDescription = null,
-            )
-        }
-    })
+    TopBar(
+        title = "タイトル",
+        actions = {
+            IconButton(onClick = { /* preview */ }) {
+                Icon(
+                    painter = painterResource(Res.drawable.compose_multiplatform),
+                    contentDescription = null,
+                )
+            }
+        })
 }
-

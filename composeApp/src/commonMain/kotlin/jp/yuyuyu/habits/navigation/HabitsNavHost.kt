@@ -13,6 +13,6 @@ fun HabitsNavHost() {
     ) {
         homeNavGraph(navigationToSetting = navController::navigateToSetting)
 
-        settingNavGraph()
+        settingNavGraph(navHostController = navController)
     }
 }
