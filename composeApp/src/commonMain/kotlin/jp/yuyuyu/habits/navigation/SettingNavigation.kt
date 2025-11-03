@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
-import jp.yuyuyu.habits.screen.license.LicenseInfo
+import jp.yuyuyu.habits.screen.license.LicenseInfoScreen
 import jp.yuyuyu.habits.screen.setting.SettingScreen
 import kotlinx.serialization.Serializable
 
@@ -26,7 +26,9 @@ fun NavGraphBuilder.settingNavGraph(navHostController: NavHostController) {
     }
 
     composable<LicenseInfoRoute> {
-        LicenseInfo()
+        LicenseInfoScreen(
+            onBackClick = navHostController::popBackStack
+        )
     }
 }
 
