@@ -60,6 +60,7 @@ fun HomeTemplate(
             }
         }
     }
+    
     Scaffold(topBar = {
         TopBar(actions = {
             IconButton(onClick = onSettingClick) {
@@ -75,8 +76,7 @@ fun HomeTemplate(
                 Text(
                     text = "💪筋トレ",
                     style = AppTheme.typography.titleMediumBold,
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
+                    modifier = Modifier.padding(horizontal = 16.dp)
                 )
                 HorizontalPager(
                     state = calendarPagerState,

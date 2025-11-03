@@ -32,7 +32,7 @@ fun Calendar(
 ) {
     Column(
         modifier = modifier.padding(
-            vertical = 8.dp,
+            vertical = 4.dp,
             horizontal = 16.dp
         )
     ) {

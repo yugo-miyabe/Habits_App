@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.add_habits
+import jp.yuyuyu.habits.ui.model.HabitExample
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -27,6 +28,11 @@ fun AddHabitTemplate(
         LazyColumn(modifier = Modifier.padding(innerPadding)) {
             item {
                 Text("テキスト")
+            }
+
+            items(HabitExample.entries.size) { index ->
+                val habitExample = HabitExample.entries[index]
+                Text(text = habitExample.label)
             }
         }
     }
