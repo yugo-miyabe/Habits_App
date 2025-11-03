@@ -10,6 +10,8 @@
     <string name="licence">ライセンス情報</string>
     <string name="delete">データ削除</string>
     <string name="add_habits">習慣を追加</string>
+    <string name="select_habits">習慣を選択</string>
+    <string name="select_template_habits">テンプレートを選択する</string>
     <string name="ver">Ver: %1$s</string>
     <string name="habit_strength">🏋️ 筋トレ</string>
     <string name="habit_early_rise">🌅 早起き</string>
