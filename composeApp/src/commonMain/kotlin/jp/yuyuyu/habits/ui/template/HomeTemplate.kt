@@ -76,7 +76,7 @@ fun HomeTemplate(
                     text = "💪筋トレ",
                     style = AppTheme.typography.titleMediumBold,
                     modifier = Modifier
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .padding(horizontal = 16.dp)
                 )
                 HorizontalPager(
                     state = calendarPagerState,
