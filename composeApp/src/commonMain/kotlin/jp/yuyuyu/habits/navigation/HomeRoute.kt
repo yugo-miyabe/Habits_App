@@ -25,9 +25,10 @@ fun NavGraphBuilder.homeNavGraph(
         )
     }
 
-    composable<AddHabitRoute>() {
+    composable<AddHabitRoute> {
         AddHabitScreen(
-            onBackClick = navHostController::popBackStack
+            onBackClick = navHostController::popBackStack,
+            onAddHabitClick = navHostController::popBackStack,
         )
     }
 }

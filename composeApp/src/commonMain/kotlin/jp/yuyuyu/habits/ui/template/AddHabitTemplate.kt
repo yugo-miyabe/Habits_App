@@ -22,7 +22,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun AddHabitTemplate(
     onBackClick: () -> Unit,
-    onAddHabitClick: () -> Unit
+    onAddHabitClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -68,6 +68,6 @@ fun AddHabitTemplate(
 private fun AddHabitTemplate_Preview() {
     AddHabitTemplate(
         onBackClick = { /* preview */ },
-        onAddHabitClick = { /* preview */ }
+        onAddHabitClick = { /* preview */ },
     )
 }
