@@ -11,4 +11,18 @@
     <string name="delete">データ削除</string>
     <string name="add_habits">習慣を追加</string>
     <string name="ver">Ver: %1$s</string>
+    <string name="habit_strength">🏋️ 筋トレ</string>
+    <string name="habit_early_rise">🌅 早起き</string>
+    <string name="habit_exercise">🏃 運動</string>
+    <string name="habit_reading">📚 読書</string>
+    <string name="habit_meditation">🧘 瞑想</string>
+    <string name="habit_diary">📝 日記</string>
+    <string name="habit_hydration">🥤 水を2L飲む</string>
+    <string name="habit_reduce_phone">📵 スマホを減らす</string>
+    <string name="habit_english_learning">🗣️ 英語学習</string>
+    <string name="habit_pilates">🧘 ピラティス</string>
+    <string name="habit_stretching">🤸 ストレッチ</string>
+    <string name="habit_cooking">🍳 料理</string>
+    <string name="habit_cleaning">🧹 掃除</string>
+    <string name="habit_gratitude">🙏 感謝を書く</string>
 </resources>
