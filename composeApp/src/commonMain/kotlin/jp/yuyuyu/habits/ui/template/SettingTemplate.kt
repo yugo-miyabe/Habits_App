@@ -11,21 +11,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import habits.composeapp.generated.resources.Res
+import habits.composeapp.generated.resources.add_habits
 import habits.composeapp.generated.resources.delete
 import habits.composeapp.generated.resources.licence
 import habits.composeapp.generated.resources.ver
 import jp.yuyuyu.habits.getPlatform
 import jp.yuyuyu.habits.theme.AppTheme
 import jp.yuyuyu.habits.ui.organisms.ListItemCell
+import jp.yuyuyu.habits.ui.organisms.TopBar
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun SettingTemplate(
+    onBackClick: () -> Unit,
     onLicenseInfoClick: () -> Unit,
     onDataDeleteClick: () -> Unit,
 ) {
-    Scaffold { innerPadding ->
+    Scaffold(
+        topBar = {
+            TopBar(
+                title = stringResource(Res.string.add_habits),
+                onBackClick = onBackClick,
+            )
+        }
+    ) { innerPadding ->
         Column(
             modifier = Modifier
                 .padding(innerPadding)
@@ -58,6 +68,7 @@ fun SettingTemplate(
 @Preview(showBackground = true)
 private fun SettingTemplate_Preview() {
     SettingTemplate(
+        onBackClick = { /* preview */ },
         onLicenseInfoClick = { /* preview */ },
         onDataDeleteClick = { /* preview */ }
     )
