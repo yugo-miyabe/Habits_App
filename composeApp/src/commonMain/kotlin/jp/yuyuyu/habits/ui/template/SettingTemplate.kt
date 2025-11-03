@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import habits.composeapp.generated.resources.Res
+import habits.composeapp.generated.resources.delete
 import habits.composeapp.generated.resources.licence
 import habits.composeapp.generated.resources.ver
 import jp.yuyuyu.habits.getPlatform
@@ -22,6 +23,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun SettingTemplate(
     onLicenseInfoClick: () -> Unit,
+    onDataDeleteClick: () -> Unit,
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -33,6 +35,12 @@ fun SettingTemplate(
             ListItemCell(
                 title = stringResource(Res.string.licence),
                 onClick = onLicenseInfoClick
+            )
+
+            ListItemCell(
+                title = stringResource(Res.string.delete),
+                textColor = AppTheme.colors.red,
+                onClick = onDataDeleteClick
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -50,6 +58,7 @@ fun SettingTemplate(
 @Preview(showBackground = true)
 private fun SettingTemplate_Preview() {
     SettingTemplate(
-        onLicenseInfoClick = { /* preview */ }
+        onLicenseInfoClick = { /* preview */ },
+        onDataDeleteClick = { /* preview */ }
     )
 }

@@ -9,7 +9,11 @@ fun SettingScreen(
     onLicenseInfoClick: () -> Unit,
     viewModel: SettingViewModel = koinViewModel()
 ) {
+
     SettingTemplate(
         onLicenseInfoClick = onLicenseInfoClick,
+        onDataDeleteClick = {
+            viewModel.onDataDeleteClick()
+        }
     )
 }

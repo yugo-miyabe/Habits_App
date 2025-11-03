@@ -8,5 +8,6 @@
     <string name="saturday">土</string>
     <string name="month_format">%1$s月</string>
     <string name="licence">ライセンス情報</string>
+    <string name="delete">データ削除</string>
     <string name="ver">Ver: %1$s</string>
 </resources>

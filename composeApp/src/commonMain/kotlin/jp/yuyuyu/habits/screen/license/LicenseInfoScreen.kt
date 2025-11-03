@@ -23,7 +23,6 @@ fun LicenseInfoScreen(
         Res.readBytes("files/aboutlibraries.json").decodeToString()
     }
 
-
     Scaffold(
         topBar = {
             TopBar(
@@ -42,7 +41,6 @@ fun LicenseInfoScreen(
         }
     }
 }
-
 
 @Composable
 @Preview(showBackground = true)
