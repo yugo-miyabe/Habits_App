@@ -10,6 +10,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun HomeScreen(
     onSettingClick: () -> Unit,
+    onAddHabitClick: () -> Unit,
     viewModel: HomeViewModel = koinViewModel()
 ) {
     val uiState = viewModel.uiState.collectAsState()
@@ -30,6 +31,9 @@ fun HomeScreen(
                     },
                     prevMoth = {
                         viewModel.onPrevMonth()
+                    },
+                    onAddHabitClick = {
+                        onAddHabitClick()
                     },
                     onSettingClick = onSettingClick
                 )

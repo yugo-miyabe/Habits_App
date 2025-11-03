@@ -4,8 +4,12 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 data class HabitsColors(
+    val mainColor: Color = Color(0xFFA7C7E7),
+    val baseColor: Color = Color(0xFFF4F7F5),
+    val accentColor: Color = Color(0xFF587291),
     val white: Color = Color(0xFFFFFFFF),
     val black: Color = Color(0xFF000000),
+    val gray: Color = Color(0xFF808080),
     val red: Color = Color(0xFFFF0000),
     val backGround: Color = Color(0xFFC5D5EB),
     val textBaseFont: Color = Color(0xFFD3D3D3),
