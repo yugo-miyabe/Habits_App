@@ -1,5 +1,6 @@
 package jp.yuyuyu.habits.di
 
+import jp.yuyuyu.habits.screen.addHabit.AddHabitViewModel
 import jp.yuyuyu.habits.screen.home.HomeViewModel
 import jp.yuyuyu.habits.screen.setting.SettingViewModel
 import org.koin.core.context.startKoin
@@ -18,4 +19,5 @@ fun initKoin(config: KoinAppDeclaration? = null) {
 val appModule = module {
     viewModel { HomeViewModel(appDatabase = get()) }
     viewModel { SettingViewModel() }
+    viewModel { AddHabitViewModel() }
 }

@@ -91,7 +91,7 @@ fun HomeTemplate(
                 }
                 PrimaryButton(
                     text = stringResource(Res.string.add_habits),
-                    onClick = onAddHabitClick(),
+                    onClick = onAddHabitClick,
                     modifier = Modifier.padding(16.dp)
                 )
             }
