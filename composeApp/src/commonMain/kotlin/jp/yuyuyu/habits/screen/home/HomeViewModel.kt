@@ -52,15 +52,13 @@ class HomeViewModel(
     }
 }
 
-sealed class HomeUiState {
+sealed interface HomeUiState {
     data class Success(
         val currentDate: LocalDate = CalendarUtil.todayLocalDate,
         val habits: List<HabitDataEntity> = emptyList()
-    ) : HomeUiState()
+    ) : HomeUiState
 
-    class Loading : HomeUiState()
+    data object Loading : HomeUiState
 
-    data class Error(
-        val exception: Throwable
-    ) : HomeUiState()
+    data object Error : HomeUiState
 }
