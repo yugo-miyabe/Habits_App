@@ -19,9 +19,8 @@ object LicenseInfoRoute
 fun NavGraphBuilder.settingNavGraph(navHostController: NavHostController) {
     composable<SettingRoute> {
         SettingScreen(
-            onLicenseInfoClick = {
-                navHostController.navigateToLicenseInfo()
-            }
+            onBackClick = navHostController::popBackStack,
+            onLicenseInfoClick = navHostController::navigateToLicenseInfo
         )
     }
 
