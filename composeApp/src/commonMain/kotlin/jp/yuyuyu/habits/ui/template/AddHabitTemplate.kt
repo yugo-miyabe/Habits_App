@@ -99,6 +99,7 @@ fun AddHabitTemplate(
 private fun AddHabitTemplate_Preview() {
     AddHabitTemplate(
         onBackClick = { /* preview */ },
+        addHabitText = "",
         onTextChange = { /* preview */ },
         onAddHabitClick = { /* preview */ },
         isAddHabitButtonEnable = false
