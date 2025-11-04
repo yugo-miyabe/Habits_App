@@ -27,7 +27,10 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun AddHabitTemplate(
     onBackClick: () -> Unit,
+    addHabitText: String,
+    onTextChange: (text: String) -> Unit,
     onAddHabitClick: () -> Unit,
+    isAddHabitButtonEnable: Boolean,
 ) {
     Scaffold(
         topBar = {
@@ -45,8 +48,10 @@ fun AddHabitTemplate(
                     modifier = Modifier.padding(16.dp)
                 )
                 TextField(
-                    value = "",
-                    onValueChange = { },
+                    value = addHabitText,
+                    onValueChange = {
+                        onTextChange(it)
+                    },
                     placeholder = {
                         Text(
                             text = "",
@@ -66,10 +71,11 @@ fun AddHabitTemplate(
 
                 LazyColumn(modifier = Modifier.fillMaxWidth().padding(bottom = 72.dp)) {
                     items(HabitExample.entries.size) { index ->
+                        val templateText = HabitExample.entries[index].label
                         ListItemCell(
-                            title = HabitExample.entries[index].label,
+                            title = templateText,
                             onClick = {
-                                // TODO: 選択処理
+                                onTextChange(templateText)
                             }
                         )
                     }
@@ -79,6 +85,7 @@ fun AddHabitTemplate(
             PrimaryButton(
                 text = stringResource(Res.string.add_habits),
                 onClick = onAddHabitClick,
+                enabled = isAddHabitButtonEnable,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(16.dp)
@@ -92,6 +99,8 @@ fun AddHabitTemplate(
 private fun AddHabitTemplate_Preview() {
     AddHabitTemplate(
         onBackClick = { /* preview */ },
+        onTextChange = { /* preview */ },
         onAddHabitClick = { /* preview */ },
+        isAddHabitButtonEnable = false
     )
 }

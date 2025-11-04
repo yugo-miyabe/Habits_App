@@ -12,10 +12,15 @@ fun AddHabitScreen(
 ) {
     AddHabitTemplate(
         onBackClick = onBackClick,
+        addHabitText = "",
         onAddHabitClick = {
             // TODO 画面遷移タイミング修正
             viewModel.onAddHabit()
             onAddHabitClick()
         },
+        onTextChange = { text ->
+            //    viewModel.onHabitNameChange(text)
+        },
+        isAddHabitButtonEnable = true,
     )
 }
