@@ -1,18 +1,21 @@
 package jp.yuyuyu.habits.ui.template
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.add_habits
+import habits.composeapp.generated.resources.select_template_habits
 import jp.yuyuyu.habits.theme.AppTheme
 import jp.yuyuyu.habits.ui.atoms.PrimaryButton
 import jp.yuyuyu.habits.ui.model.HabitExample
@@ -35,26 +38,41 @@ fun AddHabitTemplate(
         }
     ) { innerPadding ->
         Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
-            LazyColumn(modifier = Modifier.fillMaxWidth().padding(bottom = 72.dp)) {
-                item {
+            Column {
+                Text(
+                    text = stringResource(Res.string.add_habits),
+                    style = AppTheme.typography.titleMediumBold,
+                    modifier = Modifier.padding(16.dp)
+                )
+                TextField(
+                    value = "",
+                    onValueChange = { },
+                    placeholder = {
+                        Text(
+                            text = "",
+                            style = AppTheme.typography.bodyMedium,
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                )
 
-                }
+                Text(
+                    text = stringResource(Res.string.select_template_habits),
+                    style = AppTheme.typography.titleMediumBold,
+                    modifier = Modifier.padding(16.dp)
+                )
 
-                item {
-                    Text(
-                        text = stringResource(Res.string.add_habits),
-                        style = AppTheme.typography.titleMediumBold,
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
-
-                items(HabitExample.entries.size) { index ->
-                    ListItemCell(
-                        title = HabitExample.entries[index].label,
-                        onClick = {
-                            // TODO: 選択処理
-                        }
-                    )
+                LazyColumn(modifier = Modifier.fillMaxWidth().padding(bottom = 72.dp)) {
+                    items(HabitExample.entries.size) { index ->
+                        ListItemCell(
+                            title = HabitExample.entries[index].label,
+                            onClick = {
+                                // TODO: 選択処理
+                            }
+                        )
+                    }
                 }
             }
 
