@@ -13,8 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.add_habits
+import jp.yuyuyu.habits.theme.AppTheme
 import jp.yuyuyu.habits.ui.atoms.PrimaryButton
 import jp.yuyuyu.habits.ui.model.HabitExample
+import jp.yuyuyu.habits.ui.organisms.ListItemCell
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -41,14 +43,18 @@ fun AddHabitTemplate(
                 item {
                     Text(
                         text = stringResource(Res.string.add_habits),
-                        modifier = Modifier
-                            .padding(16.dp)
+                        style = AppTheme.typography.titleMediumBold,
+                        modifier = Modifier.padding(16.dp)
                     )
                 }
 
                 items(HabitExample.entries.size) { index ->
-                    val habitExample = HabitExample.entries[index]
-                    Text(text = habitExample.label)
+                    ListItemCell(
+                        title = HabitExample.entries[index].label,
+                        onClick = {
+                            // TODO: 選択処理
+                        }
+                    )
                 }
             }
 
