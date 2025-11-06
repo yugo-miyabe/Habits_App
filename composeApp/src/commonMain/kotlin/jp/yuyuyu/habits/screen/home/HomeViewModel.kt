@@ -8,6 +8,7 @@ import jp.yuyuyu.habits.database.HabitDay
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -18,7 +19,7 @@ class HomeViewModel(
     appDatabase: AppDatabase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUiState.Success())
+    private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
     val uiState: StateFlow<HomeUiState> = _uiState
 
     init {
@@ -33,21 +34,35 @@ class HomeViewModel(
                 )
             )
         }
+        viewModelScope.launch(Dispatchers.IO) {
+            delay(200L)
+            _uiState.value = HomeUiState.Success(CalendarUtil.todayLocalDate, listOf())
+        }
     }
 
     fun onNextMonth() {
         _uiState.update { uiState ->
-            uiState.copy(
-                currentDate = CalendarUtil.plusOneMonth(uiState.currentDate),
-            )
+            when (uiState) {
+                is HomeUiState.Success -> {
+                    uiState.copy(
+                        currentDate = CalendarUtil.plusOneMonth(uiState.currentDate),
+                    )
+                }
+
+                else -> uiState
+            }
         }
     }
 
     fun onPrevMonth() {
         _uiState.update { uiState ->
-            uiState.copy(
-                currentDate = CalendarUtil.minusOneMonth(uiState.currentDate)
-            )
+            when (uiState) {
+                is HomeUiState.Success -> uiState.copy(
+                    currentDate = CalendarUtil.minusOneMonth(uiState.currentDate)
+                )
+
+                else -> uiState
+            }
         }
     }
 }
