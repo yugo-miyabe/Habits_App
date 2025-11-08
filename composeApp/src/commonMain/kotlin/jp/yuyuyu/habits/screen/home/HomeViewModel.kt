@@ -3,7 +3,7 @@ package jp.yuyuyu.habits.screen.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jp.yuyuyu.habits.database.HabitDataEntity
-import jp.yuyuyu.habits.repository.HabitDatabaseRepository
+import jp.yuyuyu.habits.usecase.InsertHabitUseCase
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
 class HomeViewModel(
-    val habitDatabaseRepository: HabitDatabaseRepository,
+    val insertHabitUseCase: InsertHabitUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
@@ -23,10 +23,20 @@ class HomeViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            habitDatabaseRepository.insertHabit(
+            insertHabitUseCase(
                 "朝の散歩",
-            )
+            ).collect { result ->
+                result.fold(
+                    ifLeft = {
+                        _uiState.value = HomeUiState.Error
+                    },
+                    ifRight = {
+                        println("Insert habit success: $it")
+                    }
+                )
+            }
         }
+
         viewModelScope.launch(Dispatchers.IO) {
             delay(1500L)
             _uiState.value = HomeUiState.Success(CalendarUtil.todayLocalDate, listOf())
