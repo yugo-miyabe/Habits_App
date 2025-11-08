@@ -1,6 +1,7 @@
 package jp.yuyuyu.habits.screen.addHabit
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import jp.yuyuyu.habits.ui.template.AddHabitTemplate
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -10,17 +11,21 @@ fun AddHabitScreen(
     onAddHabitClick: () -> Unit,
     viewModel: AddHabitViewModel = koinViewModel()
 ) {
+    val uiState = viewModel.uiState.collectAsState()
+
+    if (uiState.value.isAddHabitSuccess) {
+        onAddHabitClick()
+    }
+
     AddHabitTemplate(
         onBackClick = onBackClick,
-        addHabitText = "",
+        addHabitText = uiState.value.addHabitText,
         onAddHabitClick = {
-            // TODO 画面遷移タイミング修正
             viewModel.onAddHabit()
-            onAddHabitClick()
         },
         onTextChange = { text ->
-            //    viewModel.onHabitNameChange(text)
+            viewModel.onChangeAddHabitText(text)
         },
-        isAddHabitButtonEnable = true,
+        isAddHabitButtonEnable = uiState.value.isAddHabitButtonEnable,
     )
 }

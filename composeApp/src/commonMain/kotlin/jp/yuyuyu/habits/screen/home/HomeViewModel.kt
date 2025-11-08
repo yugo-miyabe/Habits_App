@@ -8,6 +8,7 @@ import jp.yuyuyu.habits.database.HabitDay
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -18,7 +19,7 @@ class HomeViewModel(
     appDatabase: AppDatabase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUiState.Success())
+    private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
     val uiState: StateFlow<HomeUiState> = _uiState
 
     init {
@@ -33,34 +34,45 @@ class HomeViewModel(
                 )
             )
         }
+        viewModelScope.launch(Dispatchers.IO) {
+            delay(1500L)
+            _uiState.value = HomeUiState.Success(CalendarUtil.todayLocalDate, listOf())
+        }
     }
 
     fun onNextMonth() {
         _uiState.update { uiState ->
-            uiState.copy(
-                currentDate = CalendarUtil.plusOneMonth(uiState.currentDate),
-            )
+            when (uiState) {
+                is HomeUiState.Success -> {
+                    uiState.copy(
+                        currentDate = CalendarUtil.plusOneMonth(uiState.currentDate),
+                    )
+                }
+
+                else -> uiState
+            }
         }
     }
 
     fun onPrevMonth() {
         _uiState.update { uiState ->
-            uiState.copy(
-                currentDate = CalendarUtil.minusOneMonth(uiState.currentDate)
-            )
+            when (uiState) {
+                is HomeUiState.Success -> uiState.copy(
+                    currentDate = CalendarUtil.minusOneMonth(uiState.currentDate)
+                )
+
+                else -> uiState
+            }
         }
     }
 }
 
-sealed class HomeUiState {
+sealed interface HomeUiState {
     data class Success(
         val currentDate: LocalDate = CalendarUtil.todayLocalDate,
         val habits: List<HabitDataEntity> = emptyList()
-    ) : HomeUiState()
+    ) : HomeUiState
 
-    class Loading : HomeUiState()
-
-    data class Error(
-        val exception: Throwable
-    ) : HomeUiState()
+    data object Loading : HomeUiState
+    data object Error : HomeUiState
 }

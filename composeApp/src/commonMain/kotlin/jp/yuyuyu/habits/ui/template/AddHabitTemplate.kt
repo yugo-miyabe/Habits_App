@@ -1,9 +1,12 @@
 package jp.yuyuyu.habits.ui.template
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
@@ -82,14 +85,20 @@ fun AddHabitTemplate(
                 }
             }
 
-            PrimaryButton(
-                text = stringResource(Res.string.add_habits),
-                onClick = onAddHabitClick,
-                enabled = isAddHabitButtonEnable,
+            Row(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(16.dp)
-            )
+                    .background(AppTheme.colors.white)
+            ) {
+                PrimaryButton(
+                    text = stringResource(Res.string.add_habits),
+                    onClick = onAddHabitClick,
+                    enabled = isAddHabitButtonEnable,
+                    modifier = Modifier
+                        .imePadding()
+                        .padding(16.dp)
+                )
+            }
         }
     }
 }
@@ -99,6 +108,7 @@ fun AddHabitTemplate(
 private fun AddHabitTemplate_Preview() {
     AddHabitTemplate(
         onBackClick = { /* preview */ },
+        addHabitText = "",
         onTextChange = { /* preview */ },
         onAddHabitClick = { /* preview */ },
         isAddHabitButtonEnable = false
