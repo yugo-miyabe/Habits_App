@@ -1,11 +1,13 @@
 package jp.yuyuyu.habits.screen.home
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import jp.yuyuyu.habits.ui.molecules.ProgressIndicator
 import jp.yuyuyu.habits.ui.template.HomeTemplate
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -47,8 +49,8 @@ fun HomeScreen(
             }
 
             is HomeUiState.Loading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.fillMaxSize(),
+                ProgressIndicator(
+                    modifier = Modifier.size(200.dp),
                 )
             }
         }

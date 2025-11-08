@@ -35,7 +35,7 @@ class HomeViewModel(
             )
         }
         viewModelScope.launch(Dispatchers.IO) {
-            delay(200L)
+            delay(1500L)
             _uiState.value = HomeUiState.Success(CalendarUtil.todayLocalDate, listOf())
         }
     }
@@ -74,6 +74,5 @@ sealed interface HomeUiState {
     ) : HomeUiState
 
     data object Loading : HomeUiState
-
     data object Error : HomeUiState
 }
