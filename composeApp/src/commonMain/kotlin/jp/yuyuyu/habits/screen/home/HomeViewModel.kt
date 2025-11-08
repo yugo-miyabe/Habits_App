@@ -15,28 +15,12 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
 class HomeViewModel(
-    val insertHabitUseCase: InsertHabitUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
     val uiState: StateFlow<HomeUiState> = _uiState
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            insertHabitUseCase(
-                "朝の散歩",
-            ).collect { result ->
-                result.fold(
-                    ifLeft = {
-                        _uiState.value = HomeUiState.Error
-                    },
-                    ifRight = {
-                        println("Insert habit success: $it")
-                    }
-                )
-            }
-        }
-
         viewModelScope.launch(Dispatchers.IO) {
             delay(1500L)
             _uiState.value = HomeUiState.Success(CalendarUtil.todayLocalDate, listOf())

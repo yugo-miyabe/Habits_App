@@ -22,9 +22,9 @@ fun initKoin(config: KoinAppDeclaration? = null) {
 }
 
 val appModule = module {
-    viewModel { HomeViewModel(insertHabitUseCase = get()) }
+    viewModel { HomeViewModel() }
     viewModel { SettingViewModel() }
-    viewModel { AddHabitViewModel(habitDatabaseRepository = get()) }
+    viewModel { AddHabitViewModel(insertHabitUseCase = get()) }
     singleOf(::InsertHabitUseCase)
     //single { HabitDatabaseRepositoryImpl(appDatabase = get()) }
     singleOf(::HabitDatabaseRepositoryImpl) bind HabitDatabaseRepository::class

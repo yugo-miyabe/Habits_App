@@ -12,7 +12,7 @@ class InsertHabitUseCase(
     val habitDatabaseRepository: HabitDatabaseRepository
 ) {
     operator fun invoke(habitName: String): Flow<Either<AppError, Unit>> = flow {
-        habitDatabaseRepository.insertHabit(habitName).fold(
+        val result = habitDatabaseRepository.insertHabit(habitName).fold(
             ifLeft = {
                 AppError.DataBaseError.left()
             },
@@ -20,5 +20,6 @@ class InsertHabitUseCase(
                 it.right()
             }
         )
+        emit(result)
     }
 }

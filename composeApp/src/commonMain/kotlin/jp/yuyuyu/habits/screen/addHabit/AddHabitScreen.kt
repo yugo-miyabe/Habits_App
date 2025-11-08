@@ -7,22 +7,19 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun AddHabitScreen(
-    onBackClick: () -> Unit,
-    onAddHabitClick: () -> Unit,
+    onNavigateBack: () -> Unit,
     viewModel: AddHabitViewModel = koinViewModel()
 ) {
     val uiState = viewModel.uiState.collectAsState()
 
     if (uiState.value.isAddHabitSuccess) {
-        onAddHabitClick()
+        onNavigateBack()
     }
 
     AddHabitTemplate(
-        onBackClick = onBackClick,
+        onBackClick = onNavigateBack,
         addHabitText = uiState.value.addHabitText,
-        onAddHabitClick = {
-            viewModel.onAddHabit()
-        },
+        onAddHabitClick = viewModel::onAddHabit,
         onTextChange = { text ->
             viewModel.onChangeAddHabitText(text)
         },
