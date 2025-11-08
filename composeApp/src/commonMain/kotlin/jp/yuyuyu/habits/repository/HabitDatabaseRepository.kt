@@ -1,7 +1,7 @@
 package jp.yuyuyu.habits.repository
 
-interface HabitDatabaseRepository {
+ interface HabitDatabaseRepository {
     suspend  fun insertHabit(habitName: String)
 
-    suspend fun deleteAllHabits()
+    suspend fun deleteHabits(habitName: String)
 }

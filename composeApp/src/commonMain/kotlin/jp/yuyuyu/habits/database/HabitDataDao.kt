@@ -12,6 +12,4 @@ interface HabitDataDao {
     @Delete
     suspend fun delete(habitDataEntity: HabitDataEntity)
 
-    @Delete
-    suspend fun deleteAll()
 }
