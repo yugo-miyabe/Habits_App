@@ -56,6 +56,8 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.aboutlibraries.compose.m3)
             implementation(libs.aboutlibraries.core)
+            implementation(libs.arrow.core)
+            implementation(libs.arrow.fx.coroutines)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
