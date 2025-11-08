@@ -2,6 +2,7 @@ package jp.yuyuyu.habits.screen.addHabit
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import jp.yuyuyu.habits.AppError
 import jp.yuyuyu.habits.ui.template.AddHabitTemplate
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -25,4 +26,16 @@ fun AddHabitScreen(
         },
         isAddHabitButtonEnable = uiState.value.isAddHabitButtonEnable,
     )
+
+    uiState.value.appError?.let { it ->
+        when (it) {
+            AppError.DataBaseError -> {
+                // TODO Show DataBase Error Dialog
+            }
+
+            AppError.NetworkError -> {
+                // TODO Show Network Error Dialog
+            }
+        }
+    }
 }

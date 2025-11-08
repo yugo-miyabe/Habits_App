@@ -3,7 +3,6 @@ package jp.yuyuyu.habits.screen.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jp.yuyuyu.habits.database.HabitDataEntity
-import jp.yuyuyu.habits.usecase.InsertHabitUseCase
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
