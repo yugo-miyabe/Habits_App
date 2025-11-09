@@ -1,12 +1,12 @@
 package jp.yuyuyu.habits.screen.home
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import jp.yuyuyu.habits.AppError
 import jp.yuyuyu.habits.ui.molecules.ProgressIndicator
 import jp.yuyuyu.habits.ui.template.HomeTemplate
 import org.koin.compose.viewmodel.koinViewModel
@@ -45,7 +45,15 @@ fun HomeScreen(
             }
 
             is HomeUiState.Error -> {
-                // TODO エラー表示
+                when (state.appError) {
+                    AppError.DataBaseError -> {
+                        // TODO Show DataBase Error Dialog
+                    }
+
+                    AppError.NetworkError -> {
+                        // TODO Show Network Error Dialog
+                    }
+                }
             }
 
             is HomeUiState.Loading -> {

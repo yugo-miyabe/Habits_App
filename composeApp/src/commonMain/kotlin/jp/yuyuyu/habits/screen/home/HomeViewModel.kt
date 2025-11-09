@@ -2,6 +2,7 @@ package jp.yuyuyu.habits.screen.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import jp.yuyuyu.habits.AppError
 import jp.yuyuyu.habits.database.HabitDataEntity
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.Dispatchers
@@ -60,5 +61,5 @@ sealed interface HomeUiState {
     ) : HomeUiState
 
     data object Loading : HomeUiState
-    data object Error : HomeUiState
+    data class Error(val appError: AppError) : HomeUiState
 }
