@@ -6,6 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import jp.yuyuyu.habits.AppError
 import jp.yuyuyu.habits.ui.molecules.ProgressIndicator
 import jp.yuyuyu.habits.ui.template.HomeTemplate
@@ -24,6 +26,10 @@ fun HomeScreen(
         initialPage = Int.MAX_VALUE / 2,
         pageCount = { Int.MAX_VALUE },
     )
+
+    LifecycleEventEffect(event = Lifecycle.Event.ON_RESUME) {
+        viewModel.getAllHabits()
+    }
 
     uiState.value.let { state ->
         when (state) {

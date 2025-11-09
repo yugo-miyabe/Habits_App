@@ -22,7 +22,7 @@ class HomeViewModel(
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
     val uiState: StateFlow<HomeUiState> = _uiState
 
-    init {
+    fun getAllHabits() {
         viewModelScope.launch(Dispatchers.IO) {
             getAllHabitUseCase().collect { result ->
                 result.fold(
@@ -30,7 +30,7 @@ class HomeViewModel(
                         _uiState.value = HomeUiState.Error(appError)
                     },
                     ifRight = { habits ->
-                        val habitCalendar : List<HabitCalendar> = habits.map { habit ->
+                        val habitCalendar: List<HabitCalendar> = habits.map { habit ->
                             HabitCalendar(
                                 habit = habit.title,
                                 calendarWeek = CalendarUtil.createMonthUIModels(CalendarUtil.todayLocalDate)

@@ -2,7 +2,6 @@ package jp.yuyuyu.habits.ui.template
 
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -95,6 +94,9 @@ fun HomeTemplate(
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
+                }
+
+                item {
                     PrimaryButton(
                         text = stringResource(Res.string.add_habits),
                         onClick = onAddHabitClick,
