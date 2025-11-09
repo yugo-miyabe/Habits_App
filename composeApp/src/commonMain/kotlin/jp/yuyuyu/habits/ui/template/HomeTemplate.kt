@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -25,7 +27,7 @@ import habits.composeapp.generated.resources.settings_24dp
 import jp.yuyuyu.habits.AdMobBanner
 import jp.yuyuyu.habits.theme.AppTheme
 import jp.yuyuyu.habits.ui.atoms.PrimaryButton
-import jp.yuyuyu.habits.ui.model.CalendarWeek
+import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.ui.organisms.Calendar
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import jp.yuyuyu.habits.util.CalendarUtil
@@ -39,7 +41,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun HomeTemplate(
     calendarPagerState: PagerState,
-    calendarWeekList :List<CalendarWeek>,
+    habitCalendarList: List<HabitCalendar>,
     currentDate: LocalDate,
     nextMonth: () -> Unit,
     prevMoth: () -> Unit,
@@ -75,28 +77,33 @@ fun HomeTemplate(
         })
     }) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
-            Column {
-                Text(
-                    text = "💪筋トレ",
-                    style = AppTheme.typography.titleMediumBold,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-                HorizontalPager(
-                    state = calendarPagerState,
-                    pageSpacing = 8.dp,
-                    snapPosition = SnapPosition.Center,
-                ) { page ->
-                    Calendar(
-                        month = currentDate.month.number.toString(),
-                        calendarWeekList = calendarWeekList,
-                        modifier = Modifier.fillMaxWidth()
+            LazyColumn {
+                items(habitCalendarList) { calendarWeek ->
+                    Text(
+                        text = calendarWeek.habit,
+                        style = AppTheme.typography.titleMediumBold,
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
+                    HorizontalPager(
+                        state = calendarPagerState,
+                        pageSpacing = 8.dp,
+                        snapPosition = SnapPosition.Center,
+                    ) { page ->
+                        Calendar(
+                            month = currentDate.month.number.toString(),
+                            calendarWeekList = calendarWeek.calendarWeek,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                    PrimaryButton(
+                        text = stringResource(Res.string.add_habits),
+                        onClick = onAddHabitClick,
+                        modifier = Modifier.padding(16.dp)
                     )
                 }
-                PrimaryButton(
-                    text = stringResource(Res.string.add_habits),
-                    onClick = onAddHabitClick,
-                    modifier = Modifier.padding(16.dp)
-                )
+            }
+            Column {
+
             }
             Box(modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter)) {
                 AdMobBanner()
@@ -111,11 +118,15 @@ private fun HomeTemplatePreview() {
     val list = runBlocking {
         CalendarUtil.createMonthUIModels()
     }
+    val habit = HabitCalendar(
+        habit = "💪筋トレ",
+        calendarWeek = list
+    )
     HomeTemplate(
         calendarPagerState = rememberPagerState(
             pageCount = { 3 }
         ),
-        calendarWeekList = list,
+        habitCalendarList = listOf(habit),
         nextMonth = { /* preview */ },
         prevMoth = { /* preview */ },
         onAddHabitClick = { /* preview */ },

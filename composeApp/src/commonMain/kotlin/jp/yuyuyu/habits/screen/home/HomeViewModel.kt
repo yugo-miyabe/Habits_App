@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jp.yuyuyu.habits.AppError
 import jp.yuyuyu.habits.database.HabitDataEntity
-import jp.yuyuyu.habits.ui.model.CalendarWeek
+import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.usecase.GetAllHabitUseCase
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.Dispatchers
@@ -30,9 +30,15 @@ class HomeViewModel(
                         _uiState.value = HomeUiState.Error(appError)
                     },
                     ifRight = { habits ->
+                        val habitCalendar : List<HabitCalendar> = habits.map { habit ->
+                            HabitCalendar(
+                                habit = habit.title,
+                                calendarWeek = CalendarUtil.createMonthUIModels(CalendarUtil.todayLocalDate)
+                            )
+                        }
                         _uiState.value = HomeUiState.Success(
                             currentDate = CalendarUtil.todayLocalDate,
-                            calenderList = CalendarUtil.createMonthUIModels(CalendarUtil.todayLocalDate),
+                            habitCalendar = habitCalendar,
                             habits = habits
                         )
                     }
@@ -59,7 +65,11 @@ class HomeViewModel(
                 when (uiState) {
                     is HomeUiState.Success -> {
                         uiState.copy(
-                            calenderList = CalendarUtil.createMonthUIModels(uiState.currentDate)
+                            habitCalendar = uiState.habitCalendar.map {
+                                it.copy(
+                                    calendarWeek = CalendarUtil.createMonthUIModels(uiState.currentDate)
+                                )
+                            }
                         )
                     }
 
@@ -73,7 +83,7 @@ class HomeViewModel(
 sealed interface HomeUiState {
     data class Success(
         val currentDate: LocalDate = CalendarUtil.todayLocalDate,
-        val calenderList: List<CalendarWeek> = emptyList(),
+        val habitCalendar: List<HabitCalendar>,
         val habits: List<HabitDataEntity> = emptyList()
     ) : HomeUiState
 
