@@ -8,7 +8,6 @@ import jp.yuyuyu.habits.usecase.GetAllHabitUseCase
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -24,8 +23,19 @@ class HomeViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(1500L)
-            _uiState.value = HomeUiState.Success(CalendarUtil.todayLocalDate, listOf())
+            getAllHabitUseCase().collect { result ->
+                result.fold(
+                    ifLeft = { appError ->
+                        _uiState.value = HomeUiState.Error(appError)
+                    },
+                    ifRight = { habits ->
+                        _uiState.value = HomeUiState.Success(
+                            currentDate = CalendarUtil.todayLocalDate,
+                            habits = habits
+                        )
+                    }
+                )
+            }
         }
     }
 
