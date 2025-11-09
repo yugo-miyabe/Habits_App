@@ -31,6 +31,7 @@ fun HomeScreen(
                 HomeTemplate(
                     calendarPagerState = pager,
                     currentDate = state.currentDate,
+                    calendarWeekList = state.calenderList,
                     nextMonth = {
                         viewModel.onNextMonth()
                     },

@@ -21,6 +21,7 @@ import jp.yuyuyu.habits.ui.model.CalendarWeek
 import jp.yuyuyu.habits.ui.model.DayWeek
 import jp.yuyuyu.habits.ui.molecules.CalendarCell
 import jp.yuyuyu.habits.util.CalendarUtil
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -95,8 +96,11 @@ fun Calendar(
 @Composable
 @Preview(showBackground = true)
 private fun Calendar_Preview() {
+    val list = runBlocking {
+        CalendarUtil.createMonthUIModels()
+    }
     Calendar(
         month = "10",
-        calendarWeekList = CalendarUtil.createMonthUIModels()
+        calendarWeekList = list
     )
 }

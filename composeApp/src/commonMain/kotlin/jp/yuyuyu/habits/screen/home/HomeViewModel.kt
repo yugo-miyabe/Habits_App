@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jp.yuyuyu.habits.AppError
 import jp.yuyuyu.habits.database.HabitDataEntity
+import jp.yuyuyu.habits.ui.model.CalendarWeek
 import jp.yuyuyu.habits.usecase.GetAllHabitUseCase
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +32,7 @@ class HomeViewModel(
                     ifRight = { habits ->
                         _uiState.value = HomeUiState.Success(
                             currentDate = CalendarUtil.todayLocalDate,
+                            calenderList = CalendarUtil.createMonthUIModels(CalendarUtil.todayLocalDate),
                             habits = habits
                         )
                     }
@@ -69,6 +71,7 @@ class HomeViewModel(
 sealed interface HomeUiState {
     data class Success(
         val currentDate: LocalDate = CalendarUtil.todayLocalDate,
+        val calenderList: List<CalendarWeek> = emptyList(),
         val habits: List<HabitDataEntity> = emptyList()
     ) : HomeUiState
 
