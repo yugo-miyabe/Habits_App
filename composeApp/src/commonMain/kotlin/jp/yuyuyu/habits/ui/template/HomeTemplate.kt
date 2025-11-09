@@ -39,7 +39,6 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun HomeTemplate(
-    calendarPagerState: PagerState,
     habitCalendarList: List<HabitCalendar>,
     currentDate: LocalDate,
     nextMonth: () -> Unit,
@@ -47,23 +46,6 @@ fun HomeTemplate(
     onAddHabitClick: () -> Unit,
     onSettingClick: () -> Unit,
 ) {
-
-    LaunchedEffect(calendarPagerState) {
-        var prev = calendarPagerState.currentPage
-        snapshotFlow { calendarPagerState.currentPage }.collect { newPage ->
-            when {
-                newPage > prev -> {
-                    nextMonth()
-                    prev = newPage
-                }
-
-                newPage < prev -> {
-                    prevMoth()
-                    prev = newPage
-                }
-            }
-        }
-    }
 
     Scaffold(topBar = {
         TopBar(actions = {
@@ -78,13 +60,35 @@ fun HomeTemplate(
         Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
             LazyColumn {
                 items(habitCalendarList) { calendarWeek ->
+                    val pagerState = rememberPagerState(
+                        initialPage = Int.MAX_VALUE / 2,
+                        pageCount = { Int.MAX_VALUE }
+                    )
+                    
+                    LaunchedEffect(pagerState) {
+                        var prev = pagerState.currentPage
+                        snapshotFlow { pagerState.currentPage }.collect { newPage ->
+                            when {
+                                newPage > prev -> {
+                                    nextMonth()
+                                    prev = newPage
+                                }
+
+                                newPage < prev -> {
+                                    prevMoth()
+                                    prev = newPage
+                                }
+                            }
+                        }
+                    }
+                    
                     Text(
                         text = calendarWeek.habit,
                         style = AppTheme.typography.titleMediumBold,
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
                     HorizontalPager(
-                        state = calendarPagerState,
+                        state = pagerState,
                         pageSpacing = 8.dp,
                         snapPosition = SnapPosition.Center,
                     ) { page ->
@@ -122,9 +126,6 @@ private fun HomeTemplatePreview() {
         calendarWeek = list
     )
     HomeTemplate(
-        calendarPagerState = rememberPagerState(
-            pageCount = { 3 }
-        ),
         habitCalendarList = listOf(habit),
         nextMonth = { /* preview */ },
         prevMoth = { /* preview */ },
