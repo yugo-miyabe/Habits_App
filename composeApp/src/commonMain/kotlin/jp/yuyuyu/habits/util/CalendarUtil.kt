@@ -3,9 +3,9 @@ package jp.yuyuyu.habits.util
 import jp.yuyuyu.habits.ui.model.CalendarWeek
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
@@ -23,14 +23,11 @@ object CalendarUtil {
         Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
     val todayLocalDate: LocalDate = todayLocalDateTime.date
 
-
     fun getCurrentMonth(): String = todayLocalDateTime.month.number.toString()
-
 
     fun plusOneMonth(dateTime: LocalDate): LocalDate = dateTime.plus(1, DateTimeUnit.MONTH)
 
     fun minusOneMonth(dateTime: LocalDate): LocalDate = dateTime.plus(-1, DateTimeUnit.MONTH)
-
 
     /**
      * 指定月のカレンダーを作成する
@@ -41,40 +38,35 @@ object CalendarUtil {
                 val year = dateTime.year
                 val month = dateTime.month
 
-                // 今月の日付リストを作成
-                val days = mutableListOf<LocalDate>()
-                var day = 1
-                while (true) {
-                    try {
-                        days.add(LocalDate(year, month, day))
-                        day++
-                    } catch (_: Throwable) {
-                        break
-                    }
-                }
+                // 今月の開始日・終了日を決定して範囲ループで日付を作成
+                val firstOfMonth = LocalDate(year, month, 1)
+                val firstOfNextMonth = firstOfMonth.plus(1, DateTimeUnit.MONTH)
+                val lastOfMonth = firstOfNextMonth.plus(-1, DateTimeUnit.DAY)
 
                 // 週ごとに分割
                 val weeks = mutableListOf<List<LocalDate?>>()
                 var week = MutableList<LocalDate?>(7) { null }
-                for (date in days) {
-                    val idx = when (date.dayOfWeek) {
-                        kotlinx.datetime.DayOfWeek.MONDAY -> 0
-                        kotlinx.datetime.DayOfWeek.TUESDAY -> 1
-                        kotlinx.datetime.DayOfWeek.WEDNESDAY -> 2
-                        kotlinx.datetime.DayOfWeek.THURSDAY -> 3
-                        kotlinx.datetime.DayOfWeek.FRIDAY -> 4
-                        kotlinx.datetime.DayOfWeek.SATURDAY -> 5
-                        kotlinx.datetime.DayOfWeek.SUNDAY -> 6
+
+                var current = firstOfMonth
+                while (current <= lastOfMonth) {
+                    val idx = when (current.dayOfWeek) {
+                        DayOfWeek.MONDAY -> 0
+                        DayOfWeek.TUESDAY -> 1
+                        DayOfWeek.WEDNESDAY -> 2
+                        DayOfWeek.THURSDAY -> 3
+                        DayOfWeek.FRIDAY -> 4
+                        DayOfWeek.SATURDAY -> 5
+                        DayOfWeek.SUNDAY -> 6
                     }
-                    week[idx] = date
+                    week[idx] = current
                     if (idx == 6) {
                         weeks.add(week.toList())
                         week = MutableList(7) { null }
                     }
+                    current = current.plus(1, DateTimeUnit.DAY)
                 }
                 if (week.any { it != null }) weeks.add(week.toList())
 
-                delay(1000L)
                 return@withContext weeks.map { week ->
                     CalendarWeek(
                         monday = CalendarWeek.Calendar(

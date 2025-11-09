@@ -53,13 +53,33 @@ class HomeViewModel(
                 else -> uiState
             }
         }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            _uiState.update { uiState ->
+                when (uiState) {
+                    is HomeUiState.Success -> {
+                        uiState.copy(
+                            calenderList = CalendarUtil.createMonthUIModels(
+                                CalendarUtil.minusOneMonth(uiState.currentDate)
+                            )
+                        )
+                    }
+
+                    else -> uiState
+                }
+            }
+        }
     }
 
-    fun onPrevMonth() {
+
+    fun onPrevMonth() = viewModelScope.launch(Dispatchers.IO) {
         _uiState.update { uiState ->
             when (uiState) {
                 is HomeUiState.Success -> uiState.copy(
-                    currentDate = CalendarUtil.minusOneMonth(uiState.currentDate)
+                    currentDate = CalendarUtil.plusOneMonth(uiState.currentDate),
+                    calenderList = CalendarUtil.createMonthUIModels(
+                        CalendarUtil.plusOneMonth(uiState.currentDate)
+                    )
                 )
 
                 else -> uiState
