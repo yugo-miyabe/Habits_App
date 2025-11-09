@@ -1,7 +1,10 @@
 package jp.yuyuyu.habits.repository
 
- interface HabitDatabaseRepository {
-    suspend  fun insertHabit(habitName: String)
+import arrow.core.Either
+import jp.yuyuyu.habits.AppError
 
-    suspend fun deleteHabits(habitName: String)
+interface HabitDatabaseRepository {
+    suspend fun insertHabit(habitName: String): Either<AppError, Unit>
+
+    suspend fun deleteHabits(habitName: String): Either<AppError, Unit>
 }
