@@ -29,13 +29,12 @@ fun HomeScreen(
         when (state) {
             is HomeUiState.Success -> {
                 HomeTemplate(
-                    currentDate = state.currentDate,
                     habitCalendarList = state.habitCalendar,
                     nextMonth = {
-                        viewModel.onNextMonth()
+                        viewModel.onNextMonth(it)
                     },
                     prevMoth = {
-                        viewModel.onPrevMonth()
+                        viewModel.onPrevMonth(it)
                     },
                     onAddHabitClick = {
                         onAddHabitClick()

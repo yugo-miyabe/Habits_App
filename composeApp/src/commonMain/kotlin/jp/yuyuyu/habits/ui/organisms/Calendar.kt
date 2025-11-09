@@ -26,7 +26,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun Calendar(
+fun CalendarMonth(
     month: String,
     modifier: Modifier = Modifier,
     calendarWeekList: List<CalendarWeek>
@@ -95,11 +95,11 @@ fun Calendar(
 
 @Composable
 @Preview(showBackground = true)
-private fun Calendar_Preview() {
+private fun CalendarMonth_Preview() {
     val list = runBlocking {
         CalendarUtil.createMonthUIModels()
     }
-    Calendar(
+    CalendarMonth(
         month = "10",
         calendarWeekList = list
     )
