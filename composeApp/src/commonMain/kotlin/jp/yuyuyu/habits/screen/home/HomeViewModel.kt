@@ -25,6 +25,7 @@ class HomeViewModel(
     fun getAllHabits() {
         viewModelScope.launch(Dispatchers.IO) {
             getAllHabitUseCase().collect { result ->
+                val currentDate = CalendarUtil.todayLocalDate
                 result.fold(
                     ifLeft = { appError ->
                         _uiState.value = HomeUiState.Error(appError)
@@ -33,11 +34,11 @@ class HomeViewModel(
                         val habitCalendar: List<HabitCalendar> = habits.map { habit ->
                             HabitCalendar(
                                 habit = habit.title,
-                                calendarWeek = CalendarUtil.createMonthUIModels(CalendarUtil.todayLocalDate)
+                                currentDate = currentDate,
+                                calendarWeek = CalendarUtil.createMonthUIModels(currentDate)
                             )
                         }
                         _uiState.value = HomeUiState.Success(
-                            currentDate = CalendarUtil.todayLocalDate,
                             habitCalendar = habitCalendar,
                             habits = habits
                         )
@@ -47,30 +48,54 @@ class HomeViewModel(
         }
     }
 
-    fun onNextMonth() = changeMonth { CalendarUtil.plusOneMonth(it) }
+    fun onNextMonth(habit: String) = changeMonth(habit = habit) {
+        CalendarUtil.plusOneMonth(it)
+    }
 
-    fun onPrevMonth() = changeMonth { CalendarUtil.minusOneMonth(it) }
+    fun onPrevMonth(habit: String) = changeMonth(habit = habit) {
+        CalendarUtil.minusOneMonth(it)
+    }
 
-    private fun changeMonth(transform: (LocalDate) -> LocalDate) {
+    private fun changeMonth(habit: String, transform: (LocalDate) -> LocalDate) {
+        // currentDate を即時更新
         _uiState.update { uiState ->
             when (uiState) {
-                is HomeUiState.Success -> uiState.copy(currentDate = transform(uiState.currentDate))
+                is HomeUiState.Success -> {
+                    val habitCalendar = uiState.habitCalendar.map { habitCalendar ->
+                        if (habitCalendar.habit == habit) {
+                            habitCalendar.copy(
+                                currentDate = transform(habitCalendar.currentDate),
+                            )
+                        } else {
+                            habitCalendar
+                        }
+                    }
+                    uiState.copy(habitCalendar = habitCalendar)
+                }
 
                 else -> uiState
             }
         }
 
+        // currentDate を元に calendarWeek を再計算（非同期）
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.update { uiState ->
                 when (uiState) {
                     is HomeUiState.Success -> {
-                        uiState.copy(
-                            habitCalendar = uiState.habitCalendar.map {
-                                it.copy(
-                                    calendarWeek = CalendarUtil.createMonthUIModels(uiState.currentDate)
-                                )
+                        val newUiState = uiState.copy(
+                            habitCalendar = uiState.habitCalendar.map { habitCalendar ->
+                                if (habitCalendar.habit == habit) {
+                                    habitCalendar.copy(
+                                        calendarWeek = CalendarUtil.createMonthUIModels(
+                                            habitCalendar.currentDate
+                                        )
+                                    )
+                                } else {
+                                    habitCalendar
+                                }
                             }
                         )
+                        newUiState
                     }
 
                     else -> uiState
@@ -82,7 +107,6 @@ class HomeViewModel(
 
 sealed interface HomeUiState {
     data class Success(
-        val currentDate: LocalDate = CalendarUtil.todayLocalDate,
         val habitCalendar: List<HabitCalendar>,
         val habits: List<HabitDataEntity> = emptyList()
     ) : HomeUiState
