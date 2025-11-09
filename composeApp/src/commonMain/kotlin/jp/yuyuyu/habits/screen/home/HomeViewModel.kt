@@ -4,10 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jp.yuyuyu.habits.AppError
 import jp.yuyuyu.habits.database.HabitDataEntity
+import jp.yuyuyu.habits.ui.model.CalendarWeek
+import jp.yuyuyu.habits.usecase.GetAllHabitUseCase
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
 class HomeViewModel(
+    val getAllHabitUseCase: GetAllHabitUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
@@ -22,33 +24,47 @@ class HomeViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            delay(1500L)
-            _uiState.value = HomeUiState.Success(CalendarUtil.todayLocalDate, listOf())
-        }
-    }
-
-    fun onNextMonth() {
-        _uiState.update { uiState ->
-            when (uiState) {
-                is HomeUiState.Success -> {
-                    uiState.copy(
-                        currentDate = CalendarUtil.plusOneMonth(uiState.currentDate),
-                    )
-                }
-
-                else -> uiState
+            getAllHabitUseCase().collect { result ->
+                result.fold(
+                    ifLeft = { appError ->
+                        _uiState.value = HomeUiState.Error(appError)
+                    },
+                    ifRight = { habits ->
+                        _uiState.value = HomeUiState.Success(
+                            currentDate = CalendarUtil.todayLocalDate,
+                            calenderList = CalendarUtil.createMonthUIModels(CalendarUtil.todayLocalDate),
+                            habits = habits
+                        )
+                    }
+                )
             }
         }
     }
 
-    fun onPrevMonth() {
+    fun onNextMonth() = changeMonth { CalendarUtil.plusOneMonth(it) }
+
+    fun onPrevMonth() = changeMonth { CalendarUtil.minusOneMonth(it) }
+
+    private fun changeMonth(transform: (LocalDate) -> LocalDate) {
         _uiState.update { uiState ->
             when (uiState) {
-                is HomeUiState.Success -> uiState.copy(
-                    currentDate = CalendarUtil.minusOneMonth(uiState.currentDate)
-                )
+                is HomeUiState.Success -> uiState.copy(currentDate = transform(uiState.currentDate))
 
                 else -> uiState
+            }
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            _uiState.update { uiState ->
+                when (uiState) {
+                    is HomeUiState.Success -> {
+                        uiState.copy(
+                            calenderList = CalendarUtil.createMonthUIModels(uiState.currentDate)
+                        )
+                    }
+
+                    else -> uiState
+                }
             }
         }
     }
@@ -57,6 +73,7 @@ class HomeViewModel(
 sealed interface HomeUiState {
     data class Success(
         val currentDate: LocalDate = CalendarUtil.todayLocalDate,
+        val calenderList: List<CalendarWeek> = emptyList(),
         val habits: List<HabitDataEntity> = emptyList()
     ) : HomeUiState
 

@@ -25,9 +25,11 @@ import habits.composeapp.generated.resources.settings_24dp
 import jp.yuyuyu.habits.AdMobBanner
 import jp.yuyuyu.habits.theme.AppTheme
 import jp.yuyuyu.habits.ui.atoms.PrimaryButton
+import jp.yuyuyu.habits.ui.model.CalendarWeek
 import jp.yuyuyu.habits.ui.organisms.Calendar
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import jp.yuyuyu.habits.util.CalendarUtil
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.number
 import org.jetbrains.compose.resources.painterResource
@@ -37,6 +39,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun HomeTemplate(
     calendarPagerState: PagerState,
+    calendarWeekList :List<CalendarWeek>,
     currentDate: LocalDate,
     nextMonth: () -> Unit,
     prevMoth: () -> Unit,
@@ -85,7 +88,7 @@ fun HomeTemplate(
                 ) { page ->
                     Calendar(
                         month = currentDate.month.number.toString(),
-                        calendarWeekList = CalendarUtil.createMonthUIModels(currentDate),
+                        calendarWeekList = calendarWeekList,
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -105,10 +108,14 @@ fun HomeTemplate(
 @Composable
 @Preview(showBackground = true)
 private fun HomeTemplatePreview() {
+    val list = runBlocking {
+        CalendarUtil.createMonthUIModels()
+    }
     HomeTemplate(
         calendarPagerState = rememberPagerState(
             pageCount = { 3 }
         ),
+        calendarWeekList = list,
         nextMonth = { /* preview */ },
         prevMoth = { /* preview */ },
         onAddHabitClick = { /* preview */ },
