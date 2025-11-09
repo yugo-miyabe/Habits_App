@@ -102,9 +102,6 @@ fun HomeTemplate(
                     )
                 }
             }
-            Column {
-
-            }
             Box(modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter)) {
                 AdMobBanner()
             }
