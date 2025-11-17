@@ -1,7 +1,6 @@
 package jp.yuyuyu.habits.screen.home
 
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -22,11 +21,6 @@ fun HomeScreen(
 ) {
     val uiState = viewModel.uiState.collectAsState()
 
-    val pager = rememberPagerState(
-        initialPage = Int.MAX_VALUE / 2,
-        pageCount = { Int.MAX_VALUE },
-    )
-
     LifecycleEventEffect(event = Lifecycle.Event.ON_RESUME) {
         viewModel.getAllHabits()
     }
@@ -35,14 +29,12 @@ fun HomeScreen(
         when (state) {
             is HomeUiState.Success -> {
                 HomeTemplate(
-                    calendarPagerState = pager,
-                    currentDate = state.currentDate,
                     habitCalendarList = state.habitCalendar,
                     nextMonth = {
-                        viewModel.onNextMonth()
+                        viewModel.onNextMonth(it)
                     },
                     prevMoth = {
-                        viewModel.onPrevMonth()
+                        viewModel.onPrevMonth(it)
                     },
                     onAddHabitClick = {
                         onAddHabitClick()
