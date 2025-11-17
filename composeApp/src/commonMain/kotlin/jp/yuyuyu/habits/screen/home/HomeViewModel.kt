@@ -82,7 +82,7 @@ class HomeViewModel(
             _uiState.update { uiState ->
                 when (uiState) {
                     is HomeUiState.Success -> {
-                        val newUiState = uiState.copy(
+                        uiState.copy(
                             habitCalendar = uiState.habitCalendar.map { habitCalendar ->
                                 if (habitCalendar.habit == habit) {
                                     habitCalendar.copy(
@@ -95,7 +95,6 @@ class HomeViewModel(
                                 }
                             }
                         )
-                        newUiState
                     }
 
                     else -> uiState
