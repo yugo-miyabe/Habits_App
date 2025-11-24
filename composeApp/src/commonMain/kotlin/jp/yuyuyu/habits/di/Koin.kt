@@ -7,6 +7,7 @@ import jp.yuyuyu.habits.screen.home.HomeViewModel
 import jp.yuyuyu.habits.screen.setting.SettingViewModel
 import jp.yuyuyu.habits.usecase.GetAllHabitUseCase
 import jp.yuyuyu.habits.usecase.InsertHabitUseCase
+import jp.yuyuyu.habits.usecase.UpdateHabitUseCase
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
@@ -28,6 +29,6 @@ val appModule = module {
     viewModel { AddHabitViewModel(get()) }
     singleOf(::InsertHabitUseCase)
     singleOf(::GetAllHabitUseCase)
-    //single { HabitDatabaseRepositoryImpl(appDatabase = get()) }
+    singleOf(::UpdateHabitUseCase)
     singleOf(::HabitDatabaseRepositoryImpl) bind HabitDatabaseRepository::class
 }

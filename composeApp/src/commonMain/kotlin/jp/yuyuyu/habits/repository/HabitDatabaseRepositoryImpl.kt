@@ -19,6 +19,13 @@ internal class HabitDatabaseRepositoryImpl(private val appDatabase: AppDatabase)
         AppError.DataBaseError
     }
 
+    override suspend fun updateHabit(habitDataEntity: HabitDataEntity): Either<AppError, Unit> =
+        Either.catch {
+            appDatabase.getDao().update(habitDataEntity)
+        }.mapLeft {
+            AppError.DataBaseError
+        }
+
     override suspend fun deleteHabits(habitName: String): Either<AppError, Unit> = Either.catch {
         appDatabase.getDao().delete(HabitDataEntity(title = habitName))
     }.mapLeft {
