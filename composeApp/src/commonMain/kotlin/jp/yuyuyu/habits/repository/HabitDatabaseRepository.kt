@@ -9,5 +9,7 @@ interface HabitDatabaseRepository {
 
     suspend fun getAllHabits(): Either<AppError, List<HabitDataEntity>>
 
+    suspend fun updateHabit(habitDataEntity: HabitDataEntity): Either<AppError, Unit>
+
     suspend fun deleteHabits(habitName: String): Either<AppError, Unit>
 }
