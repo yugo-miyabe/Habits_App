@@ -30,6 +30,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun HomeTemplate(
     habitCalendarList: List<HabitCalendar>,
+    updateHabitCompletion: () -> Unit,
     nextMonth: (habit: String) -> Unit,
     prevMoth: (habit: String) -> Unit,
     onAddHabitClick: () -> Unit,
@@ -89,6 +90,7 @@ private fun HomeTemplatePreview() {
     )
     HomeTemplate(
         habitCalendarList = listOf(habit),
+        updateHabitCompletion = { /* preview */ },
         nextMonth = { /* preview */ },
         prevMoth = { /* preview */ },
         onAddHabitClick = { /* preview */ },

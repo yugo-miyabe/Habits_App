@@ -23,7 +23,7 @@ data class HabitEntity(
 
 @Entity(
     tableName = "habit_days",
-    primaryKeys = ["habitId"],
+    primaryKeys = ["habitId", "date"],
     foreignKeys = [
         ForeignKey(
             entity = HabitEntity::class,

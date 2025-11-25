@@ -30,6 +30,9 @@ fun HomeScreen(
             is HomeUiState.Success -> {
                 HomeTemplate(
                     habitCalendarList = state.habitCalendar,
+                    updateHabitCompletion = {
+
+                    },
                     nextMonth = {
                         viewModel.onNextMonth(it)
                     },
