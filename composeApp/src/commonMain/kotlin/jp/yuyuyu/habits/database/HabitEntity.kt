@@ -53,8 +53,8 @@ data class HabitDayEntity(
  * 使用例:
  * ```kotlin
  * @Transaction
- * @Query("SELECT * FROM habits")
- * fun getAllHabitsWithDays(): Flow<List<HabitWithDays>>
+ * @Query("SELECT * FROM habits WHERE id = :habitId")
+ * suspend fun getHabitWithDays(habitId: Long): HabitWithDays?
  * ```
  *
  * @property habit 習慣エンティティ
