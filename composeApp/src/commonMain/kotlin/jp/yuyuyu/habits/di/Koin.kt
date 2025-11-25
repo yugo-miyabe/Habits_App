@@ -2,6 +2,8 @@ package jp.yuyuyu.habits.di
 
 import jp.yuyuyu.habits.repository.HabitDatabaseRepository
 import jp.yuyuyu.habits.repository.HabitDatabaseRepositoryImpl
+import jp.yuyuyu.habits.repository.HabitDayDatabaseRepository
+import jp.yuyuyu.habits.repository.HabitDayDatabaseRepositoryImpl
 import jp.yuyuyu.habits.screen.addHabit.AddHabitViewModel
 import jp.yuyuyu.habits.screen.home.HomeViewModel
 import jp.yuyuyu.habits.screen.setting.SettingViewModel
@@ -31,4 +33,5 @@ val appModule = module {
     singleOf(::GetAllHabitUseCase)
     singleOf(::UpdateHabitUseCase)
     singleOf(::HabitDatabaseRepositoryImpl) bind HabitDatabaseRepository::class
+    singleOf(::HabitDayDatabaseRepositoryImpl) bind HabitDayDatabaseRepository::class
 }

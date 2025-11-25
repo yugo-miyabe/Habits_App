@@ -25,12 +25,16 @@ interface HabitDao {
     @Delete
     suspend fun deleteHabit(habit: HabitEntity)
 
-    // HabitDay insert / upsert
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDays(days: List<HabitDayEntity>)
 
+    /** 完了した習慣の日付を追加 */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertDay(day: HabitDayEntity)
+
+    /** 完了した習慣の日付を削除 */
+    @Delete
+    suspend fun deleteDay(day: HabitDayEntity)
 
     @Query("UPDATE habit_days SET isCompleted = :isCompleted WHERE habitId = :habitId AND date = :date")
     suspend fun updateDayCompletion(habitId: Long, date: LocalDate, isCompleted: Boolean)
