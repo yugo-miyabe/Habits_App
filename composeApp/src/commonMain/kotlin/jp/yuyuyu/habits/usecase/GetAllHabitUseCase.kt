@@ -15,7 +15,7 @@ class GetAllHabitUseCase(
     operator fun invoke(): Flow<Either<AppError, List<HabitEntity>>> = flow {
         val result = habitDatabaseRepository.getAllHabits().fold(
             ifLeft = {
-                AppError.DataBaseError.left()
+                it.left()
             },
             ifRight = {
                 it.right()

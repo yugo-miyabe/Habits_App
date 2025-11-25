@@ -52,6 +52,45 @@ class HomeViewModel(
         }
     }
 
+    fun updateHabitCompletion(
+        habit: HabitEntity,
+        date: LocalDate,
+        isCompleted: Boolean
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (isCompleted) {
+                insertHabitDayUseCase(
+                    habitId = habit.id,
+                    date = date,
+                    isCompleted = isCompleted
+                ).collect { result ->
+                    result.fold(
+                        ifLeft = {
+                            // エラーハンドリングは必要に応じて実装
+                        },
+                        ifRight = {
+                            // 成功時の処理（必要に応じて実装）
+                        }
+                    )
+                }
+            } else {
+                deleteHabitDayUseCase(
+                    habitId = habit.id,
+                    date = date
+                ).collect { result ->
+                    result.fold(
+                        ifLeft = {
+                            // エラーハンドリングは必要に応じて実装
+                        },
+                        ifRight = {
+                            // 成功時の処理（必要に応じて実装）
+                        }
+                    )
+                }
+            }
+        }
+    }
+
     fun onNextMonth(habit: String) = changeMonth(habit = habit) {
         CalendarUtil.plusOneMonth(it)
     }
