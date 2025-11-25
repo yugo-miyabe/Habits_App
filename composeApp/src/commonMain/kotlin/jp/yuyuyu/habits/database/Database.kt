@@ -9,11 +9,11 @@ import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 
-@Database(entities = [HabitDataEntity::class], version = 1)
+@Database(entities = [HabitEntity::class, HabitDayEntity::class], version = 1)
 @ConstructedBy(AppDatabaseConstructor::class)
-@TypeConverters(CalendarListConverter::class)
+@TypeConverters(LocalDateTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun getDao(): HabitDataDao
+    abstract fun getDao(): HabitDao
 }
 
 // The Room compiler generates the `actual` implementations.

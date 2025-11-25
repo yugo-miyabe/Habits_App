@@ -2,10 +2,14 @@ package jp.yuyuyu.habits.di
 
 import jp.yuyuyu.habits.repository.HabitDatabaseRepository
 import jp.yuyuyu.habits.repository.HabitDatabaseRepositoryImpl
+import jp.yuyuyu.habits.repository.HabitDayDatabaseRepository
+import jp.yuyuyu.habits.repository.HabitDayDatabaseRepositoryImpl
 import jp.yuyuyu.habits.screen.addHabit.AddHabitViewModel
 import jp.yuyuyu.habits.screen.home.HomeViewModel
 import jp.yuyuyu.habits.screen.setting.SettingViewModel
+import jp.yuyuyu.habits.usecase.DeleteHabitDayUseCase
 import jp.yuyuyu.habits.usecase.GetAllHabitUseCase
+import jp.yuyuyu.habits.usecase.InsertHabitDayUseCase
 import jp.yuyuyu.habits.usecase.InsertHabitUseCase
 import jp.yuyuyu.habits.usecase.UpdateHabitUseCase
 import org.koin.core.context.startKoin
@@ -24,11 +28,14 @@ fun initKoin(config: KoinAppDeclaration? = null) {
 }
 
 val appModule = module {
-    viewModel { HomeViewModel(get()) }
+    viewModel { HomeViewModel(get(), get(), get()) }
     viewModel { SettingViewModel() }
     viewModel { AddHabitViewModel(get()) }
     singleOf(::InsertHabitUseCase)
     singleOf(::GetAllHabitUseCase)
     singleOf(::UpdateHabitUseCase)
+    singleOf(::InsertHabitDayUseCase)
+    singleOf(::DeleteHabitDayUseCase)
     singleOf(::HabitDatabaseRepositoryImpl) bind HabitDatabaseRepository::class
+    singleOf(::HabitDayDatabaseRepositoryImpl) bind HabitDayDatabaseRepository::class
 }

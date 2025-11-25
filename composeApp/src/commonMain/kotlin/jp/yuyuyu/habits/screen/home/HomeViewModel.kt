@@ -3,9 +3,11 @@ package jp.yuyuyu.habits.screen.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jp.yuyuyu.habits.AppError
-import jp.yuyuyu.habits.database.HabitDataEntity
+import jp.yuyuyu.habits.database.HabitEntity
 import jp.yuyuyu.habits.ui.model.HabitCalendar
+import jp.yuyuyu.habits.usecase.DeleteHabitDayUseCase
 import jp.yuyuyu.habits.usecase.GetAllHabitUseCase
+import jp.yuyuyu.habits.usecase.InsertHabitDayUseCase
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -16,7 +18,9 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
 class HomeViewModel(
-    val getAllHabitUseCase: GetAllHabitUseCase
+    val getAllHabitUseCase: GetAllHabitUseCase,
+    val insertHabitDayUseCase: InsertHabitDayUseCase,
+    val deleteHabitDayUseCase: DeleteHabitDayUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
@@ -44,6 +48,45 @@ class HomeViewModel(
                         )
                     }
                 )
+            }
+        }
+    }
+
+    fun updateHabitCompletion(
+        habit: HabitEntity,
+        date: LocalDate,
+        isCompleted: Boolean
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (isCompleted) {
+                insertHabitDayUseCase(
+                    habitId = habit.id,
+                    date = date,
+                    isCompleted = isCompleted
+                ).collect { result ->
+                    result.fold(
+                        ifLeft = {
+                            // エラーハンドリングは必要に応じて実装
+                        },
+                        ifRight = {
+                            // 成功時の処理（必要に応じて実装）
+                        }
+                    )
+                }
+            } else {
+                deleteHabitDayUseCase(
+                    habitId = habit.id,
+                    date = date
+                ).collect { result ->
+                    result.fold(
+                        ifLeft = {
+                            // エラーハンドリングは必要に応じて実装
+                        },
+                        ifRight = {
+                            // 成功時の処理（必要に応じて実装）
+                        }
+                    )
+                }
             }
         }
     }
@@ -107,7 +150,7 @@ class HomeViewModel(
 sealed interface HomeUiState {
     data class Success(
         val habitCalendar: List<HabitCalendar>,
-        val habits: List<HabitDataEntity> = emptyList()
+        val habits: List<HabitEntity> = emptyList()
     ) : HomeUiState
 
     data object Loading : HomeUiState
