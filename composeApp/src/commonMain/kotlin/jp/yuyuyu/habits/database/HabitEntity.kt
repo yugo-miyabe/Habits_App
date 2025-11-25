@@ -41,7 +41,6 @@ data class HabitDayEntity(
     val habitId: Long,
     @ColumnInfo(name = "date")
     val date: LocalDate,
-    val isCompleted: Boolean = false,
 )
 
 /**

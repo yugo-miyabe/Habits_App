@@ -18,7 +18,6 @@ class HabitDayDatabaseRepositoryImpl(
             day = HabitDayEntity(
                 habitId = habitId,
                 date = date,
-                isCompleted = isCompleted
             )
         )
     }.mapLeft {
@@ -33,7 +32,6 @@ class HabitDayDatabaseRepositoryImpl(
             day = HabitDayEntity(
                 habitId = habitId,
                 date = date,
-                isCompleted = false
             )
         )
     }.mapLeft {
