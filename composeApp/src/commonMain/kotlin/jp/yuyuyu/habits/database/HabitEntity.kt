@@ -18,7 +18,7 @@ data class HabitEntity(
     val title: String,
     val createdAt: String? = null,
     val updatedAt: String? = null,
-    val isArchived: Boolean = false
+    val isArchived: Boolean,
 )
 
 @Entity(

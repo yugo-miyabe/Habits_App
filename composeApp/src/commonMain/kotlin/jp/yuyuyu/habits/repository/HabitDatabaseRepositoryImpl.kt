@@ -10,7 +10,10 @@ internal class HabitDatabaseRepositoryImpl(private val appDatabase: AppDatabase)
     override suspend fun insertHabit(habitName: String): Either<AppError, Long> = Either.catch {
         appDatabase.getDao().insertHabit(
             HabitEntity(
-                title = habitName
+                title = habitName,
+                createdAt = null,
+                updatedAt = null,
+                isArchived = true
             )
         )
     }.mapLeft {
