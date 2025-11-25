@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import jp.yuyuyu.habits.AppError
 import jp.yuyuyu.habits.database.HabitEntity
 import jp.yuyuyu.habits.ui.model.HabitCalendar
+import jp.yuyuyu.habits.usecase.DeleteHabitDayUseCase
 import jp.yuyuyu.habits.usecase.GetAllHabitUseCase
+import jp.yuyuyu.habits.usecase.InsertHabitDayUseCase
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -16,7 +18,9 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
 class HomeViewModel(
-    val getAllHabitUseCase: GetAllHabitUseCase
+    val getAllHabitUseCase: GetAllHabitUseCase,
+    val insertHabitDayUseCase: InsertHabitDayUseCase,
+    val deleteHabitDayUseCase: DeleteHabitDayUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
