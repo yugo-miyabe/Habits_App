@@ -27,8 +27,8 @@
     <string name="habit_cooking">🍳 料理</string>
     <string name="habit_cleaning">🧹 掃除</string>
     <string name="habit_gratitude">🙏 感謝を書く</string>
-    <string name="dialog_database_error">データベースエラー</string>
-    <string name="dialog_database_error_message">データベースの初期化中にエラーが発生しました。アプリを再起動してください。</string>
+    <string name="dialog_database_error">Databaseエラー</string>
+    <string name="dialog_database_error_message">Databaseの初期化中にエラーが発生しました。アプリを再起動してください。</string>
     <string name="dialog_network_error">ネットワークエラー</string>
     <string name="dialog_network_error_message">ネットワーク接続に問題があります。接続を確認して、もう一度お試しください。</string>
     <string name="ok">OK</string>
