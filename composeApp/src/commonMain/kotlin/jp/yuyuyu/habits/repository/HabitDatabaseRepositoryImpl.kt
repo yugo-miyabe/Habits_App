@@ -3,31 +3,22 @@ package jp.yuyuyu.habits.repository
 import arrow.core.Either
 import jp.yuyuyu.habits.AppError
 import jp.yuyuyu.habits.database.AppDatabase
-import jp.yuyuyu.habits.database.HabitDataEntity
+import jp.yuyuyu.habits.database.HabitEntity
 
 internal class HabitDatabaseRepositoryImpl(private val appDatabase: AppDatabase) :
     HabitDatabaseRepository {
-    override suspend fun insertHabit(habitName: String): Either<AppError, Unit> = Either.catch {
-        appDatabase.getDao().insert(HabitDataEntity(title = habitName))
+    override suspend fun insertHabit(habitName: String): Either<AppError, Long> = Either.catch {
+        appDatabase.getDao().insertHabit(
+            HabitEntity(
+                title = habitName
+            )
+        )
     }.mapLeft {
         AppError.DataBaseError
     }
 
-    override suspend fun getAllHabits(): Either<AppError, List<HabitDataEntity>> = Either.catch {
+    override suspend fun getAllHabits(): Either<AppError, List<HabitEntity>> = Either.catch {
         appDatabase.getDao().getAllHabits()
-    }.mapLeft {
-        AppError.DataBaseError
-    }
-
-    override suspend fun updateHabit(habitDataEntity: HabitDataEntity): Either<AppError, Unit> =
-        Either.catch {
-            appDatabase.getDao().update(habitDataEntity)
-        }.mapLeft {
-            AppError.DataBaseError
-        }
-
-    override suspend fun deleteHabits(habitName: String): Either<AppError, Unit> = Either.catch {
-        appDatabase.getDao().delete(HabitDataEntity(title = habitName))
     }.mapLeft {
         AppError.DataBaseError
     }

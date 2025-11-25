@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.flow
 class InsertHabitUseCase(
     val habitDatabaseRepository: HabitDatabaseRepository
 ) {
-    operator fun invoke(habitName: String): Flow<Either<AppError, Unit>> = flow {
+    operator fun invoke(habitName: String): Flow<Either<AppError, Long>> = flow {
         val result = habitDatabaseRepository.insertHabit(habitName).fold(
             ifLeft = {
                 AppError.DataBaseError.left()

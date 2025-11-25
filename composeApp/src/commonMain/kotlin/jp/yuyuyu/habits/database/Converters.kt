@@ -1,42 +1,16 @@
 package jp.yuyuyu.habits.database
 
 import androidx.room.TypeConverter
-import kotlinx.serialization.json.Json
+import kotlinx.datetime.LocalDate
+import kotlin.jvm.JvmStatic
 
-class CalendarListConverter {
+// シンプルに ISO-8601 の "YYYY-MM-DD" 文字列で保存する実装
+object LocalDateTypeConverter {
     @TypeConverter
-    fun fromCalendar(calendar: HabitDay?): String? =
-        calendar?.let {
-            Json.encodeToString(
-                HabitDay.serializer(),
-                it
-            )
-        }
+    @JvmStatic
+    fun fromLocalDate(value: LocalDate?): String? = value?.toString() // "2025-11-24"
 
     @TypeConverter
-    fun toCalendar(value: String?): HabitDay? =
-        value?.let {
-            Json.decodeFromString(
-                HabitDay.serializer(),
-                it
-            )
-        }
-
-    @TypeConverter
-    fun fromCalendarList(calendar: List<HabitDay>?): String? =
-        calendar?.let {
-            Json.encodeToString(
-                kotlinx.serialization.builtins.ListSerializer(HabitDay.serializer()),
-                it
-            )
-        }
-
-    @TypeConverter
-    fun toCalendarList(value: String?): List<HabitDay>? =
-        value?.let {
-            Json.decodeFromString(
-                kotlinx.serialization.builtins.ListSerializer(HabitDay.serializer()),
-                it
-            )
-        }
+    @JvmStatic
+    fun toLocalDate(value: String?): LocalDate? = value?.let { LocalDate.parse(it) }
 }
