@@ -44,6 +44,22 @@ data class HabitDayEntity(
     val isCompleted: Boolean = false,
 )
 
+/**
+ * 習慣(Habit)とその日付ごとの完了記録(HabitDay)を結合したデータクラス。
+ *
+ * Room の @Relation アノテーションを使用して、1つの習慣に紐づく
+ * すべての日付記録を一度のクエリで取得するために使用されます。
+ *
+ * 使用例:
+ * ```kotlin
+ * @Transaction
+ * @Query("SELECT * FROM habits")
+ * fun getAllHabitsWithDays(): Flow<List<HabitWithDays>>
+ * ```
+ *
+ * @property habit 習慣エンティティ
+ * @property days 習慣に紐づく日付ごとの完了記録リスト
+ */
 data class HabitWithDays(
     @Embedded val habit: HabitEntity,
     @Relation(
