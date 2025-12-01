@@ -8,7 +8,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import jp.yuyuyu.habits.AppError
+import jp.yuyuyu.habits.ui.model.DialogType
 import jp.yuyuyu.habits.ui.molecules.ProgressIndicator
+import jp.yuyuyu.habits.ui.organisms.CommonDialog
 import jp.yuyuyu.habits.ui.template.HomeTemplate
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -49,11 +51,21 @@ fun HomeScreen(
             is HomeUiState.Error -> {
                 when (state.appError) {
                     AppError.DataBaseError -> {
-                        // TODO Show DataBase Error Dialog
+                        CommonDialog(
+                            onDismiss = {
+                                // viewModel.dismissErrorDialog()
+                            },
+                            dialogType = DialogType.DatabaseError()
+                        )
                     }
 
                     AppError.NetworkError -> {
-                        // TODO Show Network Error Dialog
+                        CommonDialog(
+                            onDismiss = {
+                                // viewModel.dismissErrorDialog()
+                            },
+                            dialogType = DialogType.NetworkError()
+                        )
                     }
                 }
             }

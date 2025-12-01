@@ -11,18 +11,15 @@ import org.jetbrains.compose.resources.stringResource
 sealed class DialogType {
     abstract val title: String
     abstract val message: String
-    abstract val onDismiss: () -> Unit
 
-    data class DatabaseError(
-        override val title: String,
-        override val message: String,
-        override val onDismiss: () -> Unit
+    class DatabaseError(
+        override val title: String = "",
+        override val message: String = "",
     ) : DialogType()
 
     data class NetworkError(
-        override val title: String,
-        override val message: String,
-        override val onDismiss: () -> Unit
+        override val title: String = "",
+        override val message: String = "",
     ) : DialogType()
 }
 

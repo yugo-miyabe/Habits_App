@@ -73,7 +73,6 @@ private fun CommonDialogPreview() {
         dialogType = DialogType.DatabaseError(
             title = "Database Error",
             message = "An error occurred while accessing the database.",
-            onDismiss = {}
         )
     )
 }
