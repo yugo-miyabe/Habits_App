@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class AddHabitViewModel(
@@ -31,6 +32,12 @@ class AddHabitViewModel(
                     _uiState.value = uiState.value.copy(isAddHabitSuccess = true)
                 }
             )
+        }
+    }
+
+    fun dismissErrorDialog() {
+        _uiState.update { uiState ->
+            uiState.copy(appError = null)
         }
     }
 }
