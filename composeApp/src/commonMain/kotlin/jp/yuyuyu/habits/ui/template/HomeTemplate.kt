@@ -51,7 +51,6 @@ fun HomeTemplate(
             LazyColumn {
                 items(habitCalendarList) { calendarWeek ->
                     CalendarPage(
-                        currentDate = calendarWeek.currentDate,
                         calendarWeek = calendarWeek,
                         nextMonth = {
                             nextMonth(calendarWeek.habit)

@@ -13,12 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import jp.yuyuyu.habits.theme.AppTheme
 import jp.yuyuyu.habits.ui.model.HabitCalendar
-import kotlinx.datetime.LocalDate
+import jp.yuyuyu.habits.util.CalendarUtil
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.number
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CalendarPage(
-    currentDate: LocalDate,
     calendarWeek: HabitCalendar,
     nextMonth: () -> Unit,
     prevMoth: () -> Unit,
@@ -56,9 +57,27 @@ fun CalendarPage(
         snapPosition = SnapPosition.Center,
     ) { page ->
         CalendarMonth(
-            month = currentDate.month.number.toString(),
+            month = calendarWeek.currentDate.month.number.toString(),
             calendarWeekList = calendarWeek.calendarWeek,
             modifier = Modifier.fillMaxWidth()
         )
     }
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun CalendarPagePreview() {
+    val list = runBlocking {
+        CalendarUtil.createMonthUIModels()
+    }
+    val habit = HabitCalendar(
+        habit = "💪筋トレ",
+        calendarWeek = list,
+        currentDate = CalendarUtil.todayLocalDate
+    )
+    CalendarPage(
+        calendarWeek =  habit,
+        nextMonth = {},
+        prevMoth = {}
+    )
 }
