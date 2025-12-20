@@ -9,18 +9,8 @@ import habits.composeapp.generated.resources.dialog_network_error_message
 import org.jetbrains.compose.resources.stringResource
 
 sealed class DialogType {
-    abstract val title: String
-    abstract val message: String
-
-    class DatabaseError(
-        override val title: String = "",
-        override val message: String = "",
-    ) : DialogType()
-
-    data class NetworkError(
-        override val title: String = "",
-        override val message: String = "",
-    ) : DialogType()
+    object DatabaseError : DialogType()
+    object NetworkError : DialogType()
 }
 
 internal val DialogType.localizedTitle: String

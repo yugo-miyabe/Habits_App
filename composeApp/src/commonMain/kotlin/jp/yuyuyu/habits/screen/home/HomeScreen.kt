@@ -53,14 +53,14 @@ fun HomeScreen(
                     AppError.DataBaseError -> {
                         CommonDialog(
                             onDismiss = viewModel::dismissErrorDialog,
-                            dialogType = DialogType.DatabaseError()
+                            dialogType = DialogType.DatabaseError
                         )
                     }
 
                     AppError.NetworkError -> {
                         CommonDialog(
                             onDismiss = viewModel::dismissErrorDialog,
-                            dialogType = DialogType.NetworkError()
+                            dialogType = DialogType.NetworkError
                         )
                     }
                 }
