@@ -7,7 +7,6 @@ import platform.UIKit.UIView
 
 @Composable
 actual fun AdMobBanner(modifier: Modifier) {
-    // TODO 広告を実装
     UIKitView(
         factory = {
             UIView()

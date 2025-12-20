@@ -9,9 +9,7 @@ import androidx.room.PrimaryKey
 import androidx.room.Relation
 import kotlinx.datetime.LocalDate
 
-@Entity(
-    tableName = "habits"
-)
+@Entity(tableName = "habits")
 data class HabitEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
