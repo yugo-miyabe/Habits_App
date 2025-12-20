@@ -42,7 +42,7 @@ fun CalendarCell(
     ) {
         Text(
             text = calendar.date ?: "",
-            style = AppTheme.typography.labelMedium,
+            style = AppTheme.typography.titleMediumBold,
             color = if (calendar.isSelected) AppTheme.colors.textPinkFont else AppTheme.colors.textBaseBackground,
             modifier = Modifier
         )
