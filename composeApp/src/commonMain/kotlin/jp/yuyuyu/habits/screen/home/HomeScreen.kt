@@ -52,18 +52,14 @@ fun HomeScreen(
                 when (state.appError) {
                     AppError.DataBaseError -> {
                         CommonDialog(
-                            onDismiss = {
-                                // viewModel.dismissErrorDialog()
-                            },
+                            onDismiss = viewModel::dismissErrorDialog,
                             dialogType = DialogType.DatabaseError()
                         )
                     }
 
                     AppError.NetworkError -> {
                         CommonDialog(
-                            onDismiss = {
-                                // viewModel.dismissErrorDialog()
-                            },
+                            onDismiss = viewModel::dismissErrorDialog,
                             dialogType = DialogType.NetworkError()
                         )
                     }

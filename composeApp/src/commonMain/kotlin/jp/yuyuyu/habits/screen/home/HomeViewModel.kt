@@ -52,6 +52,17 @@ class HomeViewModel(
         }
     }
 
+    fun dismissErrorDialog() {
+        _uiState.update { uiState ->
+            when (uiState) {
+                is HomeUiState.Error -> HomeUiState.Loading
+                else -> uiState
+            }
+        }
+
+        getAllHabits()
+    }
+
     fun updateHabitCompletion(
         habit: HabitEntity,
         date: LocalDate,
