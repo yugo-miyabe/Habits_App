@@ -18,6 +18,7 @@ import habits.composeapp.generated.resources.add_habits
 import habits.composeapp.generated.resources.settings_24dp
 import jp.yuyuyu.habits.AdMobBanner
 import jp.yuyuyu.habits.ui.atoms.PrimaryButton
+import jp.yuyuyu.habits.ui.model.CalendarWeek
 import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.ui.organisms.CalendarPage
 import jp.yuyuyu.habits.ui.organisms.TopBar
@@ -30,6 +31,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun HomeTemplate(
     habitCalendarList: List<HabitCalendar>,
+    onClickCalendar: (CalendarWeek.Calendar) -> Unit,
     updateHabitCompletion: () -> Unit,
     nextMonth: (habit: String) -> Unit,
     prevMoth: (habit: String) -> Unit,
@@ -52,6 +54,7 @@ fun HomeTemplate(
                 items(habitCalendarList) { calendarWeek ->
                     CalendarPage(
                         calendarWeek = calendarWeek,
+                        onClickCalendar = onClickCalendar,
                         nextMonth = {
                             nextMonth(calendarWeek.habit)
                         },

@@ -63,6 +63,10 @@ class HomeViewModel(
         getAllHabits()
     }
 
+    fun onClickCalendar() {
+        // TODO 実装
+    }
+
     fun updateHabitCompletion(
         habit: HabitEntity,
         date: LocalDate,

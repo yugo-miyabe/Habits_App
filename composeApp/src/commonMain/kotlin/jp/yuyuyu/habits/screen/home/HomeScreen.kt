@@ -32,6 +32,9 @@ fun HomeScreen(
             is HomeUiState.Success -> {
                 HomeTemplate(
                     habitCalendarList = state.habitCalendar,
+                    onClickCalendar = { calendar ->
+                        viewModel.onClickCalendar(calendar)
+                    },
                     updateHabitCompletion = {
 
                     },

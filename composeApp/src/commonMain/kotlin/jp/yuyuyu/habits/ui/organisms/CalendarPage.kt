@@ -12,6 +12,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import jp.yuyuyu.habits.theme.AppTheme
+import jp.yuyuyu.habits.ui.model.CalendarWeek
 import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.runBlocking
@@ -21,6 +22,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun CalendarPage(
     calendarWeek: HabitCalendar,
+    onClickCalendar: (CalendarWeek.Calendar) -> Unit,
     nextMonth: () -> Unit,
     prevMoth: () -> Unit,
 ) {
@@ -59,6 +61,7 @@ fun CalendarPage(
         CalendarMonth(
             month = calendarWeek.currentDate.month.number.toString(),
             calendarWeekList = calendarWeek.calendarWeek,
+            onClickCalendar = onClickCalendar,
             modifier = Modifier.fillMaxWidth()
         )
     }

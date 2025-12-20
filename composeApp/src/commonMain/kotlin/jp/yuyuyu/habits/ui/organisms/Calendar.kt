@@ -28,8 +28,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun CalendarMonth(
     month: String,
+    onClickCalendar: (CalendarWeek.Calendar) -> Unit,
+    calendarWeekList: List<CalendarWeek>,
     modifier: Modifier = Modifier,
-    calendarWeekList: List<CalendarWeek>
 ) {
     Column(
         modifier = modifier.padding(
@@ -84,6 +85,7 @@ fun CalendarMonth(
                     ).forEach { day ->
                         CalendarCell(
                             calendar = day,
+                            onClickCalendar = onClickCalendar,
                             modifier = Modifier.weight(1f).aspectRatio(1f).padding(4.dp)
                         )
                     }
@@ -101,6 +103,7 @@ private fun CalendarMonth_Preview() {
     }
     CalendarMonth(
         month = "10",
+        onClickCalendar = { /* preview */ },
         calendarWeekList = list
     )
 }

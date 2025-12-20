@@ -1,6 +1,7 @@
 package jp.yuyuyu.habits.ui.molecules
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -26,6 +27,7 @@ import kotlin.time.ExperimentalTime
 @Composable
 fun CalendarCell(
     calendar: CalendarWeek.Calendar,
+    onClickCalendar: (CalendarWeek.Calendar) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -37,7 +39,10 @@ fun CalendarCell(
                     calendar.date.isNullOrEmpty() -> AppTheme.colors.white
                     else -> AppTheme.colors.textBaseFont
                 }
-            ),
+            )
+            .clickable(onClick = {
+                onClickCalendar(calendar)
+            }),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -62,6 +67,7 @@ private fun CalendarCell_Preview() {
                 date = isToday.date.day.toString(),
                 isSelected = true,
             ),
+            onClickCalendar = { /* preview */ },
             modifier = Modifier.padding(4.dp).size(50.dp)
         )
         CalendarCell(
@@ -69,6 +75,7 @@ private fun CalendarCell_Preview() {
                 date = tomorrow.date.day.toString(),
                 isSelected = false
             ),
+            onClickCalendar = { /* preview */ },
             modifier = Modifier.padding(4.dp).size(50.dp)
         )
     }
