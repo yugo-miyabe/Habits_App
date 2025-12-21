@@ -13,6 +13,7 @@ import kotlinx.datetime.number
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
+import kotlin.time.Duration.Companion.days
 import kotlin.time.ExperimentalTime
 
 
@@ -70,31 +71,31 @@ object CalendarUtil {
                 return@withContext weeks.map { week ->
                     CalendarWeek(
                         monday = CalendarWeek.Calendar(
-                            date = week[0]?.day?.toString(),
+                            date = week[0],
                             isSelected = false
                         ),
                         tuesday = CalendarWeek.Calendar(
-                            date = week[1]?.day?.toString(),
+                            date = week[1],
                             isSelected = false
                         ),
                         wednesday = CalendarWeek.Calendar(
-                            date = week[2]?.day?.toString(),
+                            date = week[2],
                             isSelected = false
                         ),
                         thursday = CalendarWeek.Calendar(
-                            date = week[3]?.day?.toString(),
+                            date = week[3],
                             isSelected = false
                         ),
                         friday = CalendarWeek.Calendar(
-                            date = week[4]?.day?.toString(),
+                            date = week[4],
                             isSelected = false
                         ),
                         saturday = CalendarWeek.Calendar(
-                            date = week[5]?.day?.toString(),
+                            date = week[5],
                             isSelected = false
                         ),
                         sunday = CalendarWeek.Calendar(
-                            date = week[6]?.day?.toString(),
+                            date = week[6],
                             isSelected = false
                         ),
                     )

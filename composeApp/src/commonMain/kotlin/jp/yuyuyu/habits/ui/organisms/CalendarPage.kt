@@ -74,13 +74,15 @@ private fun CalendarPagePreview() {
         CalendarUtil.createMonthUIModels()
     }
     val habit = HabitCalendar(
+        habitID = 0,
         habit = "💪筋トレ",
         calendarWeek = list,
         currentDate = CalendarUtil.todayLocalDate
     )
     CalendarPage(
-        calendarWeek =  habit,
-        nextMonth = {},
-        prevMoth = {}
+        calendarWeek = habit,
+        onClickCalendar = { /* preview */ },
+        nextMonth = { /* preview */ },
+        prevMoth = { /* preview */ }
     )
 }

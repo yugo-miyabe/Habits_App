@@ -36,7 +36,7 @@ fun CalendarCell(
             .background(
                 when {
                     calendar.isSelected -> AppTheme.colors.textPinkBackground
-                    calendar.date.isNullOrEmpty() -> AppTheme.colors.white
+                    calendar.date == null -> AppTheme.colors.white
                     else -> AppTheme.colors.textBaseFont
                 }
             )
@@ -46,7 +46,7 @@ fun CalendarCell(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = calendar.date ?: "",
+            text = calendar.date?.day.toString(),
             style = AppTheme.typography.titleMediumBold,
             color = if (calendar.isSelected) AppTheme.colors.textPinkFont else AppTheme.colors.textBaseBackground,
             modifier = Modifier
@@ -64,7 +64,7 @@ private fun CalendarCell_Preview() {
     Row(horizontalArrangement = Arrangement.Center) {
         CalendarCell(
             calendar = CalendarWeek.Calendar(
-                date = isToday.date.day.toString(),
+                date = isToday.date,
                 isSelected = true,
             ),
             onClickCalendar = { /* preview */ },
@@ -72,7 +72,7 @@ private fun CalendarCell_Preview() {
         )
         CalendarCell(
             calendar = CalendarWeek.Calendar(
-                date = tomorrow.date.day.toString(),
+                date = tomorrow.date,
                 isSelected = false
             ),
             onClickCalendar = { /* preview */ },

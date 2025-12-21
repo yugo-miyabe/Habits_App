@@ -34,9 +34,10 @@ class HomeViewModel(
                     ifLeft = { appError ->
                         _uiState.value = HomeUiState.Error(appError)
                     },
-                    ifRight = { habits ->
-                        val habitCalendar: List<HabitCalendar> = habits.map { habit ->
+                    ifRight = { habitEntityList ->
+                        val habitCalendar: List<HabitCalendar> = habitEntityList.map { habit ->
                             HabitCalendar(
+                                habitID = habit.id,
                                 habit = habit.title,
                                 currentDate = currentDate,
                                 calendarWeek = CalendarUtil.createMonthUIModels(currentDate)
@@ -44,7 +45,7 @@ class HomeViewModel(
                         }
                         _uiState.value = HomeUiState.Success(
                             habitCalendar = habitCalendar,
-                            habits = habits
+                            habitEntityList = habitEntityList
                         )
                     }
                 )
@@ -63,42 +64,39 @@ class HomeViewModel(
         getAllHabits()
     }
 
-    fun onClickCalendar() {
-        // TODO 実装
-    }
 
     fun updateHabitCompletion(
-        habit: HabitEntity,
+        habitID: Long,
         date: LocalDate,
         isCompleted: Boolean
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             if (isCompleted) {
                 insertHabitDayUseCase(
-                    habitId = habit.id,
+                    habitId = habitID,
                     date = date,
                     isCompleted = isCompleted
                 ).collect { result ->
                     result.fold(
-                        ifLeft = {
-                            // エラーハンドリングは必要に応じて実装
+                        ifLeft = { appError ->
+                            _uiState.value = HomeUiState.Error(appError)
                         },
                         ifRight = {
-                            // 成功時の処理（必要に応じて実装）
+                            // 成功時の処理
                         }
                     )
                 }
             } else {
                 deleteHabitDayUseCase(
-                    habitId = habit.id,
+                    habitId = habitID,
                     date = date
                 ).collect { result ->
                     result.fold(
-                        ifLeft = {
-                            // エラーハンドリングは必要に応じて実装
+                        ifLeft = { appError ->
+                            _uiState.value = HomeUiState.Error(appError)
                         },
                         ifRight = {
-                            // 成功時の処理（必要に応じて実装）
+                            // 成功時の処理
                         }
                     )
                 }
@@ -165,7 +163,7 @@ class HomeViewModel(
 sealed interface HomeUiState {
     data class Success(
         val habitCalendar: List<HabitCalendar>,
-        val habits: List<HabitEntity> = emptyList()
+        val habitEntityList: List<HabitEntity> = emptyList()
     ) : HomeUiState
 
     data object Loading : HomeUiState

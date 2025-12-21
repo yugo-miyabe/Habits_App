@@ -31,7 +31,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun HomeTemplate(
     habitCalendarList: List<HabitCalendar>,
-    onClickCalendar: (CalendarWeek.Calendar) -> Unit,
+    onClickCalendar: (habitID: Long, calendarWeekCalendar: CalendarWeek.Calendar) -> Unit,
     updateHabitCompletion: () -> Unit,
     nextMonth: (habit: String) -> Unit,
     prevMoth: (habit: String) -> Unit,
@@ -54,7 +54,9 @@ fun HomeTemplate(
                 items(habitCalendarList) { calendarWeek ->
                     CalendarPage(
                         calendarWeek = calendarWeek,
-                        onClickCalendar = onClickCalendar,
+                        onClickCalendar = { calendarWeekCalendar ->
+                            onClickCalendar(calendarWeek.habitID, calendarWeekCalendar)
+                        },
                         nextMonth = {
                             nextMonth(calendarWeek.habit)
                         },
@@ -86,12 +88,14 @@ private fun HomeTemplatePreview() {
         CalendarUtil.createMonthUIModels()
     }
     val habit = HabitCalendar(
+        habitID = 0,
         habit = "💪筋トレ",
         calendarWeek = list,
         currentDate = CalendarUtil.todayLocalDate
     )
     HomeTemplate(
         habitCalendarList = listOf(habit),
+        onClickCalendar = { _, _ -> { /* preview */ } },
         updateHabitCompletion = { /* preview */ },
         nextMonth = { /* preview */ },
         prevMoth = { /* preview */ },
