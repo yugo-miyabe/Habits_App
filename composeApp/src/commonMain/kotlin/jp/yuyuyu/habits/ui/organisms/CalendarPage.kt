@@ -57,7 +57,7 @@ fun CalendarPage(
         state = calendarPagerState,
         pageSpacing = 8.dp,
         snapPosition = SnapPosition.Center,
-    ) { page ->
+    ) { _ ->
         CalendarMonth(
             month = calendarWeek.currentDate.month.number.toString(),
             calendarWeekList = calendarWeek.calendarWeek,
@@ -74,7 +74,7 @@ private fun CalendarPagePreview() {
         CalendarUtil.createMonthUIModels()
     }
     val habit = HabitCalendar(
-        habitID = 0,
+        habitId = 0,
         habit = "💪筋トレ",
         calendarWeek = list,
         currentDate = CalendarUtil.todayLocalDate

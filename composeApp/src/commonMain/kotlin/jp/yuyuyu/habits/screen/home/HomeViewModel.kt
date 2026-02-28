@@ -38,7 +38,7 @@ class HomeViewModel(
                     ifRight = { habitEntityList ->
                         val habitCalendar: List<HabitCalendar> = habitEntityList.map { habit ->
                             HabitCalendar(
-                                habitID = habit.id,
+                                habitId = habit.id,
                                 habit = habit.title,
                                 currentDate = currentDate,
                                 calendarWeek = CalendarUtil.createMonthUIModels(currentDate)
@@ -67,34 +67,38 @@ class HomeViewModel(
 
 
     fun updateHabitCompletion(
-        habitID: Long,
+        habitId: Long,
         date: LocalDate,
-        isCompleted: Boolean
+        currentlySelected: Boolean
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (!isCompleted) {
-                insertHabitDayUseCase(
-                    habitId = habitID,
-                    date = date,
-                    isCompleted = isCompleted
-                ).collect { result ->
+            if (!currentlySelected) {
+                insertHabitDayUseCase(habitId = habitId, date = date).collect { result ->
                     result.fold(
                         ifLeft = { appError ->
                             _uiState.value = HomeUiState.Error(appError)
                         },
                         ifRight = {
-                            updateCalendarSelectionState(habitID, date, isSelected = true)
+                            updateCalendarSelectionState(
+                                habitId = habitId,
+                                date = date,
+                                isSelected = true
+                            )
                         }
                     )
                 }
             } else {
-                deleteHabitDayUseCase(habitId = habitID, date = date).collect { result ->
+                deleteHabitDayUseCase(habitId = habitId, date = date).collect { result ->
                     result.fold(
                         ifLeft = { appError ->
                             _uiState.value = HomeUiState.Error(appError)
                         },
                         ifRight = {
-                            updateCalendarSelectionState(habitID, date, isSelected = false)
+                            updateCalendarSelectionState(
+                                habitId = habitId,
+                                date = date,
+                                isSelected = false
+                            )
                         }
                     )
                 }
@@ -103,7 +107,7 @@ class HomeViewModel(
     }
 
     private fun updateCalendarSelectionState(
-        habitID: Long,
+        habitId: Long,
         date: LocalDate,
         isSelected: Boolean
     ) {
@@ -111,7 +115,7 @@ class HomeViewModel(
             when (state) {
                 is HomeUiState.Success -> {
                     val updatedHabitCalendar = state.habitCalendar.map { habitCalendar ->
-                        if (habitCalendar.habitID == habitID) {
+                        if (habitCalendar.habitId == habitId) {
                             habitCalendar.copy(
                                 calendarWeek = habitCalendar.calendarWeek.map { week ->
                                     updateWeekDaySelection(week, date, isSelected)
@@ -123,6 +127,7 @@ class HomeViewModel(
                     }
                     state.copy(habitCalendar = updatedHabitCalendar)
                 }
+
                 else -> state
             }
         }

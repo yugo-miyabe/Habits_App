@@ -55,7 +55,7 @@ fun HomeTemplate(
                     CalendarPage(
                         calendarWeek = calendarWeek,
                         onClickCalendar = { calendarWeekCalendar ->
-                            onClickCalendar(calendarWeek.habitID, calendarWeekCalendar)
+                            onClickCalendar(calendarWeek.habitId, calendarWeekCalendar)
                         },
                         nextMonth = {
                             nextMonth(calendarWeek.habit)
@@ -88,14 +88,14 @@ private fun HomeTemplatePreview() {
         CalendarUtil.createMonthUIModels()
     }
     val habit = HabitCalendar(
-        habitID = 0,
+        habitId = 0,
         habit = "💪筋トレ",
         calendarWeek = list,
         currentDate = CalendarUtil.todayLocalDate
     )
     HomeTemplate(
         habitCalendarList = listOf(habit),
-        onClickCalendar = { _, _ -> { /* preview */ } },
+        onClickCalendar = { _, _ -> /* preview */ },
         updateHabitCompletion = { /* preview */ },
         nextMonth = { /* preview */ },
         prevMoth = { /* preview */ },

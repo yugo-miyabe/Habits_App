@@ -40,13 +40,15 @@ fun CalendarCell(
                     else -> AppTheme.colors.textBaseFont
                 }
             )
-            .clickable(onClick = {
-                onClickCalendar(calendar)
-            }),
+            .clickable(
+                enabled = calendar.date != null,
+                onClick = {
+                    onClickCalendar(calendar)
+                }),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = calendar.date?.day.toString(),
+            text = calendar.date?.day?.toString() ?: "",
             style = AppTheme.typography.titleMediumBold,
             color = if (calendar.isSelected) AppTheme.colors.textPinkFont else AppTheme.colors.textBaseBackground,
             modifier = Modifier

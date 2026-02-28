@@ -12,9 +12,7 @@ import jp.yuyuyu.habits.ui.model.DialogType
 import jp.yuyuyu.habits.ui.molecules.ProgressIndicator
 import jp.yuyuyu.habits.ui.organisms.CommonDialog
 import jp.yuyuyu.habits.ui.template.HomeTemplate
-import kotlinx.datetime.LocalDate
 import org.koin.compose.viewmodel.koinViewModel
-
 
 @Composable
 fun HomeScreen(
@@ -33,12 +31,12 @@ fun HomeScreen(
             is HomeUiState.Success -> {
                 HomeTemplate(
                     habitCalendarList = state.habitCalendar,
-                    onClickCalendar = { habitID, calendar ->
-                        calendar.date ?: return@HomeTemplate
+                    onClickCalendar = { habitId, calendar ->
+                        val date = calendar.date ?: return@HomeTemplate
                         viewModel.updateHabitCompletion(
-                            habitID = habitID,
-                            date = calendar.date,
-                            isCompleted = calendar.isSelected,
+                            habitId = habitId,
+                            date = date,
+                            currentlySelected = calendar.isSelected,
                         )
                     },
                     updateHabitCompletion = {
