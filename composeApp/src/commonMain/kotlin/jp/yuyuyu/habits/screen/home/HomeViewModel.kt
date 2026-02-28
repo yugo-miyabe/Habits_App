@@ -150,25 +150,25 @@ class HomeViewModel(
                                                         calendarWeek.let {
                                                             it.copy(
                                                                 monday = if (it.monday.date == date) it.monday.copy(
-                                                                    isSelected = true
+                                                                    isSelected = false
                                                                 ) else it.monday,
                                                                 tuesday = if (it.tuesday.date == date) it.tuesday.copy(
-                                                                    isSelected = true
+                                                                    isSelected = false
                                                                 ) else it.tuesday,
                                                                 wednesday = if (it.wednesday.date == date) it.wednesday.copy(
-                                                                    isSelected = true
+                                                                    isSelected = false
                                                                 ) else it.wednesday,
                                                                 thursday = if (it.thursday.date == date) it.thursday.copy(
-                                                                    isSelected = true
+                                                                    isSelected = false
                                                                 ) else it.thursday,
                                                                 friday = if (it.friday.date == date) it.friday.copy(
-                                                                    isSelected = true
+                                                                    isSelected = false
                                                                 ) else it.friday,
                                                                 saturday = if (it.saturday.date == date) it.saturday.copy(
-                                                                    isSelected = true
+                                                                    isSelected = false
                                                                 ) else it.saturday,
                                                                 sunday = if (it.sunday.date == date) it.sunday.copy(
-                                                                    isSelected = true
+                                                                    isSelected = false
                                                                 ) else it.sunday
                                                             )
                                                         }
