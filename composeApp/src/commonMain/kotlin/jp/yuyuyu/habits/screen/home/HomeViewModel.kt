@@ -37,7 +37,7 @@ class HomeViewModel(
                     ifRight = { habitEntityList ->
                         val habitCalendar: List<HabitCalendar> = habitEntityList.map { habit ->
                             HabitCalendar(
-                                habitID = habit.id,
+                                habitId = habit.id,
                                 habit = habit.title,
                                 currentDate = currentDate,
                                 calendarWeek = CalendarUtil.createMonthUIModels(currentDate)
@@ -66,14 +66,14 @@ class HomeViewModel(
 
 
     fun updateHabitCompletion(
-        habitID: Long,
+        habitId: Long,
         date: LocalDate,
         isCompleted: Boolean
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             if (!isCompleted) {
                 insertHabitDayUseCase(
-                    habitId = habitID,
+                    habitId = habitId,
                     date = date,
                     isCompleted = isCompleted
                 ).collect { result ->
@@ -88,7 +88,7 @@ class HomeViewModel(
                                     is HomeUiState.Success -> {
                                         val updatedHabitCalendar =
                                             state.habitCalendar.map { habitCalendar ->
-                                                if (habitCalendar.habitID == habitID) {
+                                                if (habitCalendar.habitId == habitId) {
                                                     val updatedWeeks =
                                                         habitCalendar.calendarWeek.map { week ->
                                                             week.copy(
@@ -132,7 +132,7 @@ class HomeViewModel(
                     )
                 }
             } else {
-                deleteHabitDayUseCase(habitId = habitID, date = date).collect { result ->
+                deleteHabitDayUseCase(habitId = habitId, date = date).collect { result ->
                     result.fold(
                         ifLeft = { appError ->
                             _uiState.value = HomeUiState.Error(appError)
@@ -144,7 +144,7 @@ class HomeViewModel(
                                     is HomeUiState.Success -> {
                                         val updatedHabitCalendar =
                                             state.habitCalendar.map { habitCalendar ->
-                                                if (habitCalendar.habitID == habitID) {
+                                                if (habitCalendar.habitId == habitId) {
                                                     val updatedWeeks =
                                                         habitCalendar.calendarWeek.map { week ->
                                                             week.copy(

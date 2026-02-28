@@ -40,9 +40,11 @@ fun CalendarCell(
                     else -> AppTheme.colors.textBaseFont
                 }
             )
-            .clickable(onClick = {
-                onClickCalendar(calendar)
-            }),
+            .clickable(
+                enabled = calendar.date != null,
+                onClick = {
+                    onClickCalendar(calendar)
+                }),
         contentAlignment = Alignment.Center
     ) {
         Text(
