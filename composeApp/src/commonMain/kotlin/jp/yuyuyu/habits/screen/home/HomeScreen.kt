@@ -31,12 +31,12 @@ fun HomeScreen(
             is HomeUiState.Success -> {
                 HomeTemplate(
                     habitCalendarList = state.habitCalendar,
-                    onClickCalendar = { habitID, calendar ->
+                    onClickCalendar = { habitId, calendar ->
                         calendar.date ?: return@HomeTemplate
                         viewModel.updateHabitCompletion(
-                            habitId = habitID,
+                            habitId = habitId,
                             date = calendar.date,
-                            isCompleted = calendar.isSelected,
+                            currentlySelected = calendar.isSelected,
                         )
                     },
                     updateHabitCompletion = {

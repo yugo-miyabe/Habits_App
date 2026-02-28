@@ -68,14 +68,14 @@ class HomeViewModel(
     fun updateHabitCompletion(
         habitId: Long,
         date: LocalDate,
-        isCompleted: Boolean
+        currentlySelected: Boolean
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (!isCompleted) {
+            if (!currentlySelected) {
                 insertHabitDayUseCase(
                     habitId = habitId,
                     date = date,
-                    isCompleted = isCompleted
+                    isCompleted = currentlySelected
                 ).collect { result ->
                     result.fold(
                         ifLeft = { appError ->
