@@ -14,7 +14,6 @@ import jp.yuyuyu.habits.ui.organisms.CommonDialog
 import jp.yuyuyu.habits.ui.template.HomeTemplate
 import org.koin.compose.viewmodel.koinViewModel
 
-
 @Composable
 fun HomeScreen(
     onSettingClick: () -> Unit,
@@ -32,6 +31,14 @@ fun HomeScreen(
             is HomeUiState.Success -> {
                 HomeTemplate(
                     habitCalendarList = state.habitCalendar,
+                    onClickCalendar = { habitId, calendar ->
+                        val date = calendar.date ?: return@HomeTemplate
+                        viewModel.updateHabitCompletion(
+                            habitId = habitId,
+                            date = date,
+                            currentlySelected = calendar.isSelected,
+                        )
+                    },
                     updateHabitCompletion = {
 
                     },

@@ -1,6 +1,7 @@
 package jp.yuyuyu.habits.ui.molecules
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -26,6 +27,7 @@ import kotlin.time.ExperimentalTime
 @Composable
 fun CalendarCell(
     calendar: CalendarWeek.Calendar,
+    onClickCalendar: (CalendarWeek.Calendar) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -34,15 +36,20 @@ fun CalendarCell(
             .background(
                 when {
                     calendar.isSelected -> AppTheme.colors.textPinkBackground
-                    calendar.date.isNullOrEmpty() -> AppTheme.colors.white
+                    calendar.date == null -> AppTheme.colors.white
                     else -> AppTheme.colors.textBaseFont
                 }
-            ),
+            )
+            .clickable(
+                enabled = calendar.date != null,
+                onClick = {
+                    onClickCalendar(calendar)
+                }),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = calendar.date ?: "",
-            style = AppTheme.typography.labelMedium,
+            text = calendar.date?.day?.toString() ?: "",
+            style = AppTheme.typography.titleMediumBold,
             color = if (calendar.isSelected) AppTheme.colors.textPinkFont else AppTheme.colors.textBaseBackground,
             modifier = Modifier
         )
@@ -59,16 +66,18 @@ private fun CalendarCell_Preview() {
     Row(horizontalArrangement = Arrangement.Center) {
         CalendarCell(
             calendar = CalendarWeek.Calendar(
-                date = isToday.date.day.toString(),
+                date = isToday.date,
                 isSelected = true,
             ),
+            onClickCalendar = { /* preview */ },
             modifier = Modifier.padding(4.dp).size(50.dp)
         )
         CalendarCell(
             calendar = CalendarWeek.Calendar(
-                date = tomorrow.date.day.toString(),
+                date = tomorrow.date,
                 isSelected = false
             ),
+            onClickCalendar = { /* preview */ },
             modifier = Modifier.padding(4.dp).size(50.dp)
         )
     }

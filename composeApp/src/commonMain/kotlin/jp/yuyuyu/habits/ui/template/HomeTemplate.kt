@@ -18,6 +18,7 @@ import habits.composeapp.generated.resources.add_habits
 import habits.composeapp.generated.resources.settings_24dp
 import jp.yuyuyu.habits.AdMobBanner
 import jp.yuyuyu.habits.ui.atoms.PrimaryButton
+import jp.yuyuyu.habits.ui.model.CalendarWeek
 import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.ui.organisms.CalendarPage
 import jp.yuyuyu.habits.ui.organisms.TopBar
@@ -30,6 +31,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun HomeTemplate(
     habitCalendarList: List<HabitCalendar>,
+    onClickCalendar: (habitID: Long, calendarWeekCalendar: CalendarWeek.Calendar) -> Unit,
     updateHabitCompletion: () -> Unit,
     nextMonth: (habit: String) -> Unit,
     prevMoth: (habit: String) -> Unit,
@@ -51,8 +53,10 @@ fun HomeTemplate(
             LazyColumn {
                 items(habitCalendarList) { calendarWeek ->
                     CalendarPage(
-                        currentDate = calendarWeek.currentDate,
                         calendarWeek = calendarWeek,
+                        onClickCalendar = { calendarWeekCalendar ->
+                            onClickCalendar(calendarWeek.habitId, calendarWeekCalendar)
+                        },
                         nextMonth = {
                             nextMonth(calendarWeek.habit)
                         },
@@ -84,12 +88,14 @@ private fun HomeTemplatePreview() {
         CalendarUtil.createMonthUIModels()
     }
     val habit = HabitCalendar(
+        habitId = 0,
         habit = "💪筋トレ",
         calendarWeek = list,
         currentDate = CalendarUtil.todayLocalDate
     )
     HomeTemplate(
         habitCalendarList = listOf(habit),
+        onClickCalendar = { _, _ -> /* preview */ },
         updateHabitCompletion = { /* preview */ },
         nextMonth = { /* preview */ },
         prevMoth = { /* preview */ },

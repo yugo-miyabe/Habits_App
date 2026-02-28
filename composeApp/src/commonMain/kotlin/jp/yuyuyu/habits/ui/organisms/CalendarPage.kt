@@ -12,14 +12,17 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import jp.yuyuyu.habits.theme.AppTheme
+import jp.yuyuyu.habits.ui.model.CalendarWeek
 import jp.yuyuyu.habits.ui.model.HabitCalendar
-import kotlinx.datetime.LocalDate
+import jp.yuyuyu.habits.util.CalendarUtil
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.number
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CalendarPage(
-    currentDate: LocalDate,
     calendarWeek: HabitCalendar,
+    onClickCalendar: (CalendarWeek.Calendar) -> Unit,
     nextMonth: () -> Unit,
     prevMoth: () -> Unit,
 ) {
@@ -54,11 +57,32 @@ fun CalendarPage(
         state = calendarPagerState,
         pageSpacing = 8.dp,
         snapPosition = SnapPosition.Center,
-    ) { page ->
+    ) { _ ->
         CalendarMonth(
-            month = currentDate.month.number.toString(),
+            month = calendarWeek.currentDate.month.number.toString(),
             calendarWeekList = calendarWeek.calendarWeek,
+            onClickCalendar = onClickCalendar,
             modifier = Modifier.fillMaxWidth()
         )
     }
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun CalendarPagePreview() {
+    val list = runBlocking {
+        CalendarUtil.createMonthUIModels()
+    }
+    val habit = HabitCalendar(
+        habitId = 0,
+        habit = "💪筋トレ",
+        calendarWeek = list,
+        currentDate = CalendarUtil.todayLocalDate
+    )
+    CalendarPage(
+        calendarWeek = habit,
+        onClickCalendar = { /* preview */ },
+        nextMonth = { /* preview */ },
+        prevMoth = { /* preview */ }
+    )
 }

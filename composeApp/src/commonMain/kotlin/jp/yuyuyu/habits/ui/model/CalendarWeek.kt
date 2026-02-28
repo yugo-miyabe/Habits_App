@@ -1,5 +1,7 @@
 package jp.yuyuyu.habits.ui.model
 
+import kotlinx.datetime.LocalDate
+
 data class CalendarWeek(
     val monday: Calendar,
     val tuesday: Calendar,
@@ -10,7 +12,7 @@ data class CalendarWeek(
     val sunday: Calendar
 ) {
     data class Calendar(
-        val date: String?,
+        val date: LocalDate?,
         val isSelected: Boolean,
     )
 }

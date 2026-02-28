@@ -34,9 +34,10 @@ class HomeViewModel(
                     ifLeft = { appError ->
                         _uiState.value = HomeUiState.Error(appError)
                     },
-                    ifRight = { habits ->
-                        val habitCalendar: List<HabitCalendar> = habits.map { habit ->
+                    ifRight = { habitEntityList ->
+                        val habitCalendar: List<HabitCalendar> = habitEntityList.map { habit ->
                             HabitCalendar(
+                                habitId = habit.id,
                                 habit = habit.title,
                                 currentDate = currentDate,
                                 calendarWeek = CalendarUtil.createMonthUIModels(currentDate)
@@ -44,7 +45,7 @@ class HomeViewModel(
                         }
                         _uiState.value = HomeUiState.Success(
                             habitCalendar = habitCalendar,
-                            habits = habits
+                            habitEntityList = habitEntityList
                         )
                     }
                 )
@@ -63,38 +64,126 @@ class HomeViewModel(
         getAllHabits()
     }
 
+
     fun updateHabitCompletion(
-        habit: HabitEntity,
+        habitId: Long,
         date: LocalDate,
-        isCompleted: Boolean
+        currentlySelected: Boolean
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (isCompleted) {
+            if (!currentlySelected) {
                 insertHabitDayUseCase(
-                    habitId = habit.id,
+                    habitId = habitId,
                     date = date,
-                    isCompleted = isCompleted
+                    isCompleted = currentlySelected
                 ).collect { result ->
                     result.fold(
-                        ifLeft = {
-                            // エラーハンドリングは必要に応じて実装
+                        ifLeft = { appError ->
+                            _uiState.value = HomeUiState.Error(appError)
                         },
                         ifRight = {
-                            // 成功時の処理（必要に応じて実装）
+                            // 成功時の処理
+                            _uiState.update { state ->
+                                when (state) {
+                                    is HomeUiState.Success -> {
+                                        val updatedHabitCalendar =
+                                            state.habitCalendar.map { habitCalendar ->
+                                                if (habitCalendar.habitId == habitId) {
+                                                    val updatedWeeks =
+                                                        habitCalendar.calendarWeek.map { week ->
+                                                            week.copy(
+                                                                monday = if (week.monday.date == date) week.monday.copy(
+                                                                    isSelected = true
+                                                                ) else week.monday,
+                                                                tuesday = if (week.tuesday.date == date) week.tuesday.copy(
+                                                                    isSelected = true
+                                                                ) else week.tuesday,
+                                                                wednesday = if (week.wednesday.date == date) week.wednesday.copy(
+                                                                    isSelected = true
+                                                                ) else week.wednesday,
+                                                                thursday = if (week.thursday.date == date) week.thursday.copy(
+                                                                    isSelected = true
+                                                                ) else week.thursday,
+                                                                friday = if (week.friday.date == date) week.friday.copy(
+                                                                    isSelected = true
+                                                                ) else week.friday,
+                                                                saturday = if (week.saturday.date == date) week.saturday.copy(
+                                                                    isSelected = true
+                                                                ) else week.saturday,
+                                                                sunday = if (week.sunday.date == date) week.sunday.copy(
+                                                                    isSelected = true
+                                                                ) else week.sunday
+                                                            )
+                                                        }
+
+                                                    habitCalendar.copy(calendarWeek = updatedWeeks)
+                                                } else {
+                                                    habitCalendar
+                                                }
+                                            }
+
+                                        state.copy(habitCalendar = updatedHabitCalendar)
+                                    }
+
+                                    else -> state
+                                }
+                            }
                         }
                     )
                 }
             } else {
-                deleteHabitDayUseCase(
-                    habitId = habit.id,
-                    date = date
-                ).collect { result ->
+                deleteHabitDayUseCase(habitId = habitId, date = date).collect { result ->
                     result.fold(
-                        ifLeft = {
-                            // エラーハンドリングは必要に応じて実装
+                        ifLeft = { appError ->
+                            _uiState.value = HomeUiState.Error(appError)
                         },
                         ifRight = {
-                            // 成功時の処理（必要に応じて実装）
+                            // 成功時の処理
+                            _uiState.update { state ->
+                                when (state) {
+                                    is HomeUiState.Success -> {
+                                        val updatedHabitCalendar =
+                                            state.habitCalendar.map { habitCalendar ->
+                                                if (habitCalendar.habitId == habitId) {
+                                                    val updatedWeeks =
+                                                        habitCalendar.calendarWeek.map { week ->
+                                                            week.copy(
+                                                                monday = if (week.monday.date == date) week.monday.copy(
+                                                                    isSelected = false
+                                                                ) else week.monday,
+                                                                tuesday = if (week.tuesday.date == date) week.tuesday.copy(
+                                                                    isSelected = false
+                                                                ) else week.tuesday,
+                                                                wednesday = if (week.wednesday.date == date) week.wednesday.copy(
+                                                                    isSelected = false
+                                                                ) else week.wednesday,
+                                                                thursday = if (week.thursday.date == date) week.thursday.copy(
+                                                                    isSelected = false
+                                                                ) else week.thursday,
+                                                                friday = if (week.friday.date == date) week.friday.copy(
+                                                                    isSelected = false
+                                                                ) else week.friday,
+                                                                saturday = if (week.saturday.date == date) week.saturday.copy(
+                                                                    isSelected = false
+                                                                ) else week.saturday,
+                                                                sunday = if (week.sunday.date == date) week.sunday.copy(
+                                                                    isSelected = false
+                                                                ) else week.sunday
+                                                            )
+                                                        }
+
+                                                    habitCalendar.copy(calendarWeek = updatedWeeks)
+                                                } else {
+                                                    habitCalendar
+                                                }
+                                            }
+
+                                        state.copy(habitCalendar = updatedHabitCalendar)
+                                    }
+
+                                    else -> state
+                                }
+                            }
                         }
                     )
                 }
@@ -161,7 +250,7 @@ class HomeViewModel(
 sealed interface HomeUiState {
     data class Success(
         val habitCalendar: List<HabitCalendar>,
-        val habits: List<HabitEntity> = emptyList()
+        val habitEntityList: List<HabitEntity> = emptyList()
     ) : HomeUiState
 
     data object Loading : HomeUiState
