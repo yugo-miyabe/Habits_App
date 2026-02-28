@@ -39,9 +39,6 @@ fun HomeScreen(
                             currentlySelected = calendar.isSelected,
                         )
                     },
-                    updateHabitCompletion = {
-
-                    },
                     nextMonth = {
                         viewModel.onNextMonth(it)
                     },

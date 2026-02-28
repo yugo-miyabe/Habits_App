@@ -21,7 +21,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CalendarPage(
-    calendarWeek: HabitCalendar,
+    habitCalendar: HabitCalendar,
     onClickCalendar: (CalendarWeek.Calendar) -> Unit,
     nextMonth: () -> Unit,
     prevMoth: () -> Unit,
@@ -49,7 +49,7 @@ fun CalendarPage(
     }
 
     Text(
-        text = calendarWeek.habit,
+        text = habitCalendar.habit,
         style = AppTheme.typography.titleMediumBold,
         modifier = Modifier.padding(horizontal = 16.dp)
     )
@@ -59,8 +59,8 @@ fun CalendarPage(
         snapPosition = SnapPosition.Center,
     ) { _ ->
         CalendarMonth(
-            month = calendarWeek.currentDate.month.number.toString(),
-            calendarWeekList = calendarWeek.calendarWeek,
+            month = habitCalendar.currentDate.month.number.toString(),
+            calendarWeekList = habitCalendar.calendarWeek,
             onClickCalendar = onClickCalendar,
             modifier = Modifier.fillMaxWidth()
         )
@@ -73,14 +73,14 @@ private fun CalendarPagePreview() {
     val list = runBlocking {
         CalendarUtil.createMonthUIModels()
     }
-    val habit = HabitCalendar(
+    val habitCalendar = HabitCalendar(
         habitId = 0,
         habit = "💪筋トレ",
         calendarWeek = list,
         currentDate = CalendarUtil.todayLocalDate
     )
     CalendarPage(
-        calendarWeek = habit,
+        habitCalendar = habitCalendar,
         onClickCalendar = { /* preview */ },
         nextMonth = { /* preview */ },
         prevMoth = { /* preview */ }
