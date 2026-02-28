@@ -8,6 +8,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,14 +27,14 @@ fun CalendarPage(
     nextMonth: () -> Unit,
     prevMoth: () -> Unit,
 ) {
-    val calendarPagerState = rememberPagerState(
+    val pagerState = rememberPagerState(
         initialPage = Int.MAX_VALUE / 2,
         pageCount = { Int.MAX_VALUE }
     )
 
-    LaunchedEffect(calendarPagerState) {
-        var prev = calendarPagerState.currentPage
-        snapshotFlow { calendarPagerState.currentPage }.collect { newPage ->
+    LaunchedEffect(pagerState) {
+        var prev = pagerState.currentPage
+        snapshotFlow { pagerState.currentPage }.collect { newPage ->
             when {
                 newPage > prev -> {
                     nextMonth()
@@ -53,17 +54,20 @@ fun CalendarPage(
         style = AppTheme.typography.titleMediumBold,
         modifier = Modifier.padding(horizontal = 16.dp)
     )
+
     HorizontalPager(
-        state = calendarPagerState,
+        state = pagerState,
         pageSpacing = 8.dp,
         snapPosition = SnapPosition.Center,
-    ) { _ ->
-        CalendarMonth(
-            month = habitCalendar.currentDate.month.number.toString(),
-            calendarWeekList = habitCalendar.calendarWeek,
-            onClickCalendar = onClickCalendar,
-            modifier = Modifier.fillMaxWidth()
-        )
+    ) { page ->
+        key(page) {
+            CalendarMonth(
+                month = habitCalendar.currentDate.month.number.toString(),
+                calendarWeekList = habitCalendar.calendarWeek,
+                onClickCalendar = onClickCalendar,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
 
