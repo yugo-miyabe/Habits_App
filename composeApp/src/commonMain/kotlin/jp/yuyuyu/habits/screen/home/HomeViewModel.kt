@@ -106,51 +106,6 @@ class HomeViewModel(
         }
     }
 
-    private fun updateCalendarSelectionState(
-        habitId: Long,
-        date: LocalDate,
-        isSelected: Boolean
-    ) {
-        _uiState.update { state ->
-            when (state) {
-                is HomeUiState.Success -> {
-                    val updatedHabitCalendar = state.habitCalendar.map { habitCalendar ->
-                        if (habitCalendar.habitId == habitId) {
-                            habitCalendar.copy(
-                                calendarWeek = habitCalendar.calendarWeek.map { week ->
-                                    updateWeekDaySelection(week, date, isSelected)
-                                }
-                            )
-                        } else {
-                            habitCalendar
-                        }
-                    }
-                    state.copy(habitCalendar = updatedHabitCalendar)
-                }
-
-                else -> state
-            }
-        }
-    }
-
-    private fun updateWeekDaySelection(
-        week: CalendarWeek,
-        date: LocalDate,
-        isSelected: Boolean
-    ): CalendarWeek {
-        fun selectIfMatch(calendar: CalendarWeek.Calendar): CalendarWeek.Calendar =
-            if (calendar.date == date) calendar.copy(isSelected = isSelected) else calendar
-        return week.copy(
-            monday = selectIfMatch(week.monday),
-            tuesday = selectIfMatch(week.tuesday),
-            wednesday = selectIfMatch(week.wednesday),
-            thursday = selectIfMatch(week.thursday),
-            friday = selectIfMatch(week.friday),
-            saturday = selectIfMatch(week.saturday),
-            sunday = selectIfMatch(week.sunday)
-        )
-    }
-
     fun onNextMonth(habit: String) = changeMonth(habit = habit) {
         CalendarUtil.plusOneMonth(it)
     }
@@ -204,6 +159,51 @@ class HomeViewModel(
                 }
             }
         }
+    }
+
+    private fun updateCalendarSelectionState(
+        habitId: Long,
+        date: LocalDate,
+        isSelected: Boolean
+    ) {
+        _uiState.update { state ->
+            when (state) {
+                is HomeUiState.Success -> {
+                    val updatedHabitCalendar = state.habitCalendar.map { habitCalendar ->
+                        if (habitCalendar.habitId == habitId) {
+                            habitCalendar.copy(
+                                calendarWeek = habitCalendar.calendarWeek.map { week ->
+                                    updateWeekDaySelection(week, date, isSelected)
+                                }
+                            )
+                        } else {
+                            habitCalendar
+                        }
+                    }
+                    state.copy(habitCalendar = updatedHabitCalendar)
+                }
+
+                else -> state
+            }
+        }
+    }
+
+    private fun updateWeekDaySelection(
+        week: CalendarWeek,
+        date: LocalDate,
+        isSelected: Boolean
+    ): CalendarWeek {
+        fun selectIfMatch(calendar: CalendarWeek.Calendar): CalendarWeek.Calendar =
+            if (calendar.date == date) calendar.copy(isSelected = isSelected) else calendar
+        return week.copy(
+            monday = selectIfMatch(week.monday),
+            tuesday = selectIfMatch(week.tuesday),
+            wednesday = selectIfMatch(week.wednesday),
+            thursday = selectIfMatch(week.thursday),
+            friday = selectIfMatch(week.friday),
+            saturday = selectIfMatch(week.saturday),
+            sunday = selectIfMatch(week.sunday)
+        )
     }
 }
 
