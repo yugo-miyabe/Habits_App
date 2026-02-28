@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jp.yuyuyu.habits.AppError
 import jp.yuyuyu.habits.database.HabitEntity
-import jp.yuyuyu.habits.ui.model.CalendarWeek
 import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.usecase.DeleteHabitDayUseCase
 import jp.yuyuyu.habits.usecase.GetAllHabitUseCase
@@ -87,27 +86,41 @@ class HomeViewModel(
                             _uiState.update { state ->
                                 when (state) {
                                     is HomeUiState.Success -> {
-                                        val updatedHabitCalendar = state.habitCalendar.map { habitCalendar ->
-                                            if (habitCalendar.habitID == habitID) {
-                                                val updatedWeeks = habitCalendar.calendarWeek.map { week ->
-                                                    week.copy(
-                                                        monday = if (week.monday.date == date) week.monday.copy(isSelected = true) else week.monday,
-                                                        tuesday = if (week.tuesday.date == date) week.tuesday.copy(isSelected = true) else week.tuesday,
-                                                        wednesday = if (week.wednesday.date == date) week.wednesday.copy(isSelected = true) else week.wednesday,
-                                                        thursday = if (week.thursday.date == date) week.thursday.copy(isSelected = true) else week.thursday,
-                                                        friday = if (week.friday.date == date) week.friday.copy(isSelected = true) else week.friday,
-                                                        saturday = if (week.saturday.date == date) week.saturday.copy(isSelected = true) else week.saturday,
-                                                        sunday = if (week.sunday.date == date) week.sunday.copy(isSelected = true) else week.sunday
-                                                    )
-                                                }
+                                        val updatedHabitCalendar =
+                                            state.habitCalendar.map { habitCalendar ->
+                                                if (habitCalendar.habitID == habitID) {
+                                                    val updatedWeeks =
+                                                        habitCalendar.calendarWeek.map { week ->
+                                                            week.copy(
+                                                                monday = if (week.monday.date == date) week.monday.copy(
+                                                                    isSelected = true
+                                                                ) else week.monday,
+                                                                tuesday = if (week.tuesday.date == date) week.tuesday.copy(
+                                                                    isSelected = true
+                                                                ) else week.tuesday,
+                                                                wednesday = if (week.wednesday.date == date) week.wednesday.copy(
+                                                                    isSelected = true
+                                                                ) else week.wednesday,
+                                                                thursday = if (week.thursday.date == date) week.thursday.copy(
+                                                                    isSelected = true
+                                                                ) else week.thursday,
+                                                                friday = if (week.friday.date == date) week.friday.copy(
+                                                                    isSelected = true
+                                                                ) else week.friday,
+                                                                saturday = if (week.saturday.date == date) week.saturday.copy(
+                                                                    isSelected = true
+                                                                ) else week.saturday,
+                                                                sunday = if (week.sunday.date == date) week.sunday.copy(
+                                                                    isSelected = true
+                                                                ) else week.sunday
+                                                            )
+                                                        }
 
-                                                habitCalendar.copy(
-                                                    calendarWeek = updatedWeeks
-                                                )
-                                            } else {
-                                                habitCalendar
+                                                    habitCalendar.copy(calendarWeek = updatedWeeks)
+                                                } else {
+                                                    habitCalendar
+                                                }
                                             }
-                                        }
 
                                         state.copy(habitCalendar = updatedHabitCalendar)
                                     }
@@ -119,10 +132,7 @@ class HomeViewModel(
                     )
                 }
             } else {
-                deleteHabitDayUseCase(
-                    habitId = habitID,
-                    date = date
-                ).collect { result ->
+                deleteHabitDayUseCase(habitId = habitID, date = date).collect { result ->
                     result.fold(
                         ifLeft = { appError ->
                             _uiState.value = HomeUiState.Error(appError)
@@ -135,23 +145,36 @@ class HomeViewModel(
                                         state.habitCalendar.map { habitCalendar ->
                                             if (habitCalendar.habitID == habitID) {
                                                 // calendarWeek の各日付をコピーした新しいモデルで置換する
-                                                val updatedWeeks = habitCalendar.calendarWeek.map { calendarWeek ->
-                                                    calendarWeek.let {
-                                                        it.copy(
-                                                            monday = if (it.monday.date == date) it.monday.copy(isSelected = true) else it.monday,
-                                                            tuesday = if (it.tuesday.date == date) it.tuesday.copy(isSelected = true) else it.tuesday,
-                                                            wednesday = if (it.wednesday.date == date) it.wednesday.copy(isSelected = true) else it.wednesday,
-                                                            thursday = if (it.thursday.date == date) it.thursday.copy(isSelected = true) else it.thursday,
-                                                            friday = if (it.friday.date == date) it.friday.copy(isSelected = true) else it.friday,
-                                                            saturday = if (it.saturday.date == date) it.saturday.copy(isSelected = true) else it.saturday,
-                                                            sunday = if (it.sunday.date == date) it.sunday.copy(isSelected = true) else it.sunday
-                                                        )
+                                                val updatedWeeks =
+                                                    habitCalendar.calendarWeek.map { calendarWeek ->
+                                                        calendarWeek.let {
+                                                            it.copy(
+                                                                monday = if (it.monday.date == date) it.monday.copy(
+                                                                    isSelected = true
+                                                                ) else it.monday,
+                                                                tuesday = if (it.tuesday.date == date) it.tuesday.copy(
+                                                                    isSelected = true
+                                                                ) else it.tuesday,
+                                                                wednesday = if (it.wednesday.date == date) it.wednesday.copy(
+                                                                    isSelected = true
+                                                                ) else it.wednesday,
+                                                                thursday = if (it.thursday.date == date) it.thursday.copy(
+                                                                    isSelected = true
+                                                                ) else it.thursday,
+                                                                friday = if (it.friday.date == date) it.friday.copy(
+                                                                    isSelected = true
+                                                                ) else it.friday,
+                                                                saturday = if (it.saturday.date == date) it.saturday.copy(
+                                                                    isSelected = true
+                                                                ) else it.saturday,
+                                                                sunday = if (it.sunday.date == date) it.sunday.copy(
+                                                                    isSelected = true
+                                                                ) else it.sunday
+                                                            )
+                                                        }
                                                     }
-                                                }
 
-                                                habitCalendar.copy(
-                                                    calendarWeek = updatedWeeks
-                                                )
+                                                habitCalendar.copy(calendarWeek = updatedWeeks)
                                             } else {
                                                 habitCalendar
                                             }
