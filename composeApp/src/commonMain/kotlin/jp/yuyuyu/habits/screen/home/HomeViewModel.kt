@@ -20,10 +20,10 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
 class HomeViewModel(
-    val getAllHabitUseCase: GetAllHabitUseCase,
-    val getHabitWithDay: GetHabitWithDay,
-    val insertHabitDayUseCase: InsertHabitDayUseCase,
-    val deleteHabitDayUseCase: DeleteHabitDayUseCase,
+    private val getAllHabitUseCase: GetAllHabitUseCase,
+    private val getHabitWithDay: GetHabitWithDay,
+    private val insertHabitDayUseCase: InsertHabitDayUseCase,
+    private val deleteHabitDayUseCase: DeleteHabitDayUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
