@@ -76,7 +76,6 @@ fun HomeTemplate(
     }
 }
 
-@OptIn(ExperimentalTime::class)
 @Composable
 @Preview(showBackground = true)
 private fun HomeTemplatePreview() {
