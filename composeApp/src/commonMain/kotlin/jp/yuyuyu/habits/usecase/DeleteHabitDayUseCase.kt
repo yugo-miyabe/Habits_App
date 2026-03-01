@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.datetime.LocalDate
 
 class DeleteHabitDayUseCase(
-    val habitDayDatabaseRepository: HabitDayDatabaseRepository
+    private val habitDayDatabaseRepository: HabitDayDatabaseRepository
 ) {
     operator fun invoke(
         habitId: Long,
