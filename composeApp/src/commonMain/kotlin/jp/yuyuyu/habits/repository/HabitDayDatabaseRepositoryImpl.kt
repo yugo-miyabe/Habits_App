@@ -47,7 +47,7 @@ class HabitDayDatabaseRepositoryImpl(
         AppError.DataBaseError
     }
 
-    override suspend fun getAllHabitsWithDays(): Either<AppError, List<HabitWithDays>> = Either.catch {
+    override suspend fun getAllHabitsWithDays(): Either<AppError.DataBaseError, List<HabitWithDays>> = Either.catch {
         habitDao.getAllHabitsWithDays()
     }.mapLeft {
         AppError.DataBaseError
