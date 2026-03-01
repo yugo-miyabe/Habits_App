@@ -30,15 +30,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import jp.yuyuyu.habits.theme.HabitsTheme
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
-import kotlin.time.Clock
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlin.time.Clock
 
 @Composable
 private fun CalendarPager(
@@ -163,10 +163,8 @@ private fun DayOfWeekHeader() {
 private fun MonthCalendar(year: Int, monthValue: Int) {
     // 月の最初の日を作成
     val firstDayOfMonth = LocalDate(year, monthValue, 1)
-
-
+    // 月の日数を取得
     val daysInMonth = getDaysInMonth(year, monthValue)
-
     // 月の最初の日の曜日を取得（日曜日を0にする）
     val firstDayOfWeek = when (firstDayOfMonth.dayOfWeek) {
         DayOfWeek.MONDAY -> 1
@@ -221,7 +219,7 @@ private fun MonthCalendar(year: Int, monthValue: Int) {
                                         width = if (isToday) 2.dp else 0.dp,
                                         color = if (isToday) MaterialTheme.colorScheme.primary else Color.Transparent
                                     )
-                                    .clickable { /* クリック処理 */ },
+                                    .clickable { /* TODO クリック処理 */ },
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
@@ -241,7 +239,7 @@ private fun MonthCalendar(year: Int, monthValue: Int) {
             }
 
             // 全ての日を表示したら終了
-            if (dayCounter.compareTo(daysInMonth) > 0) return@Column
+            if (dayCounter > daysInMonth) return@Column
         }
     }
 }
@@ -261,9 +259,20 @@ private fun getDaysInMonth(year: Int, month: Int): Int {
     return 28 // フォールバック
 }
 
+@Composable
+@Preview(showBackground = true)
+private fun CalendarPagerPreview() = HabitsTheme {
+    CalendarPager()
+}
 
 @Composable
 @Preview(showBackground = true)
-private fun CalendarPagerPreview() {
-    CalendarPager()
+private fun DayOfWeekHeaderPreview() = HabitsTheme {
+    DayOfWeekHeader()
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun MonthCalendarPreview() = HabitsTheme {
+    MonthCalendar(year = 2025, monthValue = 2)
 }
