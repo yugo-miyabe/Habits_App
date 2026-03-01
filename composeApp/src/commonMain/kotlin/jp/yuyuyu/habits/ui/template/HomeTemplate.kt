@@ -18,7 +18,6 @@ import habits.composeapp.generated.resources.add_habits
 import habits.composeapp.generated.resources.settings_24dp
 import jp.yuyuyu.habits.AdMobBanner
 import jp.yuyuyu.habits.ui.atoms.PrimaryButton
-import jp.yuyuyu.habits.ui.model.CalendarWeek
 import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.ui.organisms.CalendarPager
 import jp.yuyuyu.habits.ui.organisms.TopBar
@@ -32,10 +31,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun HomeTemplate(
     habitCalendarList: List<HabitCalendar>,
-    onDateClick: (habitId: Long, habitDay: LocalDate) -> Unit,
-    onClickCalendar: (habitID: Long, calendarWeekCalendar: CalendarWeek.Calendar) -> Unit,
-    nextMonth: (habit: String) -> Unit,
-    prevMoth: (habit: String) -> Unit,
+    onDateClick: (habitId: Long, habitDay: LocalDate, isHabitDay: Boolean) -> Unit,
     onAddHabitClick: () -> Unit,
     onSettingClick: () -> Unit,
 ) {
@@ -55,27 +51,14 @@ fun HomeTemplate(
                 items(habitCalendarList) { habitCalendar ->
                     CalendarPager(
                         habitDateList = habitCalendar.habitDayList,
-                        onDateClick = { date ->
+                        onDateClick = { date, isHabitDay ->
                             onDateClick(
                                 habitCalendar.habitId,
-                                date
+                                date,
+                                isHabitDay
                             )
                         }
                     )
-                    /*
-                    CalendarPage(
-                        habitCalendar = calendarWeek,
-                        onClickCalendar = { calendarWeekCalendar ->
-                            onClickCalendar(calendarWeek.habitId, calendarWeekCalendar)
-                        },
-                        nextMonth = {
-                            nextMonth(calendarWeek.habit)
-                        },
-                        prevMoth = {
-                            prevMoth(calendarWeek.habit)
-                        }
-                    )
-                    */
                 }
 
                 item {
@@ -107,10 +90,7 @@ private fun HomeTemplatePreview() {
     )
     HomeTemplate(
         habitCalendarList = listOf(habit),
-        onDateClick = { _, _ -> /* preview */ },
-        onClickCalendar = { _, _ -> /* preview */ },
-        nextMonth = { /* preview */ },
-        prevMoth = { /* preview */ },
+        onDateClick = { _, _, _ -> /* preview */ },
         onAddHabitClick = { /* preview */ },
         onSettingClick = { /* preview */ }
     )

@@ -47,7 +47,7 @@ import kotlin.time.Clock
 @Composable
 fun CalendarPager(
     habitDateList: List<LocalDate>,
-    onDateClick: (habitDate: LocalDate) -> Unit,
+    onDateClick: (habitDate: LocalDate, isHabitDay: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -136,7 +136,12 @@ fun CalendarPager(
         ) { page ->
             val displayYear = startYear + (page / 12)
             val displayMonthValue = (page % 12) + 1
-            MonthCalendar(displayYear, displayMonthValue, habitDateList, onDateClick)
+            MonthCalendar(
+                year = displayYear,
+                monthValue = displayMonthValue,
+                habitDays = habitDateList,
+                onDateClick = onDateClick
+            )
         }
     }
 }
@@ -170,7 +175,7 @@ private fun MonthCalendar(
     year: Int,
     monthValue: Int,
     habitDays: List<LocalDate>,
-    onDateClick: (LocalDate) -> Unit,
+    onDateClick: (date: LocalDate, isHabitDay: Boolean) -> Unit,
 ) {
     // habitDays を Set にしてルックアップを O(1) に最適化
     val habitDaySet: Set<LocalDate> = remember(habitDays) { habitDays.toSet() }
@@ -241,7 +246,7 @@ private fun MonthCalendar(
                                             else -> Color.Transparent
                                         }
                                     )
-                                    .clickable { onDateClick(date) },
+                                    .clickable { onDateClick(date, isHabitDay) },
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
@@ -295,12 +300,13 @@ private fun CalendarPagerPreview() = HabitsTheme {
         habitDayList = listOf(
             todayLocalDate,
             todayLocalDate.plus(1, DateTimeUnit.DAY),
-            todayLocalDate.plus(2, DateTimeUnit.DAY)
+            todayLocalDate.plus(2, DateTimeUnit.DAY),
+            todayLocalDate.plus(15, DateTimeUnit.DAY)
         ),
     )
     CalendarPager(
         habitDateList = habitCalendar.habitDayList,
-        onDateClick = { /* preview */ }
+        onDateClick = { _, _ -> /* preview */ }
     )
 }
 
@@ -317,6 +323,6 @@ private fun MonthCalendarPreview() = HabitsTheme {
         year = 2025,
         monthValue = 2,
         habitDays = emptyList(),
-        onDateClick = { /* preview */ }
+        onDateClick = { _, _ -> /* preview */ }
     )
 }
