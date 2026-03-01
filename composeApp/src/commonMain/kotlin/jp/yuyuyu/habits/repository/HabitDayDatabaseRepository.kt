@@ -15,4 +15,6 @@ interface HabitDayDatabaseRepository {
     suspend fun deleteHabitDay(habitId: Long, date: LocalDate): Either<AppError, Unit>
 
     suspend fun getHabitDays(habitId: Long): Either<AppError, HabitWithDays?>
+
+    suspend fun getAllHabitsWithDays(): Either<AppError, List<HabitWithDays>>
 }

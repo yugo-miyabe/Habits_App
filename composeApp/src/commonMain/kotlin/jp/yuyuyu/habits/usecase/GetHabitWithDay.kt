@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class GetHabitWithDay(
-    val habitDayDatabaseRepository: HabitDayDatabaseRepository
+    private  val habitDayDatabaseRepository: HabitDayDatabaseRepository
 ) {
     operator fun invoke(
         habitId: Long

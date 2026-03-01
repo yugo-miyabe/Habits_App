@@ -45,6 +45,11 @@ interface HabitDao {
     @Query("SELECT * FROM habits WHERE id = :habitId")
     suspend fun getHabitWithDays(habitId: Long): HabitWithDays?
 
+    /** 全習慣とその完了日をまとめて取得 */
+    @Transaction
+    @Query("SELECT * FROM habits")
+    suspend fun getAllHabitsWithDays(): List<HabitWithDays>
+
     /** 当日チェックの有無（ユーザー時間帯で変換した LocalDate を渡す）
      *  Room のクエリで直接 Boolean を返すとマッピングで失敗するため Int(0/1) を返すようにする
      */
