@@ -31,6 +31,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import jp.yuyuyu.habits.theme.HabitsTheme
+import jp.yuyuyu.habits.ui.model.HabitCalendar
+import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
@@ -41,7 +43,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Clock
 
 @Composable
-private fun CalendarPager(
+fun CalendarPager(
+    habitCalendar: List<LocalDate>,
     modifier: Modifier = Modifier
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -262,7 +265,13 @@ private fun getDaysInMonth(year: Int, month: Int): Int {
 @Composable
 @Preview(showBackground = true)
 private fun CalendarPagerPreview() = HabitsTheme {
-    CalendarPager()
+    val habitCalendar = HabitCalendar(
+        habitId = 0,
+        habit = "💪筋トレ",
+        currentDate = CalendarUtil.todayLocalDate,
+        habitDayList = emptyList(),
+    )
+    CalendarPager(habitCalendar.habitDayList)
 }
 
 @Composable

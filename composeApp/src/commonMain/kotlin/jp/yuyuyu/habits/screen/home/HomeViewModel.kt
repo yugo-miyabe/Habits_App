@@ -22,7 +22,7 @@ import kotlinx.datetime.LocalDate
 
 class HomeViewModel(
     val getAllHabitUseCase: GetAllHabitUseCase,
-    val getHabitWithDay :GetHabitWithDay,
+    val getHabitWithDay: GetHabitWithDay,
     val insertHabitDayUseCase: InsertHabitDayUseCase,
     val deleteHabitDayUseCase: DeleteHabitDayUseCase,
 ) : ViewModel() {
@@ -39,17 +39,26 @@ class HomeViewModel(
                         _uiState.value = HomeUiState.Error(appError)
                     },
                     ifRight = { habitEntityList: List<HabitEntity> ->
-                        val habitCalendar: List<HabitCalendar> = habitEntityList.map { habit ->
+                        val habitCalendar = habitEntityList.map { habit ->
+                            var habitDayList = emptyList<LocalDate>()
+                            getHabitWithDay(habit.id).collect { result ->
+                                result.fold(
+                                    ifLeft = { _ -> habitDayList = emptyList() },
+                                    ifRight = { it ->
+                                        habitDayList = it?.days?.map { it.date } ?: emptyList()
+                                    }
+                                )
+                            }
                             HabitCalendar(
                                 habitId = habit.id,
                                 habit = habit.title,
                                 currentDate = currentDate,
-                                calendarWeek = CalendarUtil.createMonthUIModels(currentDate)
+                                habitDayList = habitDayList
                             )
                         }
+
                         _uiState.value = HomeUiState.Success(
                             habitCalendar = habitCalendar,
-                            habitEntityList = habitEntityList
                         )
                     }
                 )
@@ -147,9 +156,11 @@ class HomeViewModel(
                             habitCalendar = uiState.habitCalendar.map { habitCalendar ->
                                 if (habitCalendar.habit == habit) {
                                     habitCalendar.copy(
-                                        calendarWeek = CalendarUtil.createMonthUIModels(
+                                        /*
+                                        habitDays = CalendarUtil.createMonthUIModels(
                                             habitCalendar.currentDate
                                         )
+                                        */
                                     )
                                 } else {
                                     habitCalendar
@@ -175,9 +186,11 @@ class HomeViewModel(
                     val updatedHabitCalendar = state.habitCalendar.map { habitCalendar ->
                         if (habitCalendar.habitId == habitId) {
                             habitCalendar.copy(
-                                calendarWeek = habitCalendar.calendarWeek.map { week ->
+                                /*
+                                habitDays = habitCalendar.habitDays.map { week ->
                                     updateWeekDaySelection(week, date, isSelected)
                                 }
+                                */
                             )
                         } else {
                             habitCalendar
@@ -211,11 +224,7 @@ class HomeViewModel(
 }
 
 sealed interface HomeUiState {
-    data class Success(
-        val habitCalendar: List<HabitCalendar>,
-        val habitEntityList: List<HabitEntity> = emptyList()
-    ) : HomeUiState
-
+    data class Success(val habitCalendar: List<HabitCalendar>) : HomeUiState
     data object Loading : HomeUiState
     data class Error(val appError: AppError) : HomeUiState
 }

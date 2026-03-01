@@ -20,7 +20,7 @@ import jp.yuyuyu.habits.AdMobBanner
 import jp.yuyuyu.habits.ui.atoms.PrimaryButton
 import jp.yuyuyu.habits.ui.model.CalendarWeek
 import jp.yuyuyu.habits.ui.model.HabitCalendar
-import jp.yuyuyu.habits.ui.organisms.CalendarPage
+import jp.yuyuyu.habits.ui.organisms.CalendarPager
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.runBlocking
@@ -50,7 +50,9 @@ fun HomeTemplate(
     }) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
             LazyColumn {
-                items(habitCalendarList) { calendarWeek ->
+                items(habitCalendarList) {  habitCalendar ->
+                    CalendarPager(habitCalendar =  habitCalendar.habitDayList)
+                    /*
                     CalendarPage(
                         habitCalendar = calendarWeek,
                         onClickCalendar = { calendarWeekCalendar ->
@@ -63,6 +65,7 @@ fun HomeTemplate(
                             prevMoth(calendarWeek.habit)
                         }
                     )
+                    */
                 }
 
                 item {
@@ -89,8 +92,8 @@ private fun HomeTemplatePreview() {
     val habit = HabitCalendar(
         habitId = 0,
         habit = "💪筋トレ",
-        calendarWeek = list,
-        currentDate = CalendarUtil.todayLocalDate
+        currentDate = CalendarUtil.todayLocalDate,
+        habitDayList = emptyList()
     )
     HomeTemplate(
         habitCalendarList = listOf(habit),

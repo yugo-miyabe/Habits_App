@@ -20,6 +20,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.number
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
+/*
 @Composable
 fun CalendarPage(
     habitCalendar: HabitCalendar,
@@ -63,7 +64,7 @@ fun CalendarPage(
         key(page) {
             CalendarMonth(
                 month = habitCalendar.currentDate.month.number.toString(),
-                calendarWeekList = habitCalendar.calendarWeek,
+                calendarWeekList = habitCalendar.habitDays,
                 onClickCalendar = onClickCalendar,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -80,7 +81,7 @@ private fun CalendarPagePreview() {
     val habitCalendar = HabitCalendar(
         habitId = 0,
         habit = "💪筋トレ",
-        calendarWeek = list,
+        habitDays = list,
         currentDate = CalendarUtil.todayLocalDate
     )
     CalendarPage(
@@ -90,3 +91,4 @@ private fun CalendarPagePreview() {
         prevMoth = { /* preview */ }
     )
 }
+*/
