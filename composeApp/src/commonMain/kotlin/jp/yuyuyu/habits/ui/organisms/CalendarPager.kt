@@ -34,10 +34,12 @@ import jp.yuyuyu.habits.theme.HabitsTheme
 import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.launch
+import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Clock
@@ -133,7 +135,7 @@ fun CalendarPager(
         ) { page ->
             val displayYear = startYear + (page / 12)
             val displayMonthValue = (page % 12) + 1
-            MonthCalendar(displayYear, displayMonthValue)
+            MonthCalendar(displayYear, displayMonthValue, habitCalendar)
         }
     }
 }
@@ -163,7 +165,10 @@ private fun DayOfWeekHeader() {
 }
 
 @Composable
-private fun MonthCalendar(year: Int, monthValue: Int) {
+private fun MonthCalendar(year: Int, monthValue: Int, habitDays: List<LocalDate>) {
+    // habitDays を Set にしてルックアップを O(1) に最適化
+    val habitDaySet: Set<LocalDate> = remember(habitDays) { habitDays.toSet() }
+
     // 月の最初の日を作成
     val firstDayOfMonth = LocalDate(year, monthValue, 1)
     // 月の日数を取得
@@ -210,17 +215,25 @@ private fun MonthCalendar(year: Int, monthValue: Int) {
                         if (day in 1..daysInMonth) {
                             val date = LocalDate(year, monthValue, day)
                             val isToday = date == today
+                            val isHabitDay = habitDaySet.contains(date)
 
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .background(
-                                        if (isToday) MaterialTheme.colorScheme.primaryContainer
-                                        else Color.Transparent
+                                        when {
+                                            isToday -> MaterialTheme.colorScheme.primaryContainer
+                                            isHabitDay -> MaterialTheme.colorScheme.secondaryContainer
+                                            else -> Color.Transparent
+                                        }
                                     )
                                     .border(
-                                        width = if (isToday) 2.dp else 0.dp,
-                                        color = if (isToday) MaterialTheme.colorScheme.primary else Color.Transparent
+                                        width = if (isToday || isHabitDay) 2.dp else 0.dp,
+                                        color = when {
+                                            isToday -> MaterialTheme.colorScheme.primary
+                                            isHabitDay -> MaterialTheme.colorScheme.secondary
+                                            else -> Color.Transparent
+                                        }
                                     )
                                     .clickable { /* TODO クリック処理 */ },
                                 contentAlignment = Alignment.Center
@@ -233,7 +246,7 @@ private fun MonthCalendar(year: Int, monthValue: Int) {
                                         6 -> Color.Blue     // 土曜日
                                         else -> Color.Black
                                     },
-                                    fontWeight = if (isToday) FontWeight.Bold else FontWeight.Normal
+                                    fontWeight = if (isToday || isHabitDay) FontWeight.Bold else FontWeight.Normal
                                 )
                             }
                         }
@@ -262,14 +275,22 @@ private fun getDaysInMonth(year: Int, month: Int): Int {
     return 28 // フォールバック
 }
 
+
 @Composable
 @Preview(showBackground = true)
 private fun CalendarPagerPreview() = HabitsTheme {
+    val todayLocalDate: LocalDate =
+        Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+
     val habitCalendar = HabitCalendar(
         habitId = 0,
         habit = "💪筋トレ",
         currentDate = CalendarUtil.todayLocalDate,
-        habitDayList = emptyList(),
+        habitDayList = listOf(
+            todayLocalDate,
+            todayLocalDate.plus(1, DateTimeUnit.DAY),
+            todayLocalDate.plus(2, DateTimeUnit.DAY)
+        ),
     )
     CalendarPager(habitCalendar.habitDayList)
 }
@@ -283,5 +304,5 @@ private fun DayOfWeekHeaderPreview() = HabitsTheme {
 @Composable
 @Preview(showBackground = true)
 private fun MonthCalendarPreview() = HabitsTheme {
-    MonthCalendar(year = 2025, monthValue = 2)
+    MonthCalendar(year = 2025, monthValue = 2, habitDays = emptyList())
 }
