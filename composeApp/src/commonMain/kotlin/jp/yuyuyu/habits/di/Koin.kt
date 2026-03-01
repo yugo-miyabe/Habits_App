@@ -9,6 +9,7 @@ import jp.yuyuyu.habits.screen.home.HomeViewModel
 import jp.yuyuyu.habits.screen.setting.SettingViewModel
 import jp.yuyuyu.habits.usecase.DeleteHabitDayUseCase
 import jp.yuyuyu.habits.usecase.GetAllHabitUseCase
+import jp.yuyuyu.habits.usecase.GetHabitWithDay
 import jp.yuyuyu.habits.usecase.InsertHabitDayUseCase
 import jp.yuyuyu.habits.usecase.InsertHabitUseCase
 import jp.yuyuyu.habits.usecase.UpdateHabitUseCase
@@ -28,7 +29,14 @@ fun initKoin(config: KoinAppDeclaration? = null) {
 }
 
 val appModule = module {
-    viewModel { HomeViewModel(get(), get(), get()) }
+    viewModel {
+        HomeViewModel(
+            get(),
+            get(),
+            get(),
+            get()
+        )
+    }
     viewModel { SettingViewModel() }
     viewModel { AddHabitViewModel(get()) }
     singleOf(::InsertHabitUseCase)
@@ -36,6 +44,7 @@ val appModule = module {
     singleOf(::UpdateHabitUseCase)
     singleOf(::InsertHabitDayUseCase)
     singleOf(::DeleteHabitDayUseCase)
+    singleOf(::GetHabitWithDay)
     singleOf(::HabitDatabaseRepositoryImpl) bind HabitDatabaseRepository::class
     singleOf(::HabitDayDatabaseRepositoryImpl) bind HabitDayDatabaseRepository::class
 }

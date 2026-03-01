@@ -2,12 +2,14 @@ package jp.yuyuyu.habits.screen.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import arrow.core.Either
 import jp.yuyuyu.habits.AppError
 import jp.yuyuyu.habits.database.HabitEntity
 import jp.yuyuyu.habits.ui.model.CalendarWeek
 import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.usecase.DeleteHabitDayUseCase
 import jp.yuyuyu.habits.usecase.GetAllHabitUseCase
+import jp.yuyuyu.habits.usecase.GetHabitWithDay
 import jp.yuyuyu.habits.usecase.InsertHabitDayUseCase
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +22,7 @@ import kotlinx.datetime.LocalDate
 
 class HomeViewModel(
     val getAllHabitUseCase: GetAllHabitUseCase,
+    val getHabitWithDay :GetHabitWithDay,
     val insertHabitDayUseCase: InsertHabitDayUseCase,
     val deleteHabitDayUseCase: DeleteHabitDayUseCase,
 ) : ViewModel() {
@@ -29,13 +32,13 @@ class HomeViewModel(
 
     fun getAllHabits() {
         viewModelScope.launch(Dispatchers.IO) {
-            getAllHabitUseCase().collect { result ->
+            getAllHabitUseCase().collect { result: Either<AppError, List<HabitEntity>> ->
                 val currentDate = CalendarUtil.todayLocalDate
                 result.fold(
                     ifLeft = { appError ->
                         _uiState.value = HomeUiState.Error(appError)
                     },
-                    ifRight = { habitEntityList ->
+                    ifRight = { habitEntityList: List<HabitEntity> ->
                         val habitCalendar: List<HabitCalendar> = habitEntityList.map { habit ->
                             HabitCalendar(
                                 habitId = habit.id,
