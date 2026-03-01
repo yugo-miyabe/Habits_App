@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import jp.yuyuyu.habits.theme.AppTheme
 import jp.yuyuyu.habits.theme.HabitsTheme
 import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.util.CalendarUtil
@@ -36,6 +37,8 @@ import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
+import kotlinx.datetime.number
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -55,8 +58,8 @@ fun CalendarPager(
     }
 
     val currentYear = currentDate.year
-    // month.ordinal は 0..11 なので +1 して 1..12 にする
-    val currentMonthValue = currentDate.month.ordinal + 1
+    // 月の数値 (1..12) を取得
+    val currentMonthValue = currentDate.month.number
     val startYear = currentYear - 10
     val endYear = currentYear + 10
 
@@ -160,9 +163,9 @@ private fun DayOfWeekHeader() {
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
                 color = when (index) {
-                    0 -> Color.Red      // 日曜日
-                    6 -> Color.Blue     // 土曜日
-                    else -> Color.Black
+                    0 -> AppTheme.colors.sunday    // 日曜日
+                    6 -> AppTheme.colors.saturday  // 土曜日
+                    else -> AppTheme.colors.black
                 }
             )
         }
@@ -179,11 +182,15 @@ private fun MonthCalendar(
 ) {
     // habitDays を Set にしてルックアップを O(1) に最適化
     val habitDaySet: Set<LocalDate> = remember(habitDays) { habitDays.toSet() }
-
+    // 今日の日付をLocalDateとして取得
+    val today = remember { Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date }
     // 月の最初の日を作成
     val firstDayOfMonth = LocalDate(year, monthValue, 1)
     // 月の日数を取得
-    val daysInMonth = getDaysInMonth(year, monthValue)
+    val daysInMonth = LocalDate(year, monthValue, 1)
+        .plus(1, DateTimeUnit.MONTH)
+        .minus(1, DateTimeUnit.DAY).day
+
     // 月の最初の日の曜日を取得（日曜日を0にする）
     val firstDayOfWeek = when (firstDayOfMonth.dayOfWeek) {
         DayOfWeek.MONDAY -> 1
@@ -194,9 +201,6 @@ private fun MonthCalendar(
         DayOfWeek.SATURDAY -> 6
         DayOfWeek.SUNDAY -> 0
     }
-
-    // 今日の日付をLocalDateとして取得
-    val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
 
     Column(
         modifier = Modifier
@@ -253,9 +257,9 @@ private fun MonthCalendar(
                                     text = day.toString(),
                                     fontSize = 16.sp,
                                     color = when (dayOfWeekIndex) {
-                                        0 -> Color.Red      // 日曜日
-                                        6 -> Color.Blue     // 土曜日
-                                        else -> Color.Black
+                                        0 -> AppTheme.colors.sunday    // 日曜日
+                                        6 -> AppTheme.colors.saturday  // 土曜日
+                                        else -> AppTheme.colors.black
                                     },
                                     fontWeight = if (isToday || isHabitDay) FontWeight.Bold else FontWeight.Normal
                                 )
@@ -270,22 +274,6 @@ private fun MonthCalendar(
         }
     }
 }
-
-// ユーティリティ関数：月の日数を取得
-private fun getDaysInMonth(year: Int, month: Int): Int {
-    // kotlinx.datetimeのLocalDateを使って月の末日を取得
-    // 28-31日を試して有効な最大日を見つける
-    for (day in 31 downTo 28) {
-        try {
-            LocalDate(year, month, day)
-            return day
-        } catch (_: IllegalArgumentException) {
-            // この日は存在しないので次を試す
-        }
-    }
-    return 28 // フォールバック
-}
-
 
 @Composable
 @Preview(showBackground = true)
