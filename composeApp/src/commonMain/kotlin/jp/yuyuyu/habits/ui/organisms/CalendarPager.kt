@@ -36,6 +36,7 @@ import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -183,7 +184,10 @@ private fun MonthCalendar(
     // 月の最初の日を作成
     val firstDayOfMonth = LocalDate(year, monthValue, 1)
     // 月の日数を取得
-    val daysInMonth = getDaysInMonth(year, monthValue)
+    val daysInMonth = LocalDate(year, monthValue, 1)
+        .plus(1, DateTimeUnit.MONTH)
+        .minus(1, DateTimeUnit.DAY).day
+
     // 月の最初の日の曜日を取得（日曜日を0にする）
     val firstDayOfWeek = when (firstDayOfMonth.dayOfWeek) {
         DayOfWeek.MONDAY -> 1
@@ -273,6 +277,7 @@ private fun MonthCalendar(
 
 // ユーティリティ関数：月の日数を取得
 private fun getDaysInMonth(year: Int, month: Int): Int {
+
     // kotlinx.datetimeのLocalDateを使って月の末日を取得
     // 28-31日を試して有効な最大日を見つける
     for (day in 31 downTo 28) {
