@@ -1,6 +1,7 @@
 package jp.yuyuyu.habits.ui.template
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,19 +15,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import habits.composeapp.generated.resources.Res
-import habits.composeapp.generated.resources.add_habits
 import habits.composeapp.generated.resources.settings_24dp
 import jp.yuyuyu.habits.AdMobBanner
-import jp.yuyuyu.habits.ui.atoms.PrimaryButton
+import jp.yuyuyu.habits.ui.atoms.ExtendedFloatingActionButton
 import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.ui.organisms.CalendarPager
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import kotlin.time.ExperimentalTime
 
 @Composable
 fun HomeTemplate(
@@ -60,17 +58,18 @@ fun HomeTemplate(
                         }
                     )
                 }
-
-                item {
-                    PrimaryButton(
-                        text = stringResource(Res.string.add_habits),
-                        onClick = onAddHabitClick,
-                        modifier = Modifier.padding(16.dp)
-                    )
-                }
             }
+
             Box(modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter)) {
-                AdMobBanner()
+                Column {
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        ExtendedFloatingActionButton(
+                            onClick = onAddHabitClick,
+                            modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp)
+                        )
+                    }
+                    AdMobBanner()
+                }
             }
         }
     }
