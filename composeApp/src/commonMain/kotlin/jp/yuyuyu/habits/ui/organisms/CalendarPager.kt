@@ -38,6 +38,7 @@ import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
+import kotlinx.datetime.number
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -57,8 +58,8 @@ fun CalendarPager(
     }
 
     val currentYear = currentDate.year
-    // month.ordinal は 0..11 なので +1 して 1..12 にする
-    val currentMonthValue = currentDate.month.ordinal + 1
+    // 月の数値 (1..12) を取得
+    val currentMonthValue = currentDate.month.number
     val startYear = currentYear - 10
     val endYear = currentYear + 10
 
