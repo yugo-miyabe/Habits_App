@@ -31,7 +31,6 @@ class HomeViewModel(
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
     val uiState: StateFlow<HomeUiState> = _uiState
 
-    @OptIn(ExperimentalTime::class)
     fun getAllHabits() {
         viewModelScope.launch(Dispatchers.IO) {
             getAllHabitsWithDays().collect { result: Either<AppError, List<HabitWithDays>> ->

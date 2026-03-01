@@ -23,12 +23,9 @@ import jp.yuyuyu.habits.ui.organisms.CalendarPager
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 @Composable
