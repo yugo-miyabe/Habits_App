@@ -182,7 +182,8 @@ private fun MonthCalendar(
 ) {
     // habitDays を Set にしてルックアップを O(1) に最適化
     val habitDaySet: Set<LocalDate> = remember(habitDays) { habitDays.toSet() }
-
+    // 今日の日付をLocalDateとして取得
+    val today = remember { Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date }
     // 月の最初の日を作成
     val firstDayOfMonth = LocalDate(year, monthValue, 1)
     // 月の日数を取得
@@ -200,9 +201,6 @@ private fun MonthCalendar(
         DayOfWeek.SATURDAY -> 6
         DayOfWeek.SUNDAY -> 0
     }
-
-    // 今日の日付をLocalDateとして取得
-    val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
 
     Column(
         modifier = Modifier
