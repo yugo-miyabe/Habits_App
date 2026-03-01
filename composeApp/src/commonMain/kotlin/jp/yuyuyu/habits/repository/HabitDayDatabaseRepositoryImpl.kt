@@ -4,6 +4,7 @@ import arrow.core.Either
 import jp.yuyuyu.habits.AppError
 import jp.yuyuyu.habits.database.HabitDao
 import jp.yuyuyu.habits.database.HabitDayEntity
+import jp.yuyuyu.habits.database.HabitWithDays
 import kotlinx.datetime.LocalDate
 
 class HabitDayDatabaseRepositoryImpl(
@@ -34,6 +35,14 @@ class HabitDayDatabaseRepositoryImpl(
                 date = date,
             )
         )
+    }.mapLeft {
+        AppError.DataBaseError
+    }
+
+    override suspend fun getHabitDays(
+        habitId: Long
+    ): Either<AppError.DataBaseError, HabitWithDays?> = Either.catch {
+        habitDao.getHabitWithDays(habitId = habitId)
     }.mapLeft {
         AppError.DataBaseError
     }

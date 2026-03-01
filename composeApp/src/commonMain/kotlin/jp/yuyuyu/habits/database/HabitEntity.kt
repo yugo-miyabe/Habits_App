@@ -14,8 +14,6 @@ data class HabitEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0L,
     val title: String,
-    val createdAt: String? = null,
-    val updatedAt: String? = null,
     val isArchived: Boolean,
 )
 

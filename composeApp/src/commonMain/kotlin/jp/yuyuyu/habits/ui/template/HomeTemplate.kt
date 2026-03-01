@@ -18,12 +18,12 @@ import habits.composeapp.generated.resources.add_habits
 import habits.composeapp.generated.resources.settings_24dp
 import jp.yuyuyu.habits.AdMobBanner
 import jp.yuyuyu.habits.ui.atoms.PrimaryButton
-import jp.yuyuyu.habits.ui.model.CalendarWeek
 import jp.yuyuyu.habits.ui.model.HabitCalendar
-import jp.yuyuyu.habits.ui.organisms.CalendarPage
+import jp.yuyuyu.habits.ui.organisms.CalendarPager
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.runBlocking
+import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -31,10 +31,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun HomeTemplate(
     habitCalendarList: List<HabitCalendar>,
-    onClickCalendar: (habitID: Long, calendarWeekCalendar: CalendarWeek.Calendar) -> Unit,
-    updateHabitCompletion: () -> Unit,
-    nextMonth: (habit: String) -> Unit,
-    prevMoth: (habit: String) -> Unit,
+    onDateClick: (habitId: Long, habitDay: LocalDate, isHabitDay: Boolean) -> Unit,
     onAddHabitClick: () -> Unit,
     onSettingClick: () -> Unit,
 ) {
@@ -51,17 +48,15 @@ fun HomeTemplate(
     }) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
             LazyColumn {
-                items(habitCalendarList) { calendarWeek ->
-                    CalendarPage(
-                        calendarWeek = calendarWeek,
-                        onClickCalendar = { calendarWeekCalendar ->
-                            onClickCalendar(calendarWeek.habitId, calendarWeekCalendar)
-                        },
-                        nextMonth = {
-                            nextMonth(calendarWeek.habit)
-                        },
-                        prevMoth = {
-                            prevMoth(calendarWeek.habit)
+                items(habitCalendarList) { habitCalendar ->
+                    CalendarPager(
+                        habitDateList = habitCalendar.habitDayList,
+                        onDateClick = { date, isHabitDay ->
+                            onDateClick(
+                                habitCalendar.habitId,
+                                date,
+                                isHabitDay
+                            )
                         }
                     )
                 }
@@ -90,15 +85,12 @@ private fun HomeTemplatePreview() {
     val habit = HabitCalendar(
         habitId = 0,
         habit = "💪筋トレ",
-        calendarWeek = list,
-        currentDate = CalendarUtil.todayLocalDate
+        currentDate = CalendarUtil.todayLocalDate,
+        habitDayList = emptyList()
     )
     HomeTemplate(
         habitCalendarList = listOf(habit),
-        onClickCalendar = { _, _ -> /* preview */ },
-        updateHabitCompletion = { /* preview */ },
-        nextMonth = { /* preview */ },
-        prevMoth = { /* preview */ },
+        onDateClick = { _, _, _ -> /* preview */ },
         onAddHabitClick = { /* preview */ },
         onSettingClick = { /* preview */ }
     )

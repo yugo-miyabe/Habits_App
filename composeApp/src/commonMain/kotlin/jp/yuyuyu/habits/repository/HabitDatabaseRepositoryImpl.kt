@@ -11,8 +11,6 @@ internal class HabitDatabaseRepositoryImpl(private val appDatabase: AppDatabase)
         appDatabase.getDao().insertHabit(
             HabitEntity(
                 title = habitName,
-                createdAt = null,
-                updatedAt = null,
                 isArchived = true
             )
         )

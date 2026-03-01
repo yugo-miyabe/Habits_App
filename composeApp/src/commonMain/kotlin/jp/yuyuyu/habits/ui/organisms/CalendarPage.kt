@@ -8,6 +8,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -19,21 +20,22 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.number
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
+/*
 @Composable
 fun CalendarPage(
-    calendarWeek: HabitCalendar,
+    habitCalendar: HabitCalendar,
     onClickCalendar: (CalendarWeek.Calendar) -> Unit,
     nextMonth: () -> Unit,
     prevMoth: () -> Unit,
 ) {
-    val calendarPagerState = rememberPagerState(
+    val pagerState = rememberPagerState(
         initialPage = Int.MAX_VALUE / 2,
         pageCount = { Int.MAX_VALUE }
     )
 
-    LaunchedEffect(calendarPagerState) {
-        var prev = calendarPagerState.currentPage
-        snapshotFlow { calendarPagerState.currentPage }.collect { newPage ->
+    LaunchedEffect(pagerState) {
+        var prev = pagerState.currentPage
+        snapshotFlow { pagerState.currentPage }.collect { newPage ->
             when {
                 newPage > prev -> {
                     nextMonth()
@@ -49,21 +51,24 @@ fun CalendarPage(
     }
 
     Text(
-        text = calendarWeek.habit,
+        text = habitCalendar.habit,
         style = AppTheme.typography.titleMediumBold,
         modifier = Modifier.padding(horizontal = 16.dp)
     )
+
     HorizontalPager(
-        state = calendarPagerState,
+        state = pagerState,
         pageSpacing = 8.dp,
         snapPosition = SnapPosition.Center,
-    ) { _ ->
-        CalendarMonth(
-            month = calendarWeek.currentDate.month.number.toString(),
-            calendarWeekList = calendarWeek.calendarWeek,
-            onClickCalendar = onClickCalendar,
-            modifier = Modifier.fillMaxWidth()
-        )
+    ) { page ->
+        key(page) {
+            CalendarMonth(
+                month = habitCalendar.currentDate.month.number.toString(),
+                calendarWeekList = habitCalendar.habitDays,
+                onClickCalendar = onClickCalendar,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     }
 }
 
@@ -73,16 +78,17 @@ private fun CalendarPagePreview() {
     val list = runBlocking {
         CalendarUtil.createMonthUIModels()
     }
-    val habit = HabitCalendar(
+    val habitCalendar = HabitCalendar(
         habitId = 0,
         habit = "💪筋トレ",
-        calendarWeek = list,
+        habitDays = list,
         currentDate = CalendarUtil.todayLocalDate
     )
     CalendarPage(
-        calendarWeek = habit,
+        habitCalendar = habitCalendar,
         onClickCalendar = { /* preview */ },
         nextMonth = { /* preview */ },
         prevMoth = { /* preview */ }
     )
 }
+*/
