@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import jp.yuyuyu.habits.theme.AppTheme
 import jp.yuyuyu.habits.theme.HabitsTheme
 import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.util.CalendarUtil
@@ -161,9 +162,9 @@ private fun DayOfWeekHeader() {
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
                 color = when (index) {
-                    0 -> Color.Red      // 日曜日
-                    6 -> Color.Blue     // 土曜日
-                    else -> Color.Black
+                    0 -> AppTheme.colors.sunday    // 日曜日
+                    6 -> AppTheme.colors.saturday  // 土曜日
+                    else -> AppTheme.colors.black
                 }
             )
         }
@@ -257,9 +258,9 @@ private fun MonthCalendar(
                                     text = day.toString(),
                                     fontSize = 16.sp,
                                     color = when (dayOfWeekIndex) {
-                                        0 -> Color.Red      // 日曜日
-                                        6 -> Color.Blue     // 土曜日
-                                        else -> Color.Black
+                                        0 -> AppTheme.colors.sunday    // 日曜日
+                                        6 -> AppTheme.colors.saturday  // 土曜日
+                                        else -> AppTheme.colors.black
                                     },
                                     fontWeight = if (isToday || isHabitDay) FontWeight.Bold else FontWeight.Normal
                                 )
