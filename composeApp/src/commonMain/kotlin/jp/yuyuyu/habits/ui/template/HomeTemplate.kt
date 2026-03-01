@@ -24,6 +24,7 @@ import jp.yuyuyu.habits.ui.organisms.CalendarPager
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.runBlocking
+import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -31,6 +32,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun HomeTemplate(
     habitCalendarList: List<HabitCalendar>,
+    onDateClick: (habitId: Long, habitDay: LocalDate) -> Unit,
     onClickCalendar: (habitID: Long, calendarWeekCalendar: CalendarWeek.Calendar) -> Unit,
     nextMonth: (habit: String) -> Unit,
     prevMoth: (habit: String) -> Unit,
@@ -50,8 +52,16 @@ fun HomeTemplate(
     }) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
             LazyColumn {
-                items(habitCalendarList) {  habitCalendar ->
-                    CalendarPager(habitCalendar =  habitCalendar.habitDayList)
+                items(habitCalendarList) { habitCalendar ->
+                    CalendarPager(
+                        habitDateList = habitCalendar.habitDayList,
+                        onDateClick = { date ->
+                            onDateClick(
+                                habitCalendar.habitId,
+                                date
+                            )
+                        }
+                    )
                     /*
                     CalendarPage(
                         habitCalendar = calendarWeek,
@@ -97,6 +107,7 @@ private fun HomeTemplatePreview() {
     )
     HomeTemplate(
         habitCalendarList = listOf(habit),
+        onDateClick = { _, _ -> /* preview */ },
         onClickCalendar = { _, _ -> /* preview */ },
         nextMonth = { /* preview */ },
         prevMoth = { /* preview */ },

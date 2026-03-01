@@ -31,6 +31,10 @@ fun HomeScreen(
             is HomeUiState.Success -> {
                 HomeTemplate(
                     habitCalendarList = state.habitCalendar,
+                    onDateClick = { habitId, habitDay ->
+                        println(habitId)
+                        println(habitDay)
+                    },
                     onClickCalendar = { habitId, calendar ->
                         val date = calendar.date ?: return@HomeTemplate
                         viewModel.updateHabitCompletion(

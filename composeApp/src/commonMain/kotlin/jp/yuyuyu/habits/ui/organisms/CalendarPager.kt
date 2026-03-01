@@ -46,8 +46,9 @@ import kotlin.time.Clock
 
 @Composable
 fun CalendarPager(
-    habitCalendar: List<LocalDate>,
-    modifier: Modifier = Modifier
+    habitDateList: List<LocalDate>,
+    onDateClick: (habitDate: LocalDate) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val coroutineScope = rememberCoroutineScope()
     // 現在日時を取得
@@ -135,7 +136,7 @@ fun CalendarPager(
         ) { page ->
             val displayYear = startYear + (page / 12)
             val displayMonthValue = (page % 12) + 1
-            MonthCalendar(displayYear, displayMonthValue, habitCalendar)
+            MonthCalendar(displayYear, displayMonthValue, habitDateList, onDateClick)
         }
     }
 }
@@ -165,7 +166,12 @@ private fun DayOfWeekHeader() {
 }
 
 @Composable
-private fun MonthCalendar(year: Int, monthValue: Int, habitDays: List<LocalDate>) {
+private fun MonthCalendar(
+    year: Int,
+    monthValue: Int,
+    habitDays: List<LocalDate>,
+    onDateClick: (LocalDate) -> Unit,
+) {
     // habitDays を Set にしてルックアップを O(1) に最適化
     val habitDaySet: Set<LocalDate> = remember(habitDays) { habitDays.toSet() }
 
@@ -235,7 +241,7 @@ private fun MonthCalendar(year: Int, monthValue: Int, habitDays: List<LocalDate>
                                             else -> Color.Transparent
                                         }
                                     )
-                                    .clickable { /* TODO クリック処理 */ },
+                                    .clickable { onDateClick(date) },
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
@@ -292,7 +298,10 @@ private fun CalendarPagerPreview() = HabitsTheme {
             todayLocalDate.plus(2, DateTimeUnit.DAY)
         ),
     )
-    CalendarPager(habitCalendar.habitDayList)
+    CalendarPager(
+        habitDateList = habitCalendar.habitDayList,
+        onDateClick = { /* preview */ }
+    )
 }
 
 @Composable
@@ -304,5 +313,10 @@ private fun DayOfWeekHeaderPreview() = HabitsTheme {
 @Composable
 @Preview(showBackground = true)
 private fun MonthCalendarPreview() = HabitsTheme {
-    MonthCalendar(year = 2025, monthValue = 2, habitDays = emptyList())
+    MonthCalendar(
+        year = 2025,
+        monthValue = 2,
+        habitDays = emptyList(),
+        onDateClick = { /* preview */ }
+    )
 }
