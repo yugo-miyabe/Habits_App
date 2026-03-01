@@ -35,7 +35,6 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
@@ -51,12 +50,13 @@ fun CalendarPager(
 ) {
     val coroutineScope = rememberCoroutineScope()
     // 現在日時を取得
-    val currentDate: LocalDateTime =
+    val currentDate = remember {
         Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+    }
+
     val currentYear = currentDate.year
     // month.ordinal は 0..11 なので +1 して 1..12 にする
     val currentMonthValue = currentDate.month.ordinal + 1
-
     val startYear = currentYear - 10
     val endYear = currentYear + 10
 

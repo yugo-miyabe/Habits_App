@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class InsertHabitDayUseCase(
-    val habitDayDatabaseRepository: HabitDayDatabaseRepository
+    private val habitDayDatabaseRepository: HabitDayDatabaseRepository
 ) {
     operator fun invoke(
         habitId: Long,
