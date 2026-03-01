@@ -1,5 +1,3 @@
-@file:OptIn(kotlin.time.ExperimentalTime::class)
-
 package jp.yuyuyu.habits.ui.organisms
 
 import androidx.compose.foundation.background
@@ -45,6 +43,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.time.Clock
 
 @Composable
+@OptIn(kotlin.time.ExperimentalTime::class)
 fun CalendarPager(
     habitDateList: List<LocalDate>,
     onDateClick: (habitDate: LocalDate, isHabitDay: Boolean) -> Unit,
@@ -171,6 +170,7 @@ private fun DayOfWeekHeader() {
 }
 
 @Composable
+@OptIn(kotlin.time.ExperimentalTime::class)
 private fun MonthCalendar(
     year: Int,
     monthValue: Int,
@@ -289,6 +289,7 @@ private fun getDaysInMonth(year: Int, month: Int): Int {
 
 @Composable
 @Preview(showBackground = true)
+@OptIn(kotlin.time.ExperimentalTime::class)
 private fun CalendarPagerPreview() = HabitsTheme {
     val todayLocalDate: LocalDate =
         Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
