@@ -22,11 +22,11 @@ import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.ui.organisms.CalendarPager
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import jp.yuyuyu.habits.util.CalendarUtil
-import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlin.time.ExperimentalTime
 
 @Composable
 fun HomeTemplate(
@@ -79,9 +79,6 @@ fun HomeTemplate(
 @Composable
 @Preview(showBackground = true)
 private fun HomeTemplatePreview() {
-    val list = runBlocking {
-        CalendarUtil.createMonthUIModels()
-    }
     val habit = HabitCalendar(
         habitId = 0,
         habit = "💪筋トレ",
