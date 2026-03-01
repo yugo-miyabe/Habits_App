@@ -36,13 +36,10 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
 import kotlinx.datetime.minus
 import kotlinx.datetime.number
 import kotlinx.datetime.plus
-import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import kotlin.time.Clock
 
 @Composable
 @OptIn(kotlin.time.ExperimentalTime::class)
@@ -54,7 +51,7 @@ fun CalendarPager(
     val coroutineScope = rememberCoroutineScope()
     // 現在日時を取得
     val currentDate = remember {
-        Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+        CalendarUtil.todayLocalDate
     }
 
     val currentYear = currentDate.year
@@ -183,7 +180,7 @@ private fun MonthCalendar(
     // habitDays を Set にしてルックアップを O(1) に最適化
     val habitDaySet: Set<LocalDate> = remember(habitDays) { habitDays.toSet() }
     // 今日の日付をLocalDateとして取得
-    val today = remember { Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date }
+    val today = remember { CalendarUtil.todayLocalDate }
     // 月の最初の日を作成
     val firstDayOfMonth = LocalDate(year, monthValue, 1)
     // 月の日数を取得
@@ -279,13 +276,11 @@ private fun MonthCalendar(
 @Preview(showBackground = true)
 @OptIn(kotlin.time.ExperimentalTime::class)
 private fun CalendarPagerPreview() = HabitsTheme {
-    val todayLocalDate: LocalDate =
-        Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-
+    val todayLocalDate: LocalDate = CalendarUtil.todayLocalDate
     val habitCalendar = HabitCalendar(
         habitId = 0,
         habit = "💪筋トレ",
-        currentDate = CalendarUtil.todayLocalDate,
+        currentDate = todayLocalDate,
         habitDayList = listOf(
             todayLocalDate,
             todayLocalDate.plus(1, DateTimeUnit.DAY),
