@@ -4,11 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
 import jp.yuyuyu.habits.AppError
-import jp.yuyuyu.habits.database.HabitEntity
+import jp.yuyuyu.habits.database.HabitWithDays
 import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.usecase.DeleteHabitDayUseCase
-import jp.yuyuyu.habits.usecase.GetAllHabitUseCase
-import jp.yuyuyu.habits.usecase.GetHabitWithDay
+import jp.yuyuyu.habits.usecase.GetAllHabitsWithDays
 import jp.yuyuyu.habits.usecase.InsertHabitDayUseCase
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.Dispatchers
@@ -20,8 +19,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 
 class HomeViewModel(
-    private val getAllHabitUseCase: GetAllHabitUseCase,
-    private val getHabitWithDay: GetHabitWithDay,
+    private val getAllHabitsWithDays: GetAllHabitsWithDays,
     private val insertHabitDayUseCase: InsertHabitDayUseCase,
     private val deleteHabitDayUseCase: DeleteHabitDayUseCase,
 ) : ViewModel() {
@@ -31,28 +29,19 @@ class HomeViewModel(
 
     fun getAllHabits() {
         viewModelScope.launch(Dispatchers.IO) {
-            getAllHabitUseCase().collect { result: Either<AppError, List<HabitEntity>> ->
+            getAllHabitsWithDays().collect { result: Either<AppError, List<HabitWithDays>> ->
                 val currentDate = CalendarUtil.todayLocalDate
                 result.fold(
                     ifLeft = { appError ->
                         _uiState.value = HomeUiState.Error(appError)
                     },
-                    ifRight = { habitEntityList: List<HabitEntity> ->
-                        val habitCalendar = habitEntityList.map { habit ->
-                            var habitDayList = emptyList<LocalDate>()
-                            getHabitWithDay(habit.id).collect { result ->
-                                result.fold(
-                                    ifLeft = { _ -> habitDayList = emptyList() },
-                                    ifRight = { it ->
-                                        habitDayList = it?.days?.map { it.date } ?: emptyList()
-                                    }
-                                )
-                            }
+                    ifRight = { habitWithDaysList: List<HabitWithDays> ->
+                        val habitCalendar = habitWithDaysList.map { habitWithDays ->
                             HabitCalendar(
-                                habitId = habit.id,
-                                habit = habit.title,
+                                habitId = habitWithDays.habit.id,
+                                habit = habitWithDays.habit.title,
                                 currentDate = currentDate,
-                                habitDayList = habitDayList
+                                habitDayList = habitWithDays.days.map { it.date }
                             )
                         }
 
