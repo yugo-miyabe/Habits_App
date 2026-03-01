@@ -275,23 +275,6 @@ private fun MonthCalendar(
     }
 }
 
-// ユーティリティ関数：月の日数を取得
-private fun getDaysInMonth(year: Int, month: Int): Int {
-
-    // kotlinx.datetimeのLocalDateを使って月の末日を取得
-    // 28-31日を試して有効な最大日を見つける
-    for (day in 31 downTo 28) {
-        try {
-            LocalDate(year, month, day)
-            return day
-        } catch (_: IllegalArgumentException) {
-            // この日は存在しないので次を試す
-        }
-    }
-    return 28 // フォールバック
-}
-
-
 @Composable
 @Preview(showBackground = true)
 @OptIn(kotlin.time.ExperimentalTime::class)
