@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +35,6 @@ import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.ui.model.backgroundColor
 import jp.yuyuyu.habits.ui.model.borderColor
 import jp.yuyuyu.habits.util.CalendarUtil
-import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
@@ -95,39 +93,14 @@ fun CalendarPager(
             text = habitTitle,
             style = AppTheme.typography.titleLargeBold
         )
-        // ヘッダー（月の表示と前後ボタン）
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(onClick = {
-                coroutineScope.launch {
-                    if (pagerState.currentPage > 0) {
-                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                    }
-                }
-            }) {
-                Text(text = "◀", fontSize = 20.sp)
-            }
 
-            Text(
-                modifier = Modifier.weight(1f),
-                text = stringResource(Res.string.month_display, currentDisplayMonth.first, currentDisplayMonth.second),
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
-            )
-
-            IconButton(onClick = {
-                coroutineScope.launch {
-                    if (pagerState.currentPage < totalMonths - 1) {
-                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                    }
-                }
-            }) {
-                Text(text = "▶", fontSize = 20.sp)
-            }
-        }
+        Text(
+            text = stringResource(Res.string.month_display, currentDisplayMonth.first, currentDisplayMonth.second),
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
 
         // 曜日ヘッダー
         DayOfWeekHeader()
