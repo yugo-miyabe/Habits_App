@@ -208,16 +208,16 @@ private fun MonthCalendar(
                                     .fillMaxSize()
                                     .background(
                                         when {
-                                            isToday -> MaterialTheme.colorScheme.primaryContainer
-                                            isHabitDay -> MaterialTheme.colorScheme.secondaryContainer
+                                            isToday -> AppTheme.colors.isTodayBackGround
+                                            isHabitDay -> AppTheme.colors.pinkBackground
                                             else -> Color.Transparent
                                         }
                                     )
                                     .border(
                                         width = if (isToday || isHabitDay) 2.dp else 0.dp,
                                         color = when {
-                                            isToday -> MaterialTheme.colorScheme.primary
-                                            isHabitDay -> MaterialTheme.colorScheme.secondary
+                                            isToday -> AppTheme.colors.isTodayBorder
+                                            isHabitDay -> AppTheme.colors.textPinkFont
                                             else -> Color.Transparent
                                         }
                                     )
