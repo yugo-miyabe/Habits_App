@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,8 +31,13 @@ import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.month_display
 import jp.yuyuyu.habits.theme.AppTheme
 import jp.yuyuyu.habits.theme.HabitsTheme
+import jp.yuyuyu.habits.ui.model.DayCellState
 import jp.yuyuyu.habits.ui.model.HabitCalendar
+import jp.yuyuyu.habits.ui.model.backgroundColor
+import jp.yuyuyu.habits.ui.model.borderColor
+import jp.yuyuyu.habits.ui.model.textColor
 import jp.yuyuyu.habits.util.CalendarUtil
+import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
@@ -91,13 +97,38 @@ fun CalendarPager(
             style = AppTheme.typography.titleLargeBold
         )
         // ヘッダー（月の表示と前後ボタン）
-        Text(
+        Row(
             modifier = Modifier.fillMaxWidth(),
-            text = stringResource(Res.string.month_display, currentDisplayMonth.first, currentDisplayMonth.second),
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center
-        )
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = {
+                coroutineScope.launch {
+                    if (pagerState.currentPage > 0) {
+                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                    }
+                }
+            }) {
+                Text(text = "◀", fontSize = 20.sp)
+            }
+
+            Text(
+                modifier = Modifier.weight(1f),
+                text = stringResource(Res.string.month_display, currentDisplayMonth.first, currentDisplayMonth.second),
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
+            )
+
+            IconButton(onClick = {
+                coroutineScope.launch {
+                    if (pagerState.currentPage < totalMonths - 1) {
+                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                    }
+                }
+            }) {
+                Text(text = "▶", fontSize = 20.sp)
+            }
+        }
 
         // 曜日ヘッダー
         DayOfWeekHeader()
@@ -200,28 +231,20 @@ private fun MonthCalendar(
                     ) {
                         if (day in 1..daysInMonth) {
                             val date = LocalDate(year, monthValue, day)
-                            val isToday = date == today
-                            val isHabitDay = habitDaySet.contains(date)
+                            // enum による判定
+                            val isTodayFlag = date == today
+                            val isHabitFlag = habitDaySet.contains(date)
+                            val dayCellState = DayCellState.from(isTodayFlag, isHabitFlag)
 
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .background(
-                                        when {
-                                            isToday -> AppTheme.colors.isTodayBackGround
-                                            isHabitDay -> AppTheme.colors.pinkBackground
-                                            else -> Color.Transparent
-                                        }
-                                    )
+                                    .background(dayCellState.backgroundColor)
                                     .border(
-                                        width = if (isToday || isHabitDay) 2.dp else 0.dp,
-                                        color = when {
-                                            isToday -> AppTheme.colors.isTodayBorder
-                                            isHabitDay -> AppTheme.colors.textPinkFont
-                                            else -> Color.Transparent
-                                        }
+                                        width = if (dayCellState.borderColor != Color.Transparent) 2.dp else 0.dp,
+                                        color = dayCellState.borderColor
                                     )
-                                    .clickable { onDateClick(date, isHabitDay) },
+                                    .clickable { onDateClick(date, dayCellState == DayCellState.HABIT || dayCellState == DayCellState.TODAY_AND_HABIT) },
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
@@ -232,7 +255,6 @@ private fun MonthCalendar(
                                         6 -> AppTheme.colors.saturday  // 土曜日
                                         else -> AppTheme.colors.black
                                     },
-                                    fontWeight = if (isToday || isHabitDay) FontWeight.Bold else FontWeight.Normal
                                 )
                             }
                         }
