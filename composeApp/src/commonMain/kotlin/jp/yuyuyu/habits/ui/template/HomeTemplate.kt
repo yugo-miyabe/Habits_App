@@ -50,6 +50,7 @@ fun HomeTemplate(
             LazyColumn {
                 items(habitCalendarList) { habitCalendar ->
                     CalendarPager(
+                        habitTitle = habitCalendar.habit,
                         habitDateList = habitCalendar.habitDayList,
                         onDateClick = { date, isHabitDay ->
                             onDateClick(
@@ -59,6 +60,7 @@ fun HomeTemplate(
                             )
                         }
                     )
+                    Spacer(modifier = Modifier.heightIn(30.dp))
                 }
                 item {
                     Spacer(modifier = Modifier.heightIn(200.dp))

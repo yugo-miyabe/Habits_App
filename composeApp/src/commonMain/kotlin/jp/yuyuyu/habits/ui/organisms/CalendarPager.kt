@@ -3,7 +3,6 @@ package jp.yuyuyu.habits.ui.organisms
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,22 +26,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import habits.composeapp.generated.resources.Res
+import habits.composeapp.generated.resources.month_display
 import jp.yuyuyu.habits.theme.AppTheme
 import jp.yuyuyu.habits.theme.HabitsTheme
 import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.util.CalendarUtil
-import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus
 import kotlinx.datetime.number
 import kotlinx.datetime.plus
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @OptIn(kotlin.time.ExperimentalTime::class)
 fun CalendarPager(
+    habitTitle: String,
     habitDateList: List<LocalDate>,
     onDateClick: (habitDate: LocalDate, isHabitDay: Boolean) -> Unit,
     modifier: Modifier = Modifier,
@@ -85,45 +86,18 @@ fun CalendarPager(
             .fillMaxWidth()
             .padding(16.dp)
     ) {
+        Text(
+            text = habitTitle,
+            style = AppTheme.typography.titleLargeBold
+        )
         // ヘッダー（月の表示と前後ボタン）
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(
-                onClick = {
-                    coroutineScope.launch {
-                        if (pagerState.currentPage > 0) {
-                            pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                        }
-                    }
-                }
-            ) {
-                // アイコンライブラリが利用できない環境向けにテキスト矢印を使用
-                Text(text = "◀", fontSize = 20.sp)
-            }
-
-            Text(
-                text = "${currentDisplayMonth.first}年 ${currentDisplayMonth.second}月",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
-            )
-
-            IconButton(
-                onClick = {
-                    coroutineScope.launch {
-                        if (pagerState.currentPage < totalMonths - 1) {
-                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                        }
-                    }
-                }
-            ) {
-                Text(text = "▶", fontSize = 20.sp)
-            }
-        }
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(Res.string.month_display, currentDisplayMonth.first, currentDisplayMonth.second),
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+        )
 
         // 曜日ヘッダー
         DayOfWeekHeader()
@@ -288,7 +262,9 @@ private fun CalendarPagerPreview() = HabitsTheme {
             todayLocalDate.plus(15, DateTimeUnit.DAY)
         ),
     )
+
     CalendarPager(
+        habitTitle = habitCalendar.habit,
         habitDateList = habitCalendar.habitDayList,
         onDateClick = { _, _ -> /* preview */ }
     )
