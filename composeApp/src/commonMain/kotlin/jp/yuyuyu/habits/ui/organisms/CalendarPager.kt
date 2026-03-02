@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -52,12 +51,8 @@ fun CalendarPager(
     onDateClick: (habitDate: LocalDate, isHabitDay: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val coroutineScope = rememberCoroutineScope()
     // 現在日時を取得
-    val currentDate = remember {
-        CalendarUtil.todayLocalDate
-    }
-
+    val currentDate = remember { CalendarUtil.todayLocalDate }
     val currentYear = currentDate.year
     // 月の数値 (1..12) を取得
     val currentMonthValue = currentDate.month.number
@@ -203,7 +198,6 @@ private fun MonthCalendar(
                     ) {
                         if (day in 1..daysInMonth) {
                             val date = LocalDate(year, monthValue, day)
-                            // enum による判定
                             val isTodayFlag = date == today
                             val isHabitFlag = habitDaySet.contains(date)
                             val dayCellState = DayCellState.from(isTodayFlag, isHabitFlag)
