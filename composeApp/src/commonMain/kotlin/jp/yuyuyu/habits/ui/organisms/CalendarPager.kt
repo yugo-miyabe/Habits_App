@@ -35,7 +35,6 @@ import jp.yuyuyu.habits.ui.model.DayCellState
 import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.ui.model.backgroundColor
 import jp.yuyuyu.habits.ui.model.borderColor
-import jp.yuyuyu.habits.ui.model.textColor
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
@@ -244,7 +243,12 @@ private fun MonthCalendar(
                                         width = if (dayCellState.borderColor != Color.Transparent) 2.dp else 0.dp,
                                         color = dayCellState.borderColor
                                     )
-                                    .clickable { onDateClick(date, dayCellState == DayCellState.HABIT || dayCellState == DayCellState.TODAY_AND_HABIT) },
+                                    .clickable {
+                                        onDateClick(
+                                            date,
+                                            dayCellState == DayCellState.HABIT || dayCellState == DayCellState.TODAY_AND_HABIT
+                                        )
+                                    },
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
