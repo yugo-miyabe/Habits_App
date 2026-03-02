@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.settings_24dp
 import jp.yuyuyu.habits.AdMobBanner
-import jp.yuyuyu.habits.ui.atoms.ExtendedFloatingActionButton
+import jp.yuyuyu.habits.ui.atoms.PrimaryExtendedFloatingActionButton
 import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.ui.organisms.CalendarPager
 import jp.yuyuyu.habits.ui.organisms.TopBar
@@ -70,7 +70,7 @@ fun HomeTemplate(
             Box(modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter)) {
                 Column {
                     Box(modifier = Modifier.fillMaxWidth()) {
-                        ExtendedFloatingActionButton(
+                        PrimaryExtendedFloatingActionButton(
                             onClick = onAddHabitClick,
                             modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp)
                         )

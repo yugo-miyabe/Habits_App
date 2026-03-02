@@ -61,7 +61,7 @@ fun PrimaryButton(
 }
 
 @Composable
-fun ExtendedFloatingActionButton(
+fun PrimaryExtendedFloatingActionButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true
@@ -120,7 +120,7 @@ private fun ExtendedFloatingActionButton_Preview() {
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ExtendedFloatingActionButton(onClick = { /* preview */ })
-        ExtendedFloatingActionButton(onClick = { /* preview */ }, enabled = false)
+        PrimaryExtendedFloatingActionButton(onClick = { /* preview */ })
+        PrimaryExtendedFloatingActionButton(onClick = { /* preview */ }, enabled = false)
     }
 }
