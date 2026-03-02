@@ -65,7 +65,6 @@ fun ExtendedFloatingActionButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true
-
 ) {
     ExtendedFloatingActionButton(
         containerColor = if (enabled) {
@@ -74,7 +73,9 @@ fun ExtendedFloatingActionButton(
             AppTheme.colors.accentColor.copy(0.4f)
         },
         contentColor = AppTheme.colors.white,
-        onClick = onClick,
+        onClick = {
+            if (enabled) onClick()
+        },
         icon = {
             Icon(
                 painter = painterResource(Res.drawable.add_24dp),
