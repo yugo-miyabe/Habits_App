@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,7 +50,7 @@ fun AddHabitTemplate(
                     style = AppTheme.typography.titleMediumBold,
                     modifier = Modifier.padding(16.dp)
                 )
-                TextField(
+                OutlinedTextField(
                     value = addHabitText,
                     onValueChange = {
                         onTextChange(it)

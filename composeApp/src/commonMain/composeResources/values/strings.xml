@@ -32,4 +32,5 @@
     <string name="dialog_network_error">ネットワークエラー</string>
     <string name="dialog_network_error_message">ネットワーク接続に問題があります。接続を確認して、もう一度お試しください。</string>
     <string name="ok">OK</string>
+    <string name="month_display">%1$d年 %2$d月</string>
 </resources>

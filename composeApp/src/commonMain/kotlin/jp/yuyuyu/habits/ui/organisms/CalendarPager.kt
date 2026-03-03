@@ -3,7 +3,6 @@ package jp.yuyuyu.habits.ui.organisms
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,14 +12,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,32 +25,34 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import habits.composeapp.generated.resources.Res
+import habits.composeapp.generated.resources.month_display
 import jp.yuyuyu.habits.theme.AppTheme
 import jp.yuyuyu.habits.theme.HabitsTheme
+import jp.yuyuyu.habits.ui.model.DayCellState
 import jp.yuyuyu.habits.ui.model.HabitCalendar
+import jp.yuyuyu.habits.ui.model.backgroundColor
+import jp.yuyuyu.habits.ui.model.borderColor
 import jp.yuyuyu.habits.util.CalendarUtil
-import kotlinx.coroutines.launch
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus
 import kotlinx.datetime.number
 import kotlinx.datetime.plus
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @OptIn(kotlin.time.ExperimentalTime::class)
 fun CalendarPager(
+    habitTitle: String,
     habitDateList: List<LocalDate>,
     onDateClick: (habitDate: LocalDate, isHabitDay: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val coroutineScope = rememberCoroutineScope()
     // 現在日時を取得
-    val currentDate = remember {
-        CalendarUtil.todayLocalDate
-    }
-
+    val currentDate = remember { CalendarUtil.todayLocalDate }
     val currentYear = currentDate.year
     // 月の数値 (1..12) を取得
     val currentMonthValue = currentDate.month.number
@@ -85,45 +84,18 @@ fun CalendarPager(
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        // ヘッダー（月の表示と前後ボタン）
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(
-                onClick = {
-                    coroutineScope.launch {
-                        if (pagerState.currentPage > 0) {
-                            pagerState.animateScrollToPage(pagerState.currentPage - 1)
-                        }
-                    }
-                }
-            ) {
-                // アイコンライブラリが利用できない環境向けにテキスト矢印を使用
-                Text(text = "◀", fontSize = 20.sp)
-            }
+        Text(
+            text = habitTitle,
+            style = AppTheme.typography.titleLargeBold
+        )
 
-            Text(
-                text = "${currentDisplayMonth.first}年 ${currentDisplayMonth.second}月",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
-            )
-
-            IconButton(
-                onClick = {
-                    coroutineScope.launch {
-                        if (pagerState.currentPage < totalMonths - 1) {
-                            pagerState.animateScrollToPage(pagerState.currentPage + 1)
-                        }
-                    }
-                }
-            ) {
-                Text(text = "▶", fontSize = 20.sp)
-            }
-        }
+        Text(
+            text = stringResource(Res.string.month_display, currentDisplayMonth.first, currentDisplayMonth.second),
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
 
         // 曜日ヘッダー
         DayOfWeekHeader()
@@ -226,28 +198,24 @@ private fun MonthCalendar(
                     ) {
                         if (day in 1..daysInMonth) {
                             val date = LocalDate(year, monthValue, day)
-                            val isToday = date == today
-                            val isHabitDay = habitDaySet.contains(date)
+                            val isTodayFlag = date == today
+                            val isHabitFlag = habitDaySet.contains(date)
+                            val dayCellState = DayCellState.from(isTodayFlag, isHabitFlag)
 
                             Box(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .background(
-                                        when {
-                                            isToday -> MaterialTheme.colorScheme.primaryContainer
-                                            isHabitDay -> MaterialTheme.colorScheme.secondaryContainer
-                                            else -> Color.Transparent
-                                        }
-                                    )
+                                    .background(dayCellState.backgroundColor)
                                     .border(
-                                        width = if (isToday || isHabitDay) 2.dp else 0.dp,
-                                        color = when {
-                                            isToday -> MaterialTheme.colorScheme.primary
-                                            isHabitDay -> MaterialTheme.colorScheme.secondary
-                                            else -> Color.Transparent
-                                        }
+                                        width = if (dayCellState.borderColor != Color.Transparent) 2.dp else 0.dp,
+                                        color = dayCellState.borderColor
                                     )
-                                    .clickable { onDateClick(date, isHabitDay) },
+                                    .clickable {
+                                        onDateClick(
+                                            date,
+                                            dayCellState == DayCellState.HABIT || dayCellState == DayCellState.TODAY_AND_HABIT
+                                        )
+                                    },
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
@@ -258,7 +226,6 @@ private fun MonthCalendar(
                                         6 -> AppTheme.colors.saturday  // 土曜日
                                         else -> AppTheme.colors.black
                                     },
-                                    fontWeight = if (isToday || isHabitDay) FontWeight.Bold else FontWeight.Normal
                                 )
                             }
                         }
@@ -288,7 +255,9 @@ private fun CalendarPagerPreview() = HabitsTheme {
             todayLocalDate.plus(15, DateTimeUnit.DAY)
         ),
     )
+
     CalendarPager(
+        habitTitle = habitCalendar.habit,
         habitDateList = habitCalendar.habitDayList,
         onDateClick = { _, _ -> /* preview */ }
     )

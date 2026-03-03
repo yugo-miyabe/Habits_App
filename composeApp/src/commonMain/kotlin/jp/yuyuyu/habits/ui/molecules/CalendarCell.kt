@@ -35,7 +35,7 @@ fun CalendarCell(
             .clip(RoundedCornerShape(8.dp))
             .background(
                 when {
-                    calendar.isSelected -> AppTheme.colors.textPinkBackground
+                    calendar.isSelected -> AppTheme.colors.pinkBackground
                     calendar.date == null -> AppTheme.colors.white
                     else -> AppTheme.colors.textBaseFont
                 }
