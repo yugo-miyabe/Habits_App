@@ -20,6 +20,7 @@ fun NavGraphBuilder.settingNavGraph(navHostController: NavHostController) {
     composable<SettingRoute> {
         SettingScreen(
             onBackClick = navHostController::popBackStack,
+            onHabitManageClick = { /* TODO */ },
             onLicenseInfoClick = navHostController::navigateToLicenseInfo
         )
     }

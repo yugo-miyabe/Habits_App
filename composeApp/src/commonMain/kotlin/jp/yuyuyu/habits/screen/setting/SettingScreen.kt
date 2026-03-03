@@ -8,12 +8,14 @@ import org.koin.compose.viewmodel.koinViewModel
 fun SettingScreen(
     onBackClick: () -> Unit,
     onLicenseInfoClick: () -> Unit,
+    onHabitManageClick: () -> Unit,
     viewModel: SettingViewModel = koinViewModel()
 ) {
 
     SettingTemplate(
         onBackClick = onBackClick,
         onLicenseInfoClick = onLicenseInfoClick,
+        onHabitManageClick = onHabitManageClick,
         onDataDeleteClick = {
             viewModel.onDataDeleteClick()
         }

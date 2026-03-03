@@ -8,7 +8,9 @@
     <string name="saturday">土</string>
     <string name="month_format">%1$s月</string>
     <string name="licence">ライセンス情報</string>
+    <string name="manage_habits">習慣を管理</string>
     <string name="delete">データ削除</string>
+    <string name="delete_confirmation">このデータを削除してもよろしいですか？</string>
     <string name="add_habits">習慣を追加</string>
     <string name="select_habits">習慣を選択</string>
     <string name="select_template_habits">テンプレートを選択する</string>

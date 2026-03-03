@@ -14,6 +14,7 @@ import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.add_habits
 import habits.composeapp.generated.resources.delete
 import habits.composeapp.generated.resources.licence
+import habits.composeapp.generated.resources.manage_habits
 import habits.composeapp.generated.resources.ver
 import jp.yuyuyu.habits.getPlatform
 import jp.yuyuyu.habits.theme.AppTheme
@@ -26,6 +27,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun SettingTemplate(
     onBackClick: () -> Unit,
     onLicenseInfoClick: () -> Unit,
+    onHabitManageClick: () -> Unit,
     onDataDeleteClick: () -> Unit,
 ) {
     Scaffold(
@@ -44,7 +46,14 @@ fun SettingTemplate(
         ) {
             ListItemCell(
                 title = stringResource(Res.string.licence),
+                textColor = AppTheme.colors.black,
                 onClick = onLicenseInfoClick
+            )
+
+            ListItemCell(
+                title = stringResource(Res.string.manage_habits),
+                textColor = AppTheme.colors.black,
+                onClick = onHabitManageClick
             )
 
             ListItemCell(
@@ -70,6 +79,7 @@ private fun SettingTemplate_Preview() {
     SettingTemplate(
         onBackClick = { /* preview */ },
         onLicenseInfoClick = { /* preview */ },
+        onHabitManageClick = { /* preview */ },
         onDataDeleteClick = { /* preview */ }
     )
 }
