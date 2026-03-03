@@ -5,6 +5,7 @@ import jp.yuyuyu.habits.repository.HabitDatabaseRepositoryImpl
 import jp.yuyuyu.habits.repository.HabitDayDatabaseRepository
 import jp.yuyuyu.habits.repository.HabitDayDatabaseRepositoryImpl
 import jp.yuyuyu.habits.screen.addHabit.AddHabitViewModel
+import jp.yuyuyu.habits.screen.habitManage.HabitManageViewModel
 import jp.yuyuyu.habits.screen.home.HomeViewModel
 import jp.yuyuyu.habits.screen.setting.SettingViewModel
 import jp.yuyuyu.habits.usecase.DeleteHabitDayUseCase
@@ -36,6 +37,7 @@ val appModule = module {
         )
     }
     viewModel { SettingViewModel() }
+    viewModel { HabitManageViewModel() }
     viewModel { AddHabitViewModel(get()) }
     singleOf(::InsertHabitUseCase)
     singleOf(::UpdateHabitUseCase)

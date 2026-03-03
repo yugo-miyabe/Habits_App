@@ -11,7 +11,6 @@ fun SettingScreen(
     onHabitManageClick: () -> Unit,
     viewModel: SettingViewModel = koinViewModel()
 ) {
-
     SettingTemplate(
         onBackClick = onBackClick,
         onLicenseInfoClick = onLicenseInfoClick,
