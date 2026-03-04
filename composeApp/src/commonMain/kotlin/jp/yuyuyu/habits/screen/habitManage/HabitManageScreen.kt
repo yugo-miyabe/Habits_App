@@ -17,8 +17,18 @@ fun HabitManageScreen(
 
     HabitManageTemplate(
         habitList = uiState.value.habitList,
+        onDeleteHabitClick = { habitId ->
+            viewModel.showDeleteHabitDialog(habitId)
+        },
         onBackClick = onBackClick,
     )
+
+    if (uiState.value.deleteHabitId != null) {
+        CommonDialog(
+            onDismiss = viewModel::dismissDeleteHabitDialog,
+            dialogType = DialogType.DeleteHabit
+        )
+    }
 
     uiState.value.appError?.let { appError ->
         when (appError) {

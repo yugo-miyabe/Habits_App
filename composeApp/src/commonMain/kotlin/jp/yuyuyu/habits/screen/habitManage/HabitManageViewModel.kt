@@ -40,6 +40,18 @@ class HabitManageViewModel(
         }
     }
 
+    fun showDeleteHabitDialog(habitId: Long) {
+        _uiState.update { uiState ->
+            uiState.copy(deleteHabitId = habitId)
+        }
+    }
+
+    fun dismissDeleteHabitDialog() {
+        _uiState.update { uiState ->
+            uiState.copy(deleteHabitId = null)
+        }
+    }
+
     fun dismissErrorDialog() {
         _uiState.update { uiState ->
             uiState.copy(appError = null)
@@ -50,6 +62,7 @@ class HabitManageViewModel(
 data class HabitManageUiState(
     val habitList: List<HabitManageItem> = emptyList(),
     val appError: AppError? = null,
+    val deleteHabitId: Long? = null,
 ) {
     data class HabitManageItem(
         val habitId: Long,

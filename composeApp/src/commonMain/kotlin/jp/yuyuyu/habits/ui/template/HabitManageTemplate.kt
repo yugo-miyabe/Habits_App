@@ -26,6 +26,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun HabitManageTemplate(
     habitList: List<HabitManageItem>,
+    onDeleteHabitClick: (habitId: Long) -> Unit,
     onBackClick: () -> Unit,
 ) {
     Scaffold(
@@ -56,7 +57,9 @@ fun HabitManageTemplate(
                             .weight(1f),
                     )
                     IconButton(
-                        onClick = { /* TODO */ },
+                        onClick = {
+                            onDeleteHabitClick(habit.habitId)
+                        },
                     ) {
                         Icon(
                             painter = painterResource(Res.drawable.delete_24dp),
@@ -83,6 +86,7 @@ private fun HabitManageTemplatePreview() {
                 title = "\uD83C\uDF05 早起き",
             ),
         ),
+        onDeleteHabitClick = { /* preview */ },
         onBackClick = { /* preview */ },
     )
 }

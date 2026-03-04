@@ -33,6 +33,7 @@
     <string name="dialog_database_error_message">Databaseの初期化中にエラーが発生しました。アプリを再起動してください。</string>
     <string name="dialog_network_error">ネットワークエラー</string>
     <string name="dialog_network_error_message">ネットワーク接続に問題があります。接続を確認して、もう一度お試しください。</string>
+    <string name="dialog_delete_habit">削除しても良いですか？</string>
     <string name="ok">OK</string>
     <string name="month_display">%1$d年 %2$d月</string>
 </resources>
