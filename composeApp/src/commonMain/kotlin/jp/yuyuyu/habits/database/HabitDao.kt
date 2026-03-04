@@ -16,6 +16,7 @@ interface HabitDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHabit(habit: HabitEntity): Long
 
+    /** 登録している習慣を全て取得 */
     @Query("SELECT * FROM habits")
     suspend fun getAllHabits(): List<HabitEntity>
 
