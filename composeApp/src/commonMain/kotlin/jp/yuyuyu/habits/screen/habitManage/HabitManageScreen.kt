@@ -26,6 +26,7 @@ fun HabitManageScreen(
     if (uiState.value.deleteHabitId != null) {
         CommonDialog(
             onDismiss = viewModel::dismissDeleteHabitDialog,
+            onPositiveClick = viewModel::dismissErrorDialog,
             dialogType = DialogType.DeleteHabit
         )
     }
@@ -35,6 +36,7 @@ fun HabitManageScreen(
             AppError.DataBaseError -> {
                 CommonDialog(
                     onDismiss = viewModel::dismissErrorDialog,
+                    onPositiveClick = viewModel::dismissErrorDialog,
                     dialogType = DialogType.DatabaseError
                 )
             }
@@ -42,6 +44,7 @@ fun HabitManageScreen(
             AppError.NetworkError -> {
                 CommonDialog(
                     onDismiss = viewModel::dismissErrorDialog,
+                    onPositiveClick = viewModel::dismissErrorDialog,
                     dialogType = DialogType.NetworkError
                 )
             }

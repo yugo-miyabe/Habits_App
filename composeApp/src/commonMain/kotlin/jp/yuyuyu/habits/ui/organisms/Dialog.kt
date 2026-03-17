@@ -24,6 +24,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun CommonDialog(
     onDismiss: () -> Unit,
+    onPositiveClick: () -> Unit,
     dialogType: DialogType,
     modifier: Modifier = Modifier,
 ) {
@@ -52,7 +53,7 @@ fun CommonDialog(
                 HorizontalDivider()
 
                 Button(
-                    onClick = onDismiss,
+                    onClick = onPositiveClick,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp),
@@ -70,6 +71,7 @@ fun CommonDialog(
 private fun CommonDialogPreview() {
     CommonDialog(
         onDismiss = { /* preview */ },
+        onPositiveClick = { /* preview */ },
         dialogType = DialogType.DatabaseError
     )
 }
