@@ -4,7 +4,8 @@ import androidx.compose.runtime.Composable
 import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.dialog_database_error
 import habits.composeapp.generated.resources.dialog_database_error_message
-import habits.composeapp.generated.resources.dialog_delete_habit
+import habits.composeapp.generated.resources.dialog_delete_habit_detail
+import habits.composeapp.generated.resources.dialog_delete_habit_title
 import habits.composeapp.generated.resources.dialog_network_error
 import habits.composeapp.generated.resources.dialog_network_error_message
 import org.jetbrains.compose.resources.stringResource
@@ -20,7 +21,7 @@ internal val DialogType.localizedTitle: String
         resource = when (this) {
             is DialogType.DatabaseError -> Res.string.dialog_database_error
             is DialogType.NetworkError -> Res.string.dialog_network_error
-            is DialogType.DeleteHabit -> Res.string.dialog_delete_habit
+            is DialogType.DeleteHabit -> Res.string.dialog_delete_habit_title
         }
     )
 
@@ -29,6 +30,6 @@ internal val DialogType.localizedMessage: String
         resource = when (this) {
             is DialogType.DatabaseError -> Res.string.dialog_database_error_message
             is DialogType.NetworkError -> Res.string.dialog_network_error_message
-            is DialogType.DeleteHabit -> Res.string.dialog_delete_habit
+            is DialogType.DeleteHabit -> Res.string.dialog_delete_habit_detail
         }
     )
