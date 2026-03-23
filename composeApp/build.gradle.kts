@@ -91,9 +91,10 @@ android {
         }
     }
 
-    // TODO 本番用を追加
     val testAdAppMobID = "ca-app-pub-3940256099942544~3347511713"
-    val testBannerAdd = "\"ca-app-pub-3940256099942544/9214589741\""
+    val testBannerAdd = "ca-app-pub-3940256099942544/9214589741"
+    val productAdAppMobID = "ca-app-pub-8218395445897093~3222176933"
+    val productBannerAdd = "ca-app-pub-8218395445897093/8481541774"
 
     flavorDimensions.add("enviroment")
     productFlavors {
@@ -103,8 +104,8 @@ android {
             buildConfigField("String", "BANNER_AD_UNIT_ID", testBannerAdd)
         }
         create("product") {
-            manifestPlaceholders["ADMOB_APP_ID"] = testAdAppMobID
-            buildConfigField("String", "BANNER_AD_UNIT_ID", testBannerAdd)
+            manifestPlaceholders["ADMOB_APP_ID"] = productAdAppMobID
+            buildConfigField("String", "BANNER_AD_UNIT_ID", productBannerAdd)
         }
     }
 
