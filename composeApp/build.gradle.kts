@@ -91,10 +91,10 @@ android {
         }
     }
 
-    val testAdAppMobID = "ca-app-pub-3940256099942544~3347511713"
-    val testBannerAdd = "ca-app-pub-3940256099942544/9214589741"
-    val productAdAppMobID = "ca-app-pub-8218395445897093~3222176933"
-    val productBannerAdd = "ca-app-pub-8218395445897093/8481541774"
+    val testAdAppMobID = "\"ca-app-pub-3940256099942544~3347511713\""
+    val testBannerAdd = "\"ca-app-pub-3940256099942544/9214589741\""
+    val productAdAppMobID = "\"ca-app-pub-8218395445897093~3222176933\""
+    val productBannerAdd = "\"ca-app-pub-8218395445897093/8481541774\""
 
     flavorDimensions.add("enviroment")
     productFlavors {
