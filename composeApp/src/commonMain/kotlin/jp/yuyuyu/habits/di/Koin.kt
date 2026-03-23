@@ -9,6 +9,7 @@ import jp.yuyuyu.habits.screen.habitManage.HabitManageViewModel
 import jp.yuyuyu.habits.screen.home.HomeViewModel
 import jp.yuyuyu.habits.screen.setting.SettingViewModel
 import jp.yuyuyu.habits.usecase.DeleteHabitDayUseCase
+import jp.yuyuyu.habits.usecase.DeleteHabitUseCase
 import jp.yuyuyu.habits.usecase.GetAllHabitUseCase
 import jp.yuyuyu.habits.usecase.GetAllHabitsWithDays
 import jp.yuyuyu.habits.usecase.InsertHabitDayUseCase
@@ -38,9 +39,10 @@ val appModule = module {
         )
     }
     viewModel { SettingViewModel() }
-    viewModel { HabitManageViewModel(get()) }
+    viewModel { HabitManageViewModel(get(), get()) }
     viewModel { AddHabitViewModel(get()) }
     singleOf(::GetAllHabitUseCase)
+    singleOf(::DeleteHabitUseCase)
     singleOf(::InsertHabitUseCase)
     singleOf(::UpdateHabitUseCase)
     singleOf(::InsertHabitDayUseCase)

@@ -3,6 +3,7 @@ package jp.yuyuyu.habits.screen.habitManage
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import jp.yuyuyu.habits.AppError
+import jp.yuyuyu.habits.usecase.DeleteHabitUseCase
 import jp.yuyuyu.habits.usecase.GetAllHabitUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -12,7 +13,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HabitManageViewModel(
-    val getAllHabitUseCase: GetAllHabitUseCase
+    val getAllHabitUseCase: GetAllHabitUseCase,
+    val deleteHabitUseCase: DeleteHabitUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HabitManageUiState())
@@ -50,6 +52,10 @@ class HabitManageViewModel(
         _uiState.update { uiState ->
             uiState.copy(deleteHabitId = null)
         }
+    }
+
+    fun deleteHabit() {
+         // TODO
     }
 
     fun dismissErrorDialog() {
