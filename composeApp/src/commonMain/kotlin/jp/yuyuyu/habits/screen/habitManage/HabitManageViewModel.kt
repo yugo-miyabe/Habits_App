@@ -21,25 +21,7 @@ class HabitManageViewModel(
     val uiState: StateFlow<HabitManageUiState> = _uiState
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            getAllHabitUseCase().collect { result ->
-                result.fold(
-                    ifLeft = {
-                        _uiState.value = uiState.value.copy(appError = it)
-                    },
-                    ifRight = { habitList ->
-                        _uiState.value = uiState.value.copy(
-                            habitList = habitList.map { habit ->
-                                HabitManageUiState.HabitManageItem(
-                                    habitId = habit.id,
-                                    title = habit.title
-                                )
-                            }
-                        )
-                    },
-                )
-            }
-        }
+        getHabitList()
     }
 
     fun deleteHabit() = viewModelScope.launch(Dispatchers.IO) {
@@ -53,6 +35,7 @@ class HabitManageViewModel(
                     _uiState.update { uiState ->
                         uiState.copy(deleteHabitId = null)
                     }
+                    getHabitList()
                 },
             )
         }
@@ -73,6 +56,26 @@ class HabitManageViewModel(
     fun dismissErrorDialog() {
         _uiState.update { uiState ->
             uiState.copy(appError = null)
+        }
+    }
+
+    private fun getHabitList() = viewModelScope.launch(Dispatchers.IO) {
+        getAllHabitUseCase().collect { result ->
+            result.fold(
+                ifLeft = {
+                    _uiState.value = uiState.value.copy(appError = it)
+                },
+                ifRight = { habitList ->
+                    _uiState.value = uiState.value.copy(
+                        habitList = habitList.map { habit ->
+                            HabitManageUiState.HabitManageItem(
+                                habitId = habit.id,
+                                title = habit.title
+                            )
+                        }
+                    )
+                },
+            )
         }
     }
 }
