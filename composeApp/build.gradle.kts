@@ -91,21 +91,21 @@ android {
         }
     }
 
-    val testAdAppMobID = "\"ca-app-pub-3940256099942544~3347511713\""
-    val testBannerAdd = "\"ca-app-pub-3940256099942544/9214589741\""
-    val productAdAppMobID = "\"ca-app-pub-8218395445897093~3222176933\""
-    val productBannerAdd = "\"ca-app-pub-8218395445897093/8481541774\""
+    val testAdAppMobID = "ca-app-pub-3940256099942544~3347511713"
+    val testBannerAdd = "ca-app-pub-3940256099942544/9214589741"
+    val productAdAppMobID = "ca-app-pub-8218395445897093~3222176933"
+    val productBannerAdd = "ca-app-pub-8218395445897093/8481541774"
 
     flavorDimensions.add("enviroment")
     productFlavors {
         create("develop") {
             applicationIdSuffix = ".develop"
             manifestPlaceholders["ADMOB_APP_ID"] = testAdAppMobID
-            buildConfigField("String", "BANNER_AD_UNIT_ID", testBannerAdd)
+            buildConfigField("String", "BANNER_AD_UNIT_ID", "\"$testBannerAdd\"")
         }
         create("product") {
             manifestPlaceholders["ADMOB_APP_ID"] = productAdAppMobID
-            buildConfigField("String", "BANNER_AD_UNIT_ID", productBannerAdd)
+            buildConfigField("String", "BANNER_AD_UNIT_ID", "\"$productBannerAdd\"")
         }
     }
 
@@ -122,14 +122,6 @@ android {
     }
 }
 
-/*
-aboutLibraries {
-    export {
-        prettyPrint = true
-    }
-}
-*/
-
 dependencies {
     debugImplementation(compose.uiTooling)
     add("kspCommonMainMetadata", libs.androidx.room.compiler)
@@ -138,4 +130,3 @@ dependencies {
     add("kspIosX64", libs.androidx.room.compiler)
     add("kspIosArm64", libs.androidx.room.compiler)
 }
-
