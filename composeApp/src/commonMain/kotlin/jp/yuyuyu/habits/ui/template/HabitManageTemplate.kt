@@ -1,8 +1,9 @@
 package jp.yuyuyu.habits.ui.template
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,10 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.delete_24dp
+import habits.composeapp.generated.resources.habit_manager_empty
 import jp.yuyuyu.habits.screen.habitManage.HabitManageUiState.HabitManageItem
 import jp.yuyuyu.habits.theme.AppTheme
 import jp.yuyuyu.habits.ui.organisms.TopBar
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -36,35 +39,41 @@ fun HabitManageTemplate(
             )
         }
     ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier.padding(innerPadding)
-        ) {
-            items(
-                items = habitList, key = { it.habitId }) { habit ->
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
-                        .padding(vertical = 8.dp)
-                ) {
-                    Text(
-                        text = habit.title,
-                        style = AppTheme.typography.titleLarge,
-                        modifier = Modifier
-                            .clickable(
-                                onClick = { /* TODO */ }
-                            )
-                            .weight(1f),
-                    )
-                    IconButton(
-                        onClick = {
-                            onDeleteHabitClick(habit.habitId)
-                        },
+        if (habitList.isEmpty()) {
+            Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
+                Text(
+                    text = stringResource(Res.string.habit_manager_empty),
+                    style = AppTheme.typography.titleLarge,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        } else {
+            LazyColumn(
+                modifier = Modifier.padding(innerPadding)
+            ) {
+                items(
+                    items = habitList, key = { it.habitId }) { habit ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)
+                            .padding(vertical = 8.dp)
                     ) {
-                        Icon(
-                            painter = painterResource(Res.drawable.delete_24dp),
-                            contentDescription = null,
+                        Text(
+                            text = habit.title,
+                            style = AppTheme.typography.titleLarge,
+                            modifier = Modifier.weight(1f),
                         )
+                        IconButton(
+                            onClick = {
+                                onDeleteHabitClick(habit.habitId)
+                            },
+                        ) {
+                            Icon(
+                                painter = painterResource(Res.drawable.delete_24dp),
+                                contentDescription = null,
+                            )
+                        }
                     }
                 }
             }
@@ -86,6 +95,16 @@ private fun HabitManageTemplatePreview() {
                 title = "\uD83C\uDF05 早起き",
             ),
         ),
+        onDeleteHabitClick = { /* preview */ },
+        onBackClick = { /* preview */ },
+    )
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun HabitManageTemplateEmptyPreview() {
+    HabitManageTemplate(
+        habitList = listOf(),
         onDeleteHabitClick = { /* preview */ },
         onBackClick = { /* preview */ },
     )
