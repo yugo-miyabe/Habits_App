@@ -42,6 +42,22 @@ class HabitManageViewModel(
         }
     }
 
+    fun deleteHabit() = viewModelScope.launch(Dispatchers.IO) {
+        val habitId = uiState.value.deleteHabitId ?: return@launch
+        deleteHabitUseCase(habitId).collect { result ->
+            result.fold(
+                ifLeft = {
+                    _uiState.value = uiState.value.copy(appError = it)
+                },
+                ifRight = {
+                    _uiState.update { uiState ->
+                        uiState.copy(deleteHabitId = null)
+                    }
+                },
+            )
+        }
+    }
+
     fun showDeleteHabitDialog(habitId: Long) {
         _uiState.update { uiState ->
             uiState.copy(deleteHabitId = habitId)
@@ -52,10 +68,6 @@ class HabitManageViewModel(
         _uiState.update { uiState ->
             uiState.copy(deleteHabitId = null)
         }
-    }
-
-    fun deleteHabit() {
-         // TODO
     }
 
     fun dismissErrorDialog() {

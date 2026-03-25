@@ -18,8 +18,11 @@ internal class HabitDatabaseRepositoryImpl(private val appDatabase: AppDatabase)
         AppError.DataBaseError
     }
 
-    override suspend fun deleteHabit(habitId: Long): Either<AppError, Unit> {
-        TODO("Not yet implemented")
+    override suspend fun deleteHabit(habitId: Long): Either<AppError, Unit> = Either.catch {
+        val habitEntity = appDatabase.getDao().getHabitWithDays(habitId)?.habit ?: return@catch
+        appDatabase.getDao().deleteHabit(habitEntity)
+    }.mapLeft {
+        AppError.DataBaseError
     }
 
     override suspend fun getAllHabits(): Either<AppError, List<HabitEntity>> = Either.catch {

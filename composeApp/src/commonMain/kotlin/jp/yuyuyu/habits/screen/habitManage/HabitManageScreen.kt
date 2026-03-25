@@ -26,7 +26,7 @@ fun HabitManageScreen(
     if (uiState.value.deleteHabitId != null) {
         CommonDialog(
             onDismiss = viewModel::dismissDeleteHabitDialog,
-            onPositiveClick = viewModel::dismissErrorDialog,
+            onPositiveClick = viewModel::deleteHabit,
             dialogType = DialogType.DeleteHabit
         )
     }
