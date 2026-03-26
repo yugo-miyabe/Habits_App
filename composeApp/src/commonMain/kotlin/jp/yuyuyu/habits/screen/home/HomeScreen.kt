@@ -50,6 +50,7 @@ fun HomeScreen(
                     AppError.DataBaseError -> {
                         CommonDialog(
                             onDismiss = viewModel::dismissErrorDialog,
+                            onPositiveClick = viewModel::dismissErrorDialog,
                             dialogType = DialogType.DatabaseError
                         )
                     }
@@ -57,6 +58,7 @@ fun HomeScreen(
                     AppError.NetworkError -> {
                         CommonDialog(
                             onDismiss = viewModel::dismissErrorDialog,
+                            onPositiveClick = viewModel::dismissErrorDialog,
                             dialogType = DialogType.NetworkError
                         )
                     }
