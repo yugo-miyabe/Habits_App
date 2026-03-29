@@ -1,6 +1,5 @@
 package jp.yuyuyu.habits.ui.template
 
-import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,7 +54,7 @@ fun HomeTemplate(
         Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
             if (habitCalendarList.isEmpty()) {
                 Column(
-                    modifier = Modifier.padding(innerPadding).fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center,
                 ) {
