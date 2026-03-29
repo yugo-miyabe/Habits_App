@@ -1,5 +1,6 @@
 package jp.yuyuyu.habits.ui.template
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,13 +13,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import habits.composeapp.generated.resources.Res
+import habits.composeapp.generated.resources.habit_manager_empty
 import habits.composeapp.generated.resources.settings_24dp
 import jp.yuyuyu.habits.AdMobBanner
+import jp.yuyuyu.habits.theme.AppTheme
 import jp.yuyuyu.habits.ui.atoms.PrimaryExtendedFloatingActionButton
 import jp.yuyuyu.habits.ui.model.HabitCalendar
 import jp.yuyuyu.habits.ui.organisms.CalendarPager
@@ -26,6 +30,7 @@ import jp.yuyuyu.habits.ui.organisms.TopBar
 import jp.yuyuyu.habits.util.CalendarUtil
 import kotlinx.datetime.LocalDate
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -47,26 +52,39 @@ fun HomeTemplate(
         })
     }) { innerPadding ->
         Box(modifier = Modifier.padding(innerPadding).fillMaxSize()) {
-            LazyColumn {
-                items(habitCalendarList) { habitCalendar ->
-                    CalendarPager(
-                        habitTitle = habitCalendar.habit,
-                        habitDateList = habitCalendar.habitDayList,
-                        onDateClick = { date, isHabitDay ->
-                            onDateClick(
-                                habitCalendar.habitId,
-                                date,
-                                isHabitDay
-                            )
-                        }
+            if (habitCalendarList.isEmpty()) {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Text(
+                        text = stringResource(Res.string.habit_manager_empty),
+                        style = AppTheme.typography.titleLarge,
                     )
-                    Spacer(modifier = Modifier.heightIn(30.dp))
-                }
-                item {
                     Spacer(modifier = Modifier.heightIn(200.dp))
                 }
+            } else {
+                LazyColumn {
+                    items(habitCalendarList) { habitCalendar ->
+                        CalendarPager(
+                            habitTitle = habitCalendar.habit,
+                            habitDateList = habitCalendar.habitDayList,
+                            onDateClick = { date, isHabitDay ->
+                                onDateClick(
+                                    habitCalendar.habitId,
+                                    date,
+                                    isHabitDay
+                                )
+                            }
+                        )
+                        Spacer(modifier = Modifier.heightIn(30.dp))
+                    }
+                    item {
+                        Spacer(modifier = Modifier.heightIn(200.dp))
+                    }
+                }
             }
-
             Box(modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter)) {
                 Column {
                     Box(modifier = Modifier.fillMaxWidth()) {
@@ -93,6 +111,17 @@ private fun HomeTemplatePreview() {
     )
     HomeTemplate(
         habitCalendarList = listOf(habit),
+        onDateClick = { _, _, _ -> /* preview */ },
+        onAddHabitClick = { /* preview */ },
+        onSettingClick = { /* preview */ }
+    )
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun HomeTemplateEmptyPreview() {
+    HomeTemplate(
+        habitCalendarList = emptyList(),
         onDateClick = { _, _, _ -> /* preview */ },
         onAddHabitClick = { /* preview */ },
         onSettingClick = { /* preview */ }
