@@ -121,7 +121,7 @@ private fun HomeTemplatePreview() {
 @Preview(showBackground = true)
 private fun HomeTemplateEmptyPreview() {
     HomeTemplate(
-        habitCalendarList = listOf(),
+        habitCalendarList = emptyList(),
         onDateClick = { _, _, _ -> /* preview */ },
         onAddHabitClick = { /* preview */ },
         onSettingClick = { /* preview */ }
