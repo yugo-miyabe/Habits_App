@@ -1,0 +1,59 @@
+name: Android CI (Crashlytics)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Prepare google-services.json
+        env:
+          GOOGLE_SERVICES_JSON_B64: ${{ secrets.GOOGLE_SERVICES_JSON_B64 }}
+        run: |
+          if [ -n "$GOOGLE_SERVICES_JSON_B64" ]; then
+            echo "$GOOGLE_SERVICES_JSON_B64" | base64 --decode > composeApp/google-services.json
+            echo "Wrote composeApp/google-services.json from secret"
+          else
+            echo "Secret GOOGLE_SERVICES_JSON_B64 not set" && exit 1
+          fi
+
+      - name: Prepare Firebase service account
+        env:
+          FIREBASE_SERVICE_ACCOUNT_B64: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_B64 }}
+        run: |
+          if [ -n "$FIREBASE_SERVICE_ACCOUNT_B64" ]; then
+            echo "$FIREBASE_SERVICE_ACCOUNT_B64" | base64 --decode > firebase-sa.json
+            echo "Wrote firebase-sa.json"
+          else
+            echo "Secret FIREBASE_SERVICE_ACCOUNT_B64 not set" && exit 1
+          fi
+
+      - name: Export GOOGLE_APPLICATION_CREDENTIALS
+        run: echo "GOOGLE_APPLICATION_CREDENTIALS=$GITHUB_WORKSPACE/firebase-sa.json" >> $GITHUB_ENV
+
+      - name: Grant executable rights to gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build release (assemble)
+        run: ./gradlew :composeApp:assembleRelease --no-daemon --stacktrace
+
+      - name: (Optional) Upload Crashlytics mapping explicitly
+        # Depending on plugin version, assembleRelease may already upload mapping.
+        # If not, enable the following step and ensure task name matches your plugin version.
+        run: |
+          ./gradlew :composeApp:uploadCrashlyticsMappingFileRelease --no-daemon || echo "upload task not available or failed"
+
