@@ -33,6 +33,6 @@ internal val DayCellState.borderColor: Color
     @Composable get() = when (this) {
         DayCellState.NORMAL -> Color.Transparent
         DayCellState.TODAY -> AppTheme.colors.isTodayBorder
-        DayCellState.HABIT -> AppTheme.colors.textPinkFont
+        DayCellState.HABIT -> AppTheme.colors.textBlueBackgroundBorder
         DayCellState.TODAY_AND_HABIT -> AppTheme.colors.isTodayBorder
     }
