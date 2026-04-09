@@ -16,10 +16,14 @@ data class HabitsColors(
     val textBaseBackground: Color = Color(0xFFFFFFFF),
     val isTodayBackGround: Color = Color(0xCC00FF7F),
     val isTodayBorder: Color = Color(0xFF3CB371),
-    val pinkBackground: Color = Color(0xFFEAB8E3),
-    val textPinkFont: Color = Color(0xFFDA85AF),
+
+    val textPinkFont: Color = Color(0xFFA6B8E1),
+    val pinkBackground: Color = Color(0xFFA6B8E1),
+
     val textBlueFont: Color = Color(0xFFA6B8E1),
     val textBlueBackground: Color = Color(0xFFA6B8E1),
+    val textBlueBackgroundBorder: Color = Color(0xFF6495ed),
+
     val textPurpleFont: Color = Color(0xFFAE8FB1),
     val textPurpleBackground: Color = Color(0xFFBEDFFF),
     val sunday: Color = Color(0xFFDC143C),
