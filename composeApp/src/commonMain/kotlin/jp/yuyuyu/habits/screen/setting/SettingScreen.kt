@@ -14,9 +14,6 @@ fun SettingScreen(
     SettingTemplate(
         onBackClick = onBackClick,
         onLicenseInfoClick = onLicenseInfoClick,
-        onHabitManageClick = onHabitManageClick,
-        onDataDeleteClick = {
-            viewModel.onDataDeleteClick()
-        }
+        onHabitManageClick = onHabitManageClick
     )
 }

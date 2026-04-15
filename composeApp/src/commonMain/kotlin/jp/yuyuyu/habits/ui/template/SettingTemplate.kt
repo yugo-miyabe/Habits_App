@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import habits.composeapp.generated.resources.Res
 import habits.composeapp.generated.resources.add_habits
-import habits.composeapp.generated.resources.delete
 import habits.composeapp.generated.resources.licence
 import habits.composeapp.generated.resources.manage_habits
 import habits.composeapp.generated.resources.ver
@@ -28,7 +27,6 @@ fun SettingTemplate(
     onBackClick: () -> Unit,
     onLicenseInfoClick: () -> Unit,
     onHabitManageClick: () -> Unit,
-    onDataDeleteClick: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -56,12 +54,6 @@ fun SettingTemplate(
                 onClick = onHabitManageClick
             )
 
-            ListItemCell(
-                title = stringResource(Res.string.delete),
-                textColor = AppTheme.colors.red,
-                onClick = onDataDeleteClick
-            )
-
             Spacer(modifier = Modifier.weight(1f))
 
             Text(
@@ -79,7 +71,6 @@ private fun SettingTemplate_Preview() {
     SettingTemplate(
         onBackClick = { /* preview */ },
         onLicenseInfoClick = { /* preview */ },
-        onHabitManageClick = { /* preview */ },
-        onDataDeleteClick = { /* preview */ }
+        onHabitManageClick = { /* preview */ }
     )
 }
