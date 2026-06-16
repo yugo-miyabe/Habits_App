@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.google.service)
+    alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.ksp)
     alias(libs.plugins.aboutLibraries)
 }
@@ -33,8 +34,6 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
-            implementation(project.dependencies.platform(libs.firebase.bom))
-            implementation(libs.firebase.analytics)
             implementation(libs.play.services.ads)
             implementation(libs.androidx.room.sqlite.wrapper)
         }
@@ -88,6 +87,10 @@ android {
 
         release {
             isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -127,6 +130,10 @@ ksp {
 
 dependencies {
     debugImplementation(compose.uiTooling)
+    // Firebase BOM and Crashlytics (android-specific) — using Gradle dependency handler so platform() resolves correctly
+    implementation(platform("com.google.firebase:firebase-bom:${libs.versions.firebaseBom.get()}"))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics.ktx)
     add("kspAndroid", libs.androidx.room.compiler)
     add("kspIosSimulatorArm64", libs.androidx.room.compiler)
     add("kspIosX64", libs.androidx.room.compiler)

@@ -14,6 +14,8 @@ arrowFxCoroutines = "2.2.0"
 arrowCore = "2.2.0"
 composeMultiplatform = "1.9.0"
 firebaseBom = "34.4.0"
+firebaseCrashlyticsKtx = "19.4.4"
+firebaseAnalytics = "23.2.0"
 junit = "4.13.2"
 kotlin = "2.2.20"
 kotlinxDatetime = "0.7.1"
@@ -25,14 +27,16 @@ room = "2.8.1"
 sqlite = "2.6.1"
 ksp = "2.2.20-2.0.4"
 googleService = "4.4.4"
+firebaseCrashlyticsGradle = "3.0.6"
 
 [libraries]
 aboutlibraries-compose-m3 = { module = "com.mikepenz:aboutlibraries-compose-m3", version.ref = "aboutLibraries" }
 aboutlibraries-core = { module = "com.mikepenz:aboutlibraries-core", version.ref = "aboutLibraries" }
 arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrowCore" }
 arrow-fx-coroutines = { module = "io.arrow-kt:arrow-fx-coroutines", version.ref = "arrowFxCoroutines" }
-firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebaseAnalytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebaseCrashlyticsKtx" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -68,3 +72,4 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 androidx-room = { id = "androidx.room", version.ref = "room" }
 google-service = { id = "com.google.gms.google-services", version.ref = "googleService" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsGradle" }
